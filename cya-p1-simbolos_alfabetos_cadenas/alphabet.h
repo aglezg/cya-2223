@@ -14,18 +14,23 @@
 #pragma once
 
 #include <iostream>
+#include <set>
 
-class Symbol {
+#include "symbol.h"
+
+class Alphabet {
 
   public:
-    Symbol(std::string);
-    ~Symbol();
+    Alphabet(std::set<Symbol>);
+    ~Alphabet();
   
-    std::string getSymbol();
-    void setSymbol(std::string);
+    std::set<Symbol> getSymbols();
+    void setSymbols(std::set<Symbol>);
 
-    bool operator==(Symbol&);
+    bool addSymbol(Symbol);
+    bool removeSymbol(Symbol);
+    bool checkSymbol(Symbol);
   
   private:
-    std::string symbol_;
+    std::set<Symbol> symbols_;
 };

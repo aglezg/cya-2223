@@ -1,15 +1,22 @@
 #include <iostream>
 #include "symbol.h"
 
+#include <set>
+
 int main() {
-  std::cout << "Hello world\n";
+
+  std::set<int> set1;
+  set1.insert(22);
+  set1.insert(34);
+  set1.insert(22);
+
+  std::set<Symbol> set2;
+
   Symbol symbol1("🤩aa");
-  std::cout << symbol1.getSymbol()[0] << std::endl;
-  symbol1.setSymbol("y");
-  std::cout << symbol1.getSymbol() << std::endl;
-  std::string s1 = "h🤩la";
-  for (int i = 0; i < s1.size(); i++) {
-    std::cout << s1[i] << std::endl;
-  }
+  Symbol symbol2("🤩aa");
+
+  set2.insert(symbol1);
+  
+  std::cout << (symbol1 == symbol2) << std::endl;
   return 0;
 }

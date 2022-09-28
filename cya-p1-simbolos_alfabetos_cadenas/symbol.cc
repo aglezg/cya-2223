@@ -14,4 +14,9 @@ Symbol::getSymbol() {
 void
 Symbol::setSymbol(std::string symbol) {
   symbol_ = symbol;
-} 
+}
+
+bool
+Symbol::operator==(Symbol& other) {
+  return symbol_ == other.getSymbol();
+}
