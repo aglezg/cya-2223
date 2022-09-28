@@ -10,3 +10,8 @@ std::string
 Symbol::getSymbol() {
   return symbol_;
 }
+
+void
+Symbol::setSymbol(std::string symbol) {
+  symbol_ = symbol;
+} 

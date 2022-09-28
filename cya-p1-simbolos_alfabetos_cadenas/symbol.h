@@ -22,6 +22,7 @@ class Symbol {
     ~Symbol();
   
     std::string getSymbol();
+    void setSymbol(std::string);
   
   private:
     std::string symbol_;
