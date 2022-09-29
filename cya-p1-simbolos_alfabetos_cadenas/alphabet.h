@@ -14,23 +14,27 @@
 #pragma once
 
 #include <iostream>
-#include <set>
+#include <vector>
+#include <algorithm>
 
 #include "symbol.h"
 
 class Alphabet {
 
   public:
-    Alphabet(std::set<Symbol>);
+    Alphabet(std::vector<Symbol>);
     ~Alphabet();
   
-    std::set<Symbol> getSymbols();
-    void setSymbols(std::set<Symbol>);
+    std::vector<Symbol> getSymbols();
+    void setSymbols(std::vector<Symbol>);
 
     bool addSymbol(Symbol);
     bool removeSymbol(Symbol);
-    bool checkSymbol(Symbol);
+    int checkSymbol(Symbol);
+
+    void print();
   
   private:
-    std::set<Symbol> symbols_;
+    std::vector<Symbol> symbols_;
+    void removeDuplicates();
 };

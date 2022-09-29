@@ -25,7 +25,14 @@ class Symbol {
     void setSymbol(std::string);
 
     bool operator==(Symbol&);
+    Symbol& operator=(Symbol);
+
+    // E/S
+    void write(std::ostream& os = std::cout);
   
   private:
     std::string symbol_;
 };
+
+// Operadores sobrecargados de E/S
+std::ostream& operator<<(std::ostream& os, Symbol& symbol);
