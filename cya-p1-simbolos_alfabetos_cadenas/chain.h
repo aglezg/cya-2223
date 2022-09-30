@@ -21,6 +21,18 @@ class Chain {
   public:
     Chain(std::vector<Symbol>);
     Chain(std::vector<Symbol>, Alphabet*);
+    ~Chain();
+
+    std::vector<Symbol> getSymbols();
+    Alphabet* getAlphabet();
+
+    void print();
+
+    unsigned length();
+    Chain inverse();
+    std::vector<Chain> prefixes();
+    std::vector<Chain> suffixes();
+    
   private:
     Alphabet* alphabet_;
     std::vector<Symbol> symbols_;

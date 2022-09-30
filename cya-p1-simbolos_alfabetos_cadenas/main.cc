@@ -2,21 +2,34 @@
 
 #include "symbol.h"
 #include "alphabet.h"
+#include "chain.h"
 
 int main() {
 
-  Symbol symbol1("b");
-  Symbol symbol2("b");
-  Symbol symbol3("b");
-  Symbol symbol4("e");
-  Symbol symbol5("b");
-  Symbol symbol0("x");
-  std::vector<Symbol> vS = {symbol1, symbol2, symbol3, symbol4, symbol5};
+  Symbol symbol1("1");
+  Symbol symbol2("2");
+  Symbol symbol3("3");
+  Symbol symbol4("4");
+  Symbol symbol5("5");
+  Symbol symbol0("0");
+  Symbol symbolA("A");
+  std::vector<Symbol> alpha = {symbol1, symbol2, symbol3, symbol4, symbol5};
   
-  Alphabet alph1(vS);
-  std::cout << alph1.addSymbol(symbol0) << std::endl;
-  alph1.print();
-  
+  //Alphabet alph1(vS);
+  //std::cout << alph1.addSymbol(symbol0) << std::endl;
+  //alph1.print();
+
+  std::vector<Symbol> chainsym = {symbol1, symbol4, symbol2};
+  //chainsym.push_back(symbolA);
+
+  Chain chain1(chainsym, new Alphabet(alpha));
+  chain1.print();
+
+  std::vector<Chain> chainPre = chain1.suffixes();
+  for (unsigned i = 0; i < chain1.suffixes().size(); i ++) {
+    chainPre[i].print();
+  }
+
   //std::cout << (symbol1 == symbol2) << std::endl;
 
   return 0;
