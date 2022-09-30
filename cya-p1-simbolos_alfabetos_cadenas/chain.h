@@ -32,6 +32,8 @@ class Chain {
     Chain inverse();
     std::vector<Chain> prefixes();
     std::vector<Chain> suffixes();
+
+    Chain concat(Chain);
     
   private:
     Alphabet* alphabet_;

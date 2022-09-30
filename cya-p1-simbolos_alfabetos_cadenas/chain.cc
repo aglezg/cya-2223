@@ -34,16 +34,25 @@ Chain::length() {
 Chain
 Chain::inverse() {
 
-  Chain inverseChain(symbols_, alphabet_);
-
   if (length() == 0)
-    return inverseChain;
+    return *this;
   else {
-    //Symbol auxiliar = inverseChain.getSymbols().front();
-
-    //return
+    Symbol auxiliar = getSymbols().front();
+    std::vector<Symbol> chain_symbols_without_aux = {};
+    for (unsigned i = 1; i < length(); i++)
+      chain_symbols_without_aux.push_back(getSymbols()[i]);
+    return Chain(chain_symbols_without_aux, getAlphabet()).inverse().concat(Chain({auxiliar}));
   }
 
+}
+
+Chain
+Chain::concat(Chain chain) {
+  std::vector<Symbol> new_symbols = getSymbols();
+  for (unsigned i = 0; i < chain.length(); i++) {
+    new_symbols.push_back(chain.getSymbols()[i]);
+  }
+  return Chain(new_symbols);
 }
 
 std::vector<Chain>
