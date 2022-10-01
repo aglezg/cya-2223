@@ -8,7 +8,8 @@
 * @author Adrián González Galván
 * @date _/_/2022
 *
-* Este archivo ...
+* Este archivo contiene la clase correspondiente
+* a la representación de un símbolo.
 */
 
 #pragma once
@@ -18,21 +19,26 @@
 class Symbol {
 
   public:
+    // Constructor & Destructor
     Symbol(std::string);
     ~Symbol();
   
+    // Getters & Setters
     std::string getSymbol();
     void setSymbol(std::string);
 
+    // Sobrecarga de operadores
     bool operator==(Symbol&);
     Symbol& operator=(Symbol);
 
     // E/S
-    void write(std::ostream& os = std::cout);
+    void write(std::ostream& = std::cout);
+    void read(std::istream& = std::cin);
   
   private:
     std::string symbol_;
 };
 
 // Operadores sobrecargados de E/S
-std::ostream& operator<<(std::ostream& os, Symbol& symbol);
+std::ostream& operator<<(std::ostream&, Symbol&);
+std::istream& operator>>(std::istream&, Symbol&);
