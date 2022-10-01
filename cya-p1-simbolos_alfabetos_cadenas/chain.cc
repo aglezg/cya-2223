@@ -104,3 +104,70 @@ Chain::print() {
     std::cout << "\n";
   }
 }
+
+void
+Chain::write(std::ostream& os) {
+  if (getSymbols().empty())
+    os << '&';
+  else
+    for (unsigned i = 0; i < length(); i++)
+      os << getSymbols()[i];
+}
+
+void
+Chain::read(std::istream& is) {
+  std::string my_line = "";
+  std::getline (is, my_line);
+  std::vector<std::string> divided_line = stringToVector(my_line);
+  
+  // Extraemos cadena
+  std::string chainSymbolsString = divided_line.back();
+  divided_line.pop_back();
+
+  std::vector<Symbol> chainSymbols= {};
+  for (unsigned i = 0; i < chainSymbolsString.size(); i++) {
+    std::string str;
+    str += chainSymbolsString[i];
+    chainSymbols.push_back(Symbol(str));
+  }
+
+  // Extraemos el alfabeto
+  std::vector<Symbol> chainAlphabet = {};
+  for (unsigned i = 0; i < divided_line.size(); i++) {
+    chainAlphabet.push_back(Symbol(divided_line[i]));
+  }
+
+  // Creamos la cadena
+  if (chainAlphabet.empty())
+    *this = Chain(chainSymbols);
+  else
+    *this = Chain(chainSymbols, new Alphabet(chainAlphabet));
+
+}
+
+std::istream&
+operator>>(std::istream& is, Chain& chain) {
+  chain.read(is);
+  return is;
+}
+
+std::ostream&
+operator<<(std::ostream& os, Chain& chain) {
+  chain.write(os);
+  return os;
+}
+
+std::vector<std::string>
+stringToVector(std::string my_string) {
+  std::vector<std::string> my_vector = {""};
+  unsigned j = 0;
+  for (unsigned i = 0; i < my_string.size(); i++) {
+    if (my_string[i] != ' ') {
+      my_vector[j] += my_string[i];
+    } else {
+      j++;
+      my_vector.resize(j + 1);
+    }
+  }
+  return my_vector;
+}

@@ -34,9 +34,17 @@ class Chain {
     std::vector<Chain> suffixes();
 
     Chain concat(Chain);
+
+    void write(std::ostream&);
+    void read(std::istream&);
     
   private:
     Alphabet* alphabet_;
     std::vector<Symbol> symbols_;
     bool checkChain();
 };
+
+std::istream& operator>>(std::istream&, Chain&);
+std::ostream& operator<<(std::ostream&, Chain&);
+
+std::vector<std::string> stringToVector(std::string);
