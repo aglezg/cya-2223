@@ -79,6 +79,7 @@ Alphabet::print() {
   std::cout << symbols_[symbols_.size() - 1] << " }\n";
 }
 
+// Escritura
 void
 Alphabet::write(std::ostream& os) {
   os << "{ ";
