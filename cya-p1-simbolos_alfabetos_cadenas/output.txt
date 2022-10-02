@@ -1,3 +1,3 @@
-&, a, ab, abb, abba, abbab
-&, h, ho, hol, hola
-&, 6, 67, 679, 6793, 67938, 679383, 6793836
+abbab, bbab, bab, ab, b, &
+hola, ola, la, a, &
+6793836, 793836, 93836, 3836, 836, 36, 6, &

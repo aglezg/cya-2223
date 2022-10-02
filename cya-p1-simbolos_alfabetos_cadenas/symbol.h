@@ -8,7 +8,7 @@
 * @author Adrián González Galván
 * @date _/_/2022
 *
-* Este archivo contiene la clase correspondiente
+* Este archivo contiene la implementación de una clase correspondiente
 * a la representación de un símbolo.
 */
 

@@ -8,7 +8,8 @@
 * @author Adrián González Galván
 * @date _/_/2022
 *
-* Este archivo ...
+* Este archivo contiene la implementación de una clase correspondiente
+* a la representación de un alfabeto.
 */
 
 #pragma once
@@ -22,19 +23,29 @@
 class Alphabet {
 
   public:
+    // Constructor & Destructor
     Alphabet(std::vector<Symbol>);
     ~Alphabet();
   
+    // Getters & Setters
     std::vector<Symbol> getSymbols();
     void setSymbols(std::vector<Symbol>);
 
+    // Operaciones
     bool addSymbol(Symbol);
     bool removeSymbol(Symbol);
-    int checkSymbol(Symbol);
+    bool checkSymbol(Symbol);
 
+    // Impresión por pantalla
     void print();
+
+    // E/S
+    void write(std::ostream& = std::cout);
   
   private:
     std::vector<Symbol> symbols_;
     void removeDuplicates();
 };
+
+// Operadores sobrecargados de E/S
+std::ostream& operator<<(std::ostream&, Alphabet&);

@@ -1,19 +1,36 @@
+/**
+* ULL - Escuela Superior de Ingeniería y Tecnología
+* Grado en Ingeniería Informática - Curso 2
+* 
+* Asignatura: Computabilidad y Algoritmia
+*
+* @brief Práctica #01: Símbolos, alfabetos y cadenas
+* @author Adrián González Galván
+* @date _/_/2022
+*
+* Este archivo contiene el desarrollo de los métodos de la clase Alphabet.
+*/
+
 #include "alphabet.h"
 #include <cassert>
 
+// Constructor
 Alphabet::Alphabet(std::vector<Symbol> symbols) {
   setSymbols(symbols);
 }
 
+// Destructor
 Alphabet::~Alphabet() {
   symbols_.clear();
 }
 
+// Getters
 std::vector<Symbol>
 Alphabet::getSymbols() {
   return symbols_;
 }
 
+// Setters
 void
 Alphabet::setSymbols(std::vector<Symbol> symbols) {
   assert(!symbols.empty());
@@ -21,17 +38,19 @@ Alphabet::setSymbols(std::vector<Symbol> symbols) {
   removeDuplicates();
 }
 
-int
+// Comprueba si un determinado símbolo pertenece al alfabeto
+bool
 Alphabet::checkSymbol(Symbol symbol) {
   for (unsigned i = 0; i < symbols_.size(); i++)
     if (symbols_[i] == symbol)
-      return i;
-  return -1;
+      return true;
+  return false;
 }
 
+// Añade, si es que no estaba antes, un nuevo símbolo al alfabeto
 bool
 Alphabet::addSymbol(Symbol symbol) {
-  if (checkSymbol(symbol) != -1)
+  if (checkSymbol(symbol))
     return false;
   else {
     symbols_.push_back(symbol);
@@ -39,16 +58,19 @@ Alphabet::addSymbol(Symbol symbol) {
   }
 }
 
+// Elimina, si es que existe, un determinado símbolo del alfabeto.
 bool
 Alphabet::removeSymbol(Symbol symbol) {
-  int pos = checkSymbol(symbol);
-  if (pos != -1) {
-    symbols_.erase(symbols_.begin() + pos);
+  if (checkSymbol(symbol)) {
+    for (unsigned i = 0; i < symbols_.size(); i++)
+      if (symbols_[i] == symbol)
+        symbols_.erase(symbols_.begin() + i);
     return true;
   }
   return false;
 }
 
+// Impresión por consola de un Alfabeto
 void
 Alphabet::print() {
   std::cout << "{ ";
@@ -57,6 +79,15 @@ Alphabet::print() {
   std::cout << symbols_[symbols_.size() - 1] << " }\n";
 }
 
+void
+Alphabet::write(std::ostream& os) {
+  os << "{ ";
+  for (unsigned i = 0; i < symbols_.size() - 1; i++)
+    os << symbols_[i] << ", ";
+  os << symbols_[symbols_.size() - 1] << " }\n";
+}
+
+// Elimina los elementos duplicados del alfabeto, en el caso de que los haya
 void
 Alphabet::removeDuplicates() {
   for (unsigned i = 0; i < symbols_.size(); i++) {
@@ -67,4 +98,10 @@ Alphabet::removeDuplicates() {
       }
     }
   }
+}
+
+// Operadores sobrecargados de E/S
+std::ostream& operator<<(std::ostream& os, Alphabet& alphabet) {
+  alphabet.write(os);
+  return os;
 }
