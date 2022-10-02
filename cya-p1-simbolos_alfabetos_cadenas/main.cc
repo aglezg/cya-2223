@@ -10,8 +10,8 @@ int main(int argc, char* argv[]) {
   // Comprobamos que se haya ejecutado de la forma correcta
   if (!argv[1]) {
     std::cout << "Modo de empleo: ";
-    std::cout << "./main [input.txt] [output.txt] [operation]/n" ;
-    std::cout << "Pruebe './main --help' para más información/n";   
+    std::cout << "./main [input.txt] [output.txt] [operation]\n" ;
+    std::cout << "Pruebe './main --help' para más información.\n";   
     return 1;
   }
 
