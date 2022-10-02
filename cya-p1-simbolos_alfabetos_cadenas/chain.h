@@ -8,7 +8,8 @@
 * @author Adrián González Galván
 * @date _/_/2022
 *
-* Este archivo ...
+* Este archivo contiene la implementación de una clase correspondiente
+* a la representación de una cadena.
 */
 
 #pragma once
@@ -19,22 +20,30 @@
 
 class Chain {
   public:
+    // Constructor & Destructor
     Chain(std::vector<Symbol>);
     Chain(std::vector<Symbol>, Alphabet*);
     ~Chain();
 
+    // Getters
     std::vector<Symbol> getSymbols();
     Alphabet* getAlphabet();
 
+    // Setters
+    void setSymbols(std::vector<Symbol>);
+    void setAlphabet(Alphabet*);
+
+    // Impresión por pantalla
     void print();
 
+    // Operaciones
     unsigned length();
     Chain inverse();
     std::vector<Chain> prefixes();
     std::vector<Chain> suffixes();
-
     Chain concat(Chain);
 
+    // E/S
     void write(std::ostream&);
     void read(std::istream&);
     
@@ -44,7 +53,9 @@ class Chain {
     bool checkChain();
 };
 
+// Operaciones sobrecargados de E/S
 std::istream& operator>>(std::istream&, Chain&);
 std::ostream& operator<<(std::ostream&, Chain&);
 
+// Conversión de string a vector
 std::vector<std::string> stringToVector(std::string);

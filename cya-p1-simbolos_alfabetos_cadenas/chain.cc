@@ -1,21 +1,38 @@
+/**
+* ULL - Escuela Superior de Ingeniería y Tecnología
+* Grado en Ingeniería Informática - Curso 2
+* 
+* Asignatura: Computabilidad y Algoritmia
+*
+* @brief Práctica #01: Símbolos, alfabetos y cadenas
+* @author Adrián González Galván
+* @date _/_/2022
+*
+* Este archivo contiene el desarrollo de los métodos de la clase Chain.
+*/
+
 #include "chain.h"
 #include <cassert>
 
+// Constructor sin especificar alfabeto
 Chain::Chain(std::vector<Symbol> symbols) {
   alphabet_ = new Alphabet(symbols);
   symbols_ = symbols;
 };
 
+// Constructor especificando el alfabeto
 Chain::Chain(std::vector<Symbol> symbols, Alphabet* alphabet) {
   alphabet_ = alphabet;
   symbols_ = symbols;
   assert(checkChain());
 }
 
+// Destructor
 Chain::~Chain() {
   symbols_.clear();
 }
 
+// Getters
 std::vector<Symbol>
 Chain::getSymbols() {
   return symbols_;
@@ -26,11 +43,26 @@ Chain::getAlphabet() {
   return alphabet_;
 }
 
+// Setters
+void
+Chain::setSymbols(std::vector<Symbol> symbols) {
+  symbols_ = symbols;
+  assert(checkChain);
+}
+
+void
+Chain::setAlphabet(Alphabet* alphabet) {
+  alphabet_ = alphabet;
+  assert(checkChain());
+}
+
+// Calcula la longitud de la cadena
 unsigned
 Chain::length() {
   return symbols_.size();
 }
 
+// Calcula la cadena inversa de la cadena
 Chain
 Chain::inverse() {
 
@@ -46,6 +78,7 @@ Chain::inverse() {
 
 }
 
+// Concatena una cadena con otra
 Chain
 Chain::concat(Chain chain) {
   std::vector<Symbol> new_symbols = getSymbols();
@@ -55,6 +88,7 @@ Chain::concat(Chain chain) {
   return Chain(new_symbols);
 }
 
+// Calcula las cadenas prefijos de la misma cadena
 std::vector<Chain>
 Chain::prefixes() {
   std::vector<Chain> chainPrefixes = {Chain({}, alphabet_)};
@@ -66,6 +100,7 @@ Chain::prefixes() {
   return chainPrefixes;
 }
 
+// Calcula las cadenas sufijos de la misma cadena
 std::vector<Chain>
 Chain::suffixes() {
   std::vector<Chain> chainSuffixes = {};
@@ -78,22 +113,7 @@ Chain::suffixes() {
   return chainSuffixes;
 }
 
-bool
-Chain::checkChain() {
-  bool check = true;
-  for (unsigned i = 0; i < symbols_.size(); i++) {
-    for (unsigned j = 0; j < alphabet_->getSymbols().size(); j++)
-      if (symbols_[i] == alphabet_->getSymbols()[j]) {
-        check = true;
-        break;
-      } else {
-        check = false;
-      }
-    if (!check) return false;
-    }
-  return true;
-}
-
+// Impresión por pantalla
 void
 Chain::print() {
   if (getSymbols().empty()) {
@@ -105,6 +125,7 @@ Chain::print() {
   }
 }
 
+// Escritura
 void
 Chain::write(std::ostream& os) {
   if (getSymbols().empty())
@@ -114,6 +135,7 @@ Chain::write(std::ostream& os) {
       os << getSymbols()[i];
 }
 
+// Lectura
 void
 Chain::read(std::istream& is) {
   std::string my_line = "";
@@ -145,18 +167,38 @@ Chain::read(std::istream& is) {
 
 }
 
+// Comprueba si la cadena está formada por símbolos del mismo alfabeto
+bool
+Chain::checkChain() {
+  bool check = true;
+  for (unsigned i = 0; i < symbols_.size(); i++) {
+    for (unsigned j = 0; j < alphabet_->getSymbols().size(); j++)
+      if (symbols_[i] == alphabet_->getSymbols()[j]) {
+        check = true;
+        break;
+      } else {
+        check = false;
+      }
+    if (!check) return false;
+    }
+  return true;
+}
+
+// Sobrecarga del operador de lectura
 std::istream&
 operator>>(std::istream& is, Chain& chain) {
   chain.read(is);
   return is;
 }
 
+// Sobrecarga del operador de escritura
 std::ostream&
 operator<<(std::ostream& os, Chain& chain) {
   chain.write(os);
   return os;
 }
 
+// Convierte una string separada por espacios en un vector
 std::vector<std::string>
 stringToVector(std::string my_string) {
   std::vector<std::string> my_vector = {""};
