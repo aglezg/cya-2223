@@ -8,11 +8,25 @@
 int main(int argc, char* argv[]) {
 
   // Comprobamos que se haya ejecutado de la forma correcta
-  if (argc < 4) {
-    std::cout << "ERROR: ¡FALTAN PARAMETROS!\n\n";
-    std::cout << "Ejecute de la forma:\n";
-    std::cout << "./main infile.txt outfile.txt opcode\n\n"; 
-    std::cout << "Cerrando programa...\n";   
+  if (!argv[1]) {
+    std::cout << "Modo de empleo: ";
+    std::cout << "./main [input.txt] [output.txt] [operation]/n" ;
+    std::cout << "Pruebe './main --help' para más información/n";   
+    return 1;
+  }
+
+  // En caso de usar como parámetro "--help"
+  std::string help = "--help";
+  if(argv[1] == help) {
+    std::ifstream help_txt;
+    help_txt.open("help.txt");
+    if (!help_txt.fail()) {
+      while (!help_txt.eof()) {
+        std::getline(help_txt, help);
+        std::cout << help << "\n";
+      }
+    }
+    help_txt.close();
     return 1;
   }
 

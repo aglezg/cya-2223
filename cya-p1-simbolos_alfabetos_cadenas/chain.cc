@@ -47,7 +47,7 @@ Chain::getAlphabet() {
 void
 Chain::setSymbols(std::vector<Symbol> symbols) {
   symbols_ = symbols;
-  assert(checkChain);
+  assert(checkChain());
 }
 
 void
