@@ -113,11 +113,30 @@ Chain::suffixes() {
   return chainSuffixes;
 }
 
+
+// Calcula las subcadenas de la misma cadena
+std::vector<Chain>
+Chain::substrings() {
+  std::vector<Chain> chainSubstrings = {Chain(std::vector<Symbol>({}), alphabet_)};
+  
+  int substrings_size = 1;
+  while (substrings_size <= length()) { // bien
+    for (unsigned i = 0; i <= length() - substrings_size; i++) {
+      std::vector<Symbol> symbolsCopy = {};
+      for (unsigned j = i; j < i + substrings_size; j++)
+        symbolsCopy.push_back(getSymbols()[j]);
+      chainSubstrings.push_back(Chain(symbolsCopy, alphabet_));
+    }
+    substrings_size++;
+  }
+  return chainSubstrings;
+}
+
 // Impresión por pantalla
 void
 Chain::print() {
   if (getSymbols().empty()) {
-    std::cout << '&' << std::endl;
+    std::cout << kEmptyChain << std::endl;
   } else {
     for (unsigned i = 0; i < length(); i++)
       std::cout << getSymbols()[i];
@@ -129,7 +148,7 @@ Chain::print() {
 void
 Chain::write(std::ostream& os) {
   if (getSymbols().empty())
-    os << '&';
+    os << kEmptyChain;
   else
     for (unsigned i = 0; i < length(); i++)
       os << getSymbols()[i];

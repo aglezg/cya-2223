@@ -18,6 +18,8 @@
 
 #include "alphabet.h"
 
+const std::string kEmptyChain = "&";
+
 class Chain {
   public:
     // Constructor & Destructor
@@ -41,6 +43,7 @@ class Chain {
     Chain inverse();
     std::vector<Chain> prefixes();
     std::vector<Chain> suffixes();
+    std::vector<Chain> substrings();
     Chain concat(Chain);
 
     // E/S

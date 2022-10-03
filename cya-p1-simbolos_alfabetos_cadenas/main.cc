@@ -5,7 +5,7 @@
 #include "alphabet.h"
 #include "chain.h"
 
-int main(int argc, char* argv[]) {
+int main(int argc, char* argv[]) {  
 
   // Comprobamos que se haya ejecutado de la forma correcta
   if (!argv[1]) {
@@ -83,6 +83,13 @@ int main(int argc, char* argv[]) {
         output << suffixes[j] << ", ";
       output << suffixes[suffixes.size() - 1] << "\n";
     } 
+  } else if (argv[3] == std::string("--substrings")) {
+    for (unsigned i = 0; i < vChain.size(); i++) {
+      std::vector<Chain> substrings = vChain[i].substrings();
+      for (unsigned j = 0; j < substrings.size() - 1; j++)
+        output << substrings[j] << ", ";
+      output << substrings[substrings.size() - 1] << "\n";
+    } 
   } else {
     std::cout << "Opción inválida: Introduzca una opción válida\n";
     input.close();
@@ -93,6 +100,6 @@ int main(int argc, char* argv[]) {
   // Cerramos archivos
   input.close();
   output.close();
-
+  
   return 0;
 }

@@ -16,3 +16,4 @@ Las operaciones que se pueden realizar son:
 - --inverse (Calcula la inversa de cada cadena)
 - --prefixes (Calcula el conjunto de prefijos de cada cadena)
 - --suffixes (Calcula el conjunto de sufijos de cada cadena)
+- --substrings (Calcula el conjunto de subcadenas de cada cadena)
