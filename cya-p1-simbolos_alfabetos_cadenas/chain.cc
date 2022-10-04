@@ -125,7 +125,8 @@ Chain::substrings() {
       std::vector<Symbol> symbolsCopy = {};
       for (unsigned j = i; j < i + substrings_size; j++)
         symbolsCopy.push_back(getSymbols()[j]);
-      chainSubstrings.push_back(Chain(symbolsCopy, alphabet_));
+      if (!include(chainSubstrings, Chain(symbolsCopy, alphabet_)))
+        chainSubstrings.push_back(Chain(symbolsCopy, alphabet_));
     }
     substrings_size++;
   }
@@ -142,6 +143,17 @@ Chain::print() {
       std::cout << getSymbols()[i];
     std::cout << "\n";
   }
+}
+
+// Sobrecarga del operador "=="
+bool
+Chain::operator==(Chain& chain) {
+  if (length() != chain.length())
+    return false;
+  for (unsigned i = 0; i < length(); i++)
+    if (getSymbols()[i].getSymbol() != chain.getSymbols()[i].getSymbol())
+      return false;
+  return true;
 }
 
 // Escritura
@@ -231,4 +243,13 @@ stringToVector(std::string my_string) {
     }
   }
   return my_vector;
+}
+
+template <class T>
+bool
+include(std::vector<T> v, T element) {
+  for(unsigned i = 0; i < v.size(); i++)
+    if (v[i] == element)
+      return true;
+  return false;
 }
