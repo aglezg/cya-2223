@@ -1,3 +1,16 @@
+/**
+* ULL - Escuela Superior de Ingeniería y Tecnología
+* Grado en Ingeniería Informática - Curso 2
+* 
+* Asignatura: Computabilidad y Algoritmia
+*
+* @brief Práctica #01: Símbolos, alfabetos y cadenas
+* @author Adrián González Galván
+* @date 06/10/2022
+*
+* Este archivo contiene el código principal del programa.
+*/
+
 #include <iostream>
 #include <fstream>
 
@@ -83,7 +96,7 @@ int main(int argc, char* argv[]) {
         output << suffixes[j] << ", ";
       output << suffixes[suffixes.size() - 1] << "\n";
     } 
-  } else if (argv[3] == std::string("--substrings")) {
+  } else if (argv[3] == std::string("--substrings")) { // Substrings
     for (unsigned i = 0; i < vChain.size(); i++) {
       std::vector<Chain> substrings = vChain[i].substrings();
       for (unsigned j = 0; j < substrings.size() - 1; j++)

@@ -6,7 +6,7 @@
 *
 * @brief Práctica #01: Símbolos, alfabetos y cadenas
 * @author Adrián González Galván
-* @date _/_/2022
+* @date 06/10/2022
 *
 * Este archivo contiene la implementación de una clase correspondiente
 * a la representación de un símbolo.

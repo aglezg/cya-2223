@@ -6,7 +6,7 @@
 *
 * @brief Práctica #01: Símbolos, alfabetos y cadenas
 * @author Adrián González Galván
-* @date _/_/2022
+* @date 06/10/2022
 *
 * Este archivo contiene el desarrollo de los métodos de la clase Symbol.
 */
