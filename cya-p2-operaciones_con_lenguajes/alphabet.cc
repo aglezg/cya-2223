@@ -73,7 +73,7 @@ Alphabet::print() {
   std::cout << "{ ";
   for (Symbol i: symbols_)
     std::cout << i << " ";
-  std::cout << " }\n";
+  std::cout << "}\n";
 }
 
 // Escritura
@@ -82,7 +82,7 @@ Alphabet::write(std::ostream& os) {
   os << "{ ";
   for (Symbol i: symbols_)
     os << i << " ";
-  os << " }\n";
+  os << "}\n";
 }
 
 

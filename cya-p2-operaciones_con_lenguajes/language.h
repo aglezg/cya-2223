@@ -17,7 +17,6 @@
 #include <iostream>
 #include <set>
 
-#include "alphabet.h"
 #include "chain.h"
 
 class Language {
@@ -31,6 +30,9 @@ class Language {
     std::set<Chain> getChains();
     void setChains(std::set<Chain> = {});
 
+    // Impresión por pantalla
+    void print();
+
     // Sobrecarga de operadores
 
     // E/S
@@ -39,6 +41,7 @@ class Language {
   
   private:
     std::set<Chain> chains_;
+    bool checkChains();
 };
 
 // Operadores sobrecargados de E/S

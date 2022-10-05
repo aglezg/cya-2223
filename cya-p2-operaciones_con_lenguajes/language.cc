@@ -23,3 +23,16 @@ Language::Language(std::set<Chain> chains) {
 Language::~Language() {
   chains_.clear();
 }
+
+bool
+Language::checkChains() {
+  if (chains_.size() < 2)
+    return true;
+  else {
+    //auto firstChain = chains_.begin();
+    //std::cout << 
+    //for (Chain chain: chains_)
+    //  if (chain.getAlphabet() != *firstChain->)
+    return true;
+  }
+}

@@ -29,7 +29,7 @@ class Symbol {
 
     // Sobrecarga de operadores
     bool operator==(Symbol&);
-    bool operator<(Symbol&);
+    bool operator<(const Symbol&) const;
     Symbol& operator=(Symbol);
 
     // E/S

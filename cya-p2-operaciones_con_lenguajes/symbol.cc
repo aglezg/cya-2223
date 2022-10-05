@@ -47,9 +47,8 @@ Symbol::operator==(Symbol& symbol) {
 }
 
 // Sobrecarga del operador ">" !!!!!!!!!!!!!!!!!!!!!!!!!!!! RETOCAR NO FUNCIONA
-bool
-Symbol::operator<(Symbol& symbol) {
-  return true;
+bool Symbol::operator<(const Symbol& symbol) const {
+  return symbol_ < symbol.symbol_;
 }
 
 // Escritura
