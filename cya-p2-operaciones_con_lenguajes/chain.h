@@ -31,6 +31,7 @@ class Chain {
     std::vector<Chain> suffixes();
     std::vector<Chain> substrings();
     Chain concat(Chain);
+    bool isPalindrome();
 
     // Sobrecarga de operadores
     bool operator==(Chain&);

@@ -133,6 +133,13 @@ Chain::substrings() {
   return chainSubstrings;
 }
 
+// Comprueba si una cadena es palíndroma
+bool
+Chain::isPalindrome() {
+  Chain inverseChain = this->inverse();
+  return *this == inverseChain;
+}
+
 // Impresión por pantalla
 void
 Chain::print() {
@@ -172,17 +179,10 @@ Chain::read(std::istream& is) {
   std::string my_line = "";
   std::getline (is, my_line);
   std::vector<std::string> divided_line = stringToVector(my_line);
-  
+
   // Extraemos cadena
   std::string chainSymbolsString = divided_line.back();
   divided_line.pop_back();
-
-  std::vector<Symbol> chainSymbols= {};
-  for (unsigned i = 0; i < chainSymbolsString.size(); i++) {
-    std::string str;
-    str += chainSymbolsString[i];
-    chainSymbols.push_back(Symbol(str));
-  }
 
   // Extraemos el alfabeto
   std::vector<Symbol> chainAlphabet = {};
@@ -190,12 +190,30 @@ Chain::read(std::istream& is) {
     chainAlphabet.push_back(Symbol(divided_line[i]));
   }
 
-  // Creamos la cadena
-  if (chainAlphabet.empty())
+  // Definimos vector de simbolos (cadena)
+  std::vector<Symbol> chainSymbols= {};
+
+  if (chainAlphabet.empty()) { // Alfabeto vacío
+    for (unsigned i = 0; i < chainSymbolsString.size(); i++) {
+      std::string str;
+      str += chainSymbolsString[i];
+      chainSymbols.push_back(Symbol(str));
+    }
     *this = Chain(chainSymbols);
-  else
-    *this = Chain(chainSymbols,
-      new Alphabet(std::set<Symbol>(chainAlphabet.begin(), chainAlphabet.end())));
+  } else { // Alfabeto no vacío
+    Alphabet* myAlphabet = new Alphabet(std::set<Symbol>(chainAlphabet.begin(), chainAlphabet.end()));
+    std::string str;
+    for (unsigned i = 0; i < chainSymbolsString.size(); i++) {
+      str += chainSymbolsString[i];
+      if (myAlphabet->checkSymbol(Symbol(str))) {
+        chainSymbols.push_back(Symbol(str));
+        str = "";
+      }
+    }
+    if (str != "")
+      chainSymbols.push_back(Symbol(str));
+    *this = Chain(chainSymbols, myAlphabet);
+  }
 
 }
 
