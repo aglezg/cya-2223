@@ -103,6 +103,12 @@ int main(int argc, char* argv[]) {
         output << substrings[j] << ", ";
       output << substrings[substrings.size() - 1] << "\n";
     } 
+  } else if (argv[3] == std::string("--palindrome")) {
+    for (unsigned i = 0; i < vChain.size(); i++)
+      if(vChain[i].isPalindrome())
+        output << "true\n";
+      else
+        output << "false\n";
   } else {
     std::cout << "Opción inválida: Introduzca una opción válida\n";
     input.close();
