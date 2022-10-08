@@ -109,3 +109,24 @@ Language::lConcat(Language language) {
       concatChains.insert(chain.concat(chain2));
   return Language(alphabet_, concatChains);
 }
+
+// Realiza la potencia de un lenguaje
+Language
+Language::lPow(unsigned pow) {
+  if (pow == 0)
+    return Language(alphabet_, std::set<Chain>({Chain(std::vector<Symbol>({}))}));
+  else
+    return this->lConcat(this->lPow(pow - 1));
+}
+
+
+// Realiza la unión de 2 lenguajes
+Language
+Language::lUnion(Language language) {
+  assert(*alphabet_ == *language.getAlphabet());
+  std::set<Chain> unionChains = getChains();
+  for (Chain i: language.getChains())
+    unionChains.insert(i);
+  return Language(alphabet_, unionChains);
+}
+

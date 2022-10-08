@@ -44,11 +44,11 @@ class Language {
 
     // Operaciones
     Language lConcat(Language);
+    Language lPow(unsigned);
     Language lUnion(Language);
     Language lIntersection(Language);
     Language lOpposite(Language);
     Language lInverse(Language);
-    Language lPow(unsigned);
 
     // Sobrecarga de operadores
 

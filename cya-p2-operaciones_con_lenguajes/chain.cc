@@ -126,7 +126,7 @@ Chain::isPalindrome() {
 void
 Chain::print() {
   if (getSymbols().empty()) {
-    std::cout << kEmptyChain << std::endl;
+    std::cout << kEmptyChainPrint << std::endl;
   } else {
     for (unsigned i = 0; i < length(); i++)
       std::cout << getSymbols()[i];
@@ -154,7 +154,7 @@ bool Chain::operator<(const Chain& chain) const {
 void
 Chain::write(std::ostream& os) {
   if (getSymbols().empty())
-    os << kEmptyChain;
+    os << kEmptyChainPrint;
   else
     for (unsigned i = 0; i < length(); i++)
       os << getSymbols()[i];

@@ -4,7 +4,7 @@
 #include <vector>
 #include "alphabet.h"
 
-const std::string kEmptyChain = "&";
+const std::string kEmptyChainPrint = "&";
 
 class Chain {
   public:
