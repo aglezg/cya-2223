@@ -159,3 +159,20 @@ Language::lInverse() {
     inverseChains.insert(i.inverse());
   return Language(alphabet_, inverseChains);
 }
+
+// Lectura
+void
+Language::read(std::istream& is) {
+  std::string my_line = "";
+  std::getline (is, my_line);
+  std::cout << my_line;
+}
+
+// Escritura
+void
+Language::write(std::ostream& os) {
+  os << *alphabet_ << " { ";
+  for (Chain chain: chains_)
+    os << chain << " ";
+  os << "}";
+}

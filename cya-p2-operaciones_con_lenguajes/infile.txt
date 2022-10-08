@@ -1,0 +1,5 @@
+{ a b c } { a abc cab bbcc }
+{ a } { a aa aaa }
+{ a b } { }
+{ 0 1 } { & }
+{ 0 1 } { 0 1 00 01 10 11 }
