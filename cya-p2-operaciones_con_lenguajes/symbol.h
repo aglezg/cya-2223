@@ -28,7 +28,7 @@ class Symbol {
     void setSymbol(std::string);
 
     // Sobrecarga de operadores
-    bool operator==(Symbol&);
+    bool operator==(const Symbol&);
     bool operator<(const Symbol&) const;
     Symbol& operator=(Symbol);
 

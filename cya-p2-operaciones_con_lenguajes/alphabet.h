@@ -41,6 +41,9 @@ class Alphabet {
 
     // E/S
     void write(std::ostream& = std::cout);
+
+    // Operadores sobrecargados
+    bool operator==(Alphabet&);
   
   private:
     std::set<Symbol> symbols_;

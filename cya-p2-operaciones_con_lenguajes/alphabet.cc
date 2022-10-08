@@ -73,7 +73,7 @@ Alphabet::print() {
   std::cout << "{ ";
   for (Symbol i: symbols_)
     std::cout << i << " ";
-  std::cout << "}\n";
+  std::cout << "}";
 }
 
 // Escritura
@@ -82,9 +82,20 @@ Alphabet::write(std::ostream& os) {
   os << "{ ";
   for (Symbol i: symbols_)
     os << i << " ";
-  os << "}\n";
+  os << "}";
 }
 
+// Sobrecarga del operador "=="
+bool
+Alphabet::operator==(Alphabet& alphabet) {
+  for (Symbol i: symbols_)
+    if (!alphabet.checkSymbol(i))
+      return false;
+  for (Symbol j: alphabet.getSymbols())
+    if(!checkSymbol(j))
+      return false;
+  return true;
+}
 
 // Operadores sobrecargados de E/S
 std::ostream& operator<<(std::ostream& os, Alphabet& alphabet) {

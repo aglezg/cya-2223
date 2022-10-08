@@ -16,22 +16,39 @@
 
 #include <iostream>
 #include <set>
+#include <cassert>
 
 #include "chain.h"
+#include "alphabet.h"
 
 class Language {
 
   public:
     // Constructor & Destructor
-    Language(std::set<Chain> = {});
+    Language(Alphabet*, std::set<Chain> = {});
     ~Language();
   
     // Getters & Setters
     std::set<Chain> getChains();
+    Alphabet* getAlphabet();
     void setChains(std::set<Chain> = {});
+    void setAlphabet(Alphabet*);
 
     // Impresión por pantalla
     void print();
+
+    // Operaciones básicas
+    bool check(Chain chain);
+    bool add(Chain chain);
+    bool remove(Chain chain);
+
+    // Operaciones
+    Language lConcat(Language);
+    Language lUnion(Language);
+    Language lIntersection(Language);
+    Language lOpposite(Language);
+    Language lInverse(Language);
+    Language lPow(unsigned);
 
     // Sobrecarga de operadores
 
@@ -41,6 +58,7 @@ class Language {
   
   private:
     std::set<Chain> chains_;
+    Alphabet* alphabet_;
     bool checkChains();
 };
 

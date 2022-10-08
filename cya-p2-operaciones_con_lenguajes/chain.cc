@@ -16,16 +16,9 @@
 
 // Constructor sin especificar alfabeto
 Chain::Chain(std::vector<Symbol> symbols) {
-  alphabet_ = new Alphabet(std::set<Symbol>(symbols.begin(), symbols.end()));
   symbols_ = symbols;
 };
 
-// Constructor especificando el alfabeto
-Chain::Chain(std::vector<Symbol> symbols, Alphabet* alphabet) {
-  alphabet_ = alphabet;
-  symbols_ = symbols;
-  assert(checkChain());
-}
 
 // Destructor
 Chain::~Chain() {
@@ -38,23 +31,12 @@ Chain::getSymbols() {
   return symbols_;
 }
 
-Alphabet*
-Chain::getAlphabet() {
-  return alphabet_;
-}
-
 // Setters
 void
 Chain::setSymbols(std::vector<Symbol> symbols) {
   symbols_ = symbols;
-  assert(checkChain());
 }
 
-void
-Chain::setAlphabet(Alphabet* alphabet) {
-  alphabet_ = alphabet;
-  assert(checkChain());
-}
 
 // Calcula la longitud de la cadena
 unsigned
@@ -73,7 +55,7 @@ Chain::inverse() {
     std::vector<Symbol> chain_symbols_without_aux = {};
     for (unsigned i = 1; i < length(); i++)
       chain_symbols_without_aux.push_back(getSymbols()[i]);
-    return Chain(chain_symbols_without_aux, getAlphabet()).inverse().concat(Chain({auxiliar}));
+    return Chain(chain_symbols_without_aux).inverse().concat(Chain({auxiliar}));
   }
 
 }
@@ -91,11 +73,11 @@ Chain::concat(Chain chain) {
 // Calcula las cadenas prefijos de la misma cadena
 std::vector<Chain>
 Chain::prefixes() {
-  std::vector<Chain> chainPrefixes = {Chain({}, alphabet_)};
+  std::vector<Chain> chainPrefixes = {Chain({})};
   std::vector<Symbol> symbolsCopy; 
   for (unsigned i = 0; i < this->length(); i++) {
     symbolsCopy.push_back(getSymbols()[i]);
-    chainPrefixes.push_back(Chain(symbolsCopy, alphabet_));
+    chainPrefixes.push_back(Chain(symbolsCopy));
   }
   return chainPrefixes;
 }
@@ -106,10 +88,10 @@ Chain::suffixes() {
   std::vector<Chain> chainSuffixes = {};
   std::vector<Symbol> symbolsCopy = getSymbols(); 
   for (int i = this->length() - 1; i >= 0; i--) {
-    chainSuffixes.push_back(Chain(symbolsCopy, alphabet_));
+    chainSuffixes.push_back(Chain(symbolsCopy));
     symbolsCopy.erase(symbolsCopy.begin());
   }
-  chainSuffixes.push_back(Chain({}, alphabet_));
+  chainSuffixes.push_back(Chain({}));
   return chainSuffixes;
 }
 
@@ -117,16 +99,16 @@ Chain::suffixes() {
 // Calcula las subcadenas de la misma cadena
 std::vector<Chain>
 Chain::substrings() {
-  std::vector<Chain> chainSubstrings = {Chain(std::vector<Symbol>({}), alphabet_)};
+  std::vector<Chain> chainSubstrings = {Chain(std::vector<Symbol>({}))};
   
   int substrings_size = 1;
-  while (substrings_size <= length()) { // bien
+  while (substrings_size <= length()) {
     for (unsigned i = 0; i <= length() - substrings_size; i++) {
       std::vector<Symbol> symbolsCopy = {};
       for (unsigned j = i; j < i + substrings_size; j++)
         symbolsCopy.push_back(getSymbols()[j]);
-      if (!include(chainSubstrings, Chain(symbolsCopy, alphabet_)))
-        chainSubstrings.push_back(Chain(symbolsCopy, alphabet_));
+      if (!include(chainSubstrings, Chain(symbolsCopy)))
+        chainSubstrings.push_back(Chain(symbolsCopy));
     }
     substrings_size++;
   }
@@ -161,6 +143,11 @@ Chain::operator==(Chain& chain) {
     if (getSymbols()[i].getSymbol() != chain.getSymbols()[i].getSymbol())
       return false;
   return true;
+}
+
+// Sobrecarga del operador "<"
+bool Chain::operator<(const Chain& chain) const {
+  return symbols_ < chain.symbols_;
 }
 
 // Escritura
@@ -212,16 +199,16 @@ Chain::read(std::istream& is) {
     }
     if (str != "")
       chainSymbols.push_back(Symbol(str));
-    *this = Chain(chainSymbols, myAlphabet);
+    *this = Chain(chainSymbols);
   }
 
 }
 
-// Comprueba si la cadena está formada por símbolos del mismo alfabeto
+// Comprueba si una cadena está formada por símbolos de un alfabeto
 bool
-Chain::checkChain() {
-  for (unsigned i = 0; i < symbols_.size(); i++)
-    if (!alphabet_->checkSymbol(symbols_[i]))
+checkChain(Alphabet* alphabet, Chain chain) {
+  for (unsigned i = 0; i < chain.length(); i++)
+    if (!alphabet->checkSymbol(chain.getSymbols()[i]))
         return false;
   return true;
 }
@@ -256,6 +243,7 @@ stringToVector(std::string my_string) {
   return my_vector;
 }
 
+// Comprueba si un elemento pertenece a un determinado vector
 template <class T>
 bool
 include(std::vector<T> v, T element) {

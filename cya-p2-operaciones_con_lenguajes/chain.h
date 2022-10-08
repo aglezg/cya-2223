@@ -10,16 +10,13 @@ class Chain {
   public:
     // Constructor & Destructor
     Chain(std::vector<Symbol>);
-    Chain(std::vector<Symbol>, Alphabet*);
     ~Chain();
 
     // Getters
     std::vector<Symbol> getSymbols();
-    Alphabet* getAlphabet();
 
     // Setters
     void setSymbols(std::vector<Symbol>);
-    void setAlphabet(Alphabet*);
 
     // Impresión por pantalla
     void print();
@@ -35,16 +32,19 @@ class Chain {
 
     // Sobrecarga de operadores
     bool operator==(Chain&);
+    bool operator<(const Chain&) const;
 
     // E/S
     void write(std::ostream&);
     void read(std::istream&);
 
   private:
-    Alphabet* alphabet_;
     std::vector<Symbol> symbols_;
-    bool checkChain();
 };
+
+// Comprueba si una determinada cadena está formada con símbolos de un
+// determinado alfabeto
+bool checkChain(Alphabet*, Chain);
 
 // Operaciones sobrecargados de E/S
 std::istream& operator>>(std::istream&, Chain&);
