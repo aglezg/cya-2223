@@ -22,7 +22,7 @@ int main(int argc, char* argv[]) {
   Chain ch5(std::vector<Symbol>({s2}));
 
   std::set<Chain> set2 = {ch1, ch2, ch3, ch4};
-  std::set<Chain> set3 = {ch4, ch5, ch6};
+  std::set<Chain> set3 = {ch4, ch5, ch6, ch3};
 
   Language l1(new Alphabet(set1), set2);
 
@@ -37,7 +37,7 @@ int main(int argc, char* argv[]) {
   std::cout << "\n\n";
 
   std::cout << "Operacion = ";
-  l2.lPow(3).print();
+  l2.lInverse().print();
   std::cout << "\n";
 
   return 0;

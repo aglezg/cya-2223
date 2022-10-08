@@ -120,7 +120,7 @@ Language::lPow(unsigned pow) {
 }
 
 
-// Realiza la unión de 2 lenguajes
+// Unión de 2 lenguajes
 Language
 Language::lUnion(Language language) {
   assert(*alphabet_ == *language.getAlphabet());
@@ -130,3 +130,32 @@ Language::lUnion(Language language) {
   return Language(alphabet_, unionChains);
 }
 
+// Intersección de 2 lenguajes
+Language
+Language::lIntersection(Language language) {
+  assert(*alphabet_ == *language.getAlphabet());
+  std::set<Chain> intersectionChains = {};
+  for (Chain i: chains_)
+    if (language.check(i))
+      intersectionChains.insert(i);
+  return Language(alphabet_, intersectionChains);
+}
+
+// Diferencia de 2 lenguajes
+Language
+Language::lDifference(Language language) {
+  assert(*alphabet_ == *language.getAlphabet());
+  std::set<Chain> differenceChains = getChains();
+  for (Chain i: language.getChains())
+    differenceChains.erase(i);
+  return Language(alphabet_, differenceChains);
+}
+
+// Inversa de un lenguaje
+Language
+Language::lInverse() {
+  std::set<Chain> inverseChains = {};
+  for (Chain i: chains_)
+    inverseChains.insert(i.inverse());
+  return Language(alphabet_, inverseChains);
+}
