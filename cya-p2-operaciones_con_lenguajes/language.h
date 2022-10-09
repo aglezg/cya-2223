@@ -9,7 +9,7 @@
 * @date 13/10/2022
 *
 * Este archivo contiene la implementación de una clase correspondiente
-* a la representación de un símbolo.
+* a la representación de un lenguaje.
 */
 
 #pragma once

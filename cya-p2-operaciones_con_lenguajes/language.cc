@@ -6,9 +6,9 @@
 *
 * @brief Práctica #01: Símbolos, alfabetos y cadenas
 * @author Adrián González Galván
-* @date 06/10/2022
+* @date 13/10/2022
 *
-* Este archivo contiene el desarrollo de los métodos de la clase Chain.
+* Este archivo contiene el desarrollo de los métodos de la clase Language.
 */
 
 #include "language.h"

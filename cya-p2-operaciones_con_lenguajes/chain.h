@@ -1,3 +1,17 @@
+/**
+* ULL - Escuela Superior de Ingeniería y Tecnología
+* Grado en Ingeniería Informática - Curso 2
+* 
+* Asignatura: Computabilidad y Algoritmia
+*
+* @brief Práctica #02: Operaciones con lenguajes
+* @author Adrián González Galván
+* @date 13/10/2022
+*
+* Este archivo contiene la implementación de una clase correspondiente
+* a la representación de una cadena.
+*/
+
 #include <iostream>
 
 #include <iostream>

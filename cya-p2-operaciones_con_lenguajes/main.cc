@@ -1,3 +1,16 @@
+/**
+* ULL - Escuela Superior de Ingeniería y Tecnología
+* Grado en Ingeniería Informática - Curso 2
+* 
+* Asignatura: Computabilidad y Algoritmia
+*
+* @brief Práctica #02: Operaciones con lenguajes
+* @author Adrián González Galván
+* @date 13/10/2022
+*
+* Este archivo contiene el menú principal de la práctica.
+*/
+
 #include <iostream>
 #include <fstream>
 
