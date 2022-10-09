@@ -1,0 +1,21 @@
+Modo de empleo: ./main [input.txt] [input2.txt](opcional) [output.txt] [operation]
+
+El fichero de entrada o los ficheros de entrada (en el caso de que se realize
+una operación en la que intervengan 2 operandos) debe contener por cada línea
+un lenguaje distinto. Para la lectura de este se debe especificar primero el
+alfabeto y posteriomente las cadenas que lo forman, cada uno de ellos entre corchetes.
+
+Algunos ejemplos de lenguaje:
+{ a b c } { a abc cab bbcc }
+{ a } { a aa aaa }
+{ a b } { }
+{ 0 1 } { & }
+{ 0 1 } { 0 1 00 01 10 11 }
+
+Las operaciones que se pueden realizar son:
+- --concatenation (Concatenación de lenguajes)
+- --power (Potencia de lenguajes)
+- --union (Unión de lenguajes)
+- --intersection (Intersección de lenguajes)
+- --difference (Diferencia de lenguajes)
+- --inverse (Inversa de lenguajes)

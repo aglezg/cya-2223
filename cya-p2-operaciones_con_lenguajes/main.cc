@@ -5,14 +5,28 @@
 
 int main(int argc, char* argv[]) {
 
-  Symbol s1("a");
-  Symbol s2("b");
-  Symbol s3("c");
+  // Comprobamos que se haya ejecutado de la forma correcta
+  if (!argv[1]) {
+    std::cout << "Modo de empleo: ";
+    std::cout << "./main [input.txt] [input2.txt] [output.txt] [operation]\n" ;
+    std::cout << "Pruebe './main --help' para más información.\n";   
+    return 1;
+  }
 
-  Symbol x("x");
-
-  std::set<Symbol> set1 = {s1, s2, s3};
-
+  // En caso de usar como parámetro "--help"
+  std::string help = "--help";
+  if(argv[1] == help) {
+    std::ifstream help_txt;
+    help_txt.open("help.txt");
+    if (!help_txt.fail()) {
+      while (!help_txt.eof()) {
+        std::getline(help_txt, help);
+        std::cout << help << "\n";
+      }
+    }
+    help_txt.close();
+    return 1;
+  }
   
   // Archivo de lectura
   std::ifstream input;
@@ -24,57 +38,101 @@ int main(int argc, char* argv[]) {
     return 1;
   }
 
-  Alphabet a(set1);
+  // Leemos los lenguajes del primer archivo
+  std::vector<Language> vLanguage = {};
+  Language languageAux(new Alphabet(std::set<Symbol>({Symbol("aux")})));
+  while (!input.eof()) {
+    input >> languageAux;
+    vLanguage.push_back(languageAux);
+  }
 
-  Chain ch1(std::vector<Symbol>({s1, s3}));
-  Chain ch2(std::vector<Symbol>({s2, s2}));
-  Chain ch3(std::vector<Symbol>({s3, s3, s3, s2, s1}));
-  Chain ch4(std::vector<Symbol>({}));
+  // Archivos && código de operación
+  std::ifstream input2;
+  std::ofstream output;
+  std::string opcode = "";
 
-  std::set<Chain> set2 = {ch1, ch2, ch3, ch4};
+  // Segundo vector de lenguajes
+  std::vector<Language> vLanguage2 = {};
 
-  Language l1(new Alphabet(set1), set2);
+  // Leemos el número de parámetros introducidos
+  if (argc == 4) { // 3 Argumentos
+    output.open(argv[2]);
+    opcode = argv[3];
+  } else { // Más de 3 argumentos
+    input2.open(argv[2]);
 
-  l1.read(input);
+    if (input2.fail()) {
+      std::cout << "No se pudo abrir archivo de escritura, ";
+      std::cout << "comprueba si se ingresó un nombre correcto\n";
+      return 1;
+    }
 
-  /*
-  Symbol s1("a");
-  Symbol s2("b");
-  Symbol s3("c");
+    // Lectura de los lenguajes del segundo archivo
+    while (!input2.eof()) {
+      input2 >> languageAux;
+      vLanguage2.push_back(languageAux);
+    }
 
-  Symbol x("x");
+    output.open(argv[3]);
+    opcode = argv[4];
+  }
 
-  std::set<Symbol> set1 = {s1, s2, s3};
+  if (output.fail()) {
+    std::cout << "No se pudo abrir archivo de escritura, ";
+    std::cout << "comprueba si se ingresó un nombre correcto\n";
+    return 1;
+  }
 
-  Alphabet alphabet(set1);
+  // Operaciones a realizar
+  if (opcode == "--concatenation" && argc > 4) { // CONCATENACIÓN
+    assert(vLanguage.size() == vLanguage2.size());
+    for (unsigned i = 0; i < vLanguage.size(); i++) {
+      Language concatLanguage = vLanguage[i].lConcat(vLanguage2[i]);
+      output << concatLanguage << "\n";
+    }
+  } else if (opcode == "--power") { // POTENCIA
+    int pow = -1;
+    while (pow < 0) {
+      std::cout << "Introduzca un número positivo para la potencia >> ";
+      std::cin >> pow;
+    }
+    for (unsigned i = 0; i < vLanguage.size(); i++) {
+      Language powLanguage = vLanguage[i].lPow(pow);
+      output << powLanguage << "\n";
+    }
+  } else if (opcode == "--union" && argc > 4) { // UNIÓN
+    assert(vLanguage.size() == vLanguage2.size());
+    for (unsigned i = 0; i < vLanguage.size(); i++) {
+      Language unionLanguage = vLanguage[i].lUnion(vLanguage2[i]);
+      output << unionLanguage << "\n";
+    }
+  } else if (opcode == "--intersection" && argc > 4) { // INTERSECCIÓN
+    assert(vLanguage.size() == vLanguage2.size());
+    for (unsigned i = 0; i < vLanguage.size(); i++) {
+      Language intersectionLanguage = vLanguage[i].lIntersection(vLanguage2[i]);
+      output << intersectionLanguage << "\n";
+    }
+  } else if (opcode == "--difference" && argc > 4) { // DIFERENCIA
+    assert(vLanguage.size() == vLanguage2.size());
+    for (unsigned i = 0; i < vLanguage.size(); i++) {
+      Language differenceLanguage = vLanguage[i].lDifference(vLanguage2[i]);
+      output << differenceLanguage << "\n";
+    }
+  } else if (opcode == "--inverse") { // INVERSA
+    for (unsigned i = 0; i < vLanguage.size(); i++) {
+      Language inverseLanguage = vLanguage[i].lInverse();
+      output << inverseLanguage << "\n";
+    }
+  } else {
+    std::cout << "Opción inválida: Introduzca una opción válida o revise los ficheros.\n";
+    input.close();
+    input2.close();
+    output.close();
+    return 1;
+  }
 
-  Chain ch1(std::vector<Symbol>({s1, s3}));
-  Chain ch2(std::vector<Symbol>({s2, s2}));
-  Chain ch3(std::vector<Symbol>({s3, s3, s3, s2, s1}));
-  Chain ch4(std::vector<Symbol>({}));
-
-  Chain ch6(std::vector<Symbol>({s1}));
-  Chain ch5(std::vector<Symbol>({s2}));
-
-  std::set<Chain> set2 = {ch1, ch2, ch3, ch4};
-  std::set<Chain> set3 = {ch4, ch5, ch6, ch3};
-
-  Language l1(new Alphabet(set1), set2);
-
-  std::cout << "l1 = ";
-  l1.print();
-  std::cout << "\n\n";
-  
-  Language l2(new Alphabet(set1), set3);
-
-  std::cout << "l2 = ";
-  l2.print();
-  std::cout << "\n\n";
-
-  std::cout << "Operacion = ";
-  l2.lInverse().print();
-  std::cout << "\n";
-  */
   input.close();
+  input2.close();
+  output.close();
   return 0;
 }

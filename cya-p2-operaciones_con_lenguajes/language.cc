@@ -175,6 +175,7 @@ Language::read(std::istream& is) {
       alphabetSymbols.insert(Symbol(my_read));
     }
   }
+  alphabet_ = new Alphabet(alphabetSymbols);
 
   // Lectura de las cadenas
   is >> my_read;
@@ -211,3 +212,16 @@ Language::write(std::ostream& os) {
   os << "}";
 }
 
+// Sobrecarga del operador <<
+std::ostream&
+operator<<(std::ostream& os, Language& language) {
+  language.write(os);
+  return os;
+}
+
+// Sobrecarga del operador >>
+std::istream&
+operator >>(std::istream& is, Language& language) {
+  language.read(is);
+  return is;
+}
