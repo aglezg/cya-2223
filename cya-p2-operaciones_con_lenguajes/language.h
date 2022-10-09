@@ -50,8 +50,6 @@ class Language {
     Language lDifference(Language);
     Language lInverse();
 
-    // Sobrecarga de operadores
-
     // E/S
     void write(std::ostream& = std::cout);
     void read(std::istream& = std::cin);

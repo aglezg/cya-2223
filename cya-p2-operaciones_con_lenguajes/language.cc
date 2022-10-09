@@ -163,9 +163,43 @@ Language::lInverse() {
 // Lectura
 void
 Language::read(std::istream& is) {
-  std::string my_line = "";
-  std::getline (is, my_line);
-  std::cout << my_line;
+  std::string my_read = "";
+  is >> my_read;
+  assert(my_read == "{");
+
+  // Lectura del alfabeto
+  std::set<Symbol> alphabetSymbols = {};
+  while(my_read != "}") {
+    is >> my_read;
+    if (my_read != "}") {
+      alphabetSymbols.insert(Symbol(my_read));
+    }
+  }
+
+  // Lectura de las cadenas
+  is >> my_read;
+  assert(my_read == "{");
+  std::set<Chain> languageChains = {};
+  while(my_read != "}") {
+    is >> my_read;
+    if (my_read != "}") {
+      std::string symbolString = "";
+      std::vector<Symbol> symbolVector= {};
+      for (unsigned i = 0; i < my_read.size(); i++) {
+        symbolString += my_read[i];
+        if (alphabet_->checkSymbol(Symbol(symbolString))) {
+          symbolVector.push_back(Symbol(symbolString));
+          symbolString = "";
+        }
+      }
+      if (symbolString != "" && symbolString != kEmptyChainPrint) {
+        symbolVector.push_back(Symbol(symbolString));
+      }
+      languageChains.insert(Chain(symbolVector));
+    }
+  }
+
+  *this = Language(alphabet_, languageChains);
 }
 
 // Escritura

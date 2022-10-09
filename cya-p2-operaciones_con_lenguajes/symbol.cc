@@ -42,7 +42,7 @@ Symbol::operator=(Symbol symbol) {
 
 // Sobrecarga del operador "=="
 bool
-Symbol::operator==(const Symbol& symbol) {
+Symbol::operator==(const  Symbol& symbol) {
   return symbol_ == symbol.symbol_;
 }
 
