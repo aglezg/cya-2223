@@ -210,3 +210,4 @@ Language::write(std::ostream& os) {
     os << chain << " ";
   os << "}";
 }
+
