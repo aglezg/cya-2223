@@ -102,12 +102,14 @@ Language::remove(Chain chain) {
 // Concatena 2 lenguajes de un mismo alfabeto
 Language
 Language::lConcat(Language language) {
-  assert(*alphabet_ == *language.getAlphabet());
+  std::set<Symbol> newAlphabet = alphabet_->getSymbols();
+  for (Symbol sym: language.getAlphabet()->getSymbols())
+    newAlphabet.insert(sym);
   std::set<Chain> concatChains = {};
   for (Chain chain: chains_)
     for (Chain chain2: language.getChains())
       concatChains.insert(chain.concat(chain2));
-  return Language(alphabet_, concatChains);
+  return Language(new Alphabet(newAlphabet), concatChains);
 }
 
 // Realiza la potencia de un lenguaje
@@ -123,32 +125,37 @@ Language::lPow(unsigned pow) {
 // Unión de 2 lenguajes
 Language
 Language::lUnion(Language language) {
-  assert(*alphabet_ == *language.getAlphabet());
-  std::set<Chain> unionChains = getChains();
+  std::set<Symbol> newAlphabet = alphabet_->getSymbols();
+  for (Symbol sym: language.getAlphabet()->getSymbols())
+    newAlphabet.insert(sym);  std::set<Chain> unionChains = getChains();
   for (Chain i: language.getChains())
     unionChains.insert(i);
-  return Language(alphabet_, unionChains);
+  return Language(new Alphabet(newAlphabet), unionChains);
 }
 
 // Intersección de 2 lenguajes
 Language
 Language::lIntersection(Language language) {
-  assert(*alphabet_ == *language.getAlphabet());
+  std::set<Symbol> newAlphabet = alphabet_->getSymbols();
+  for (Symbol sym: language.getAlphabet()->getSymbols())
+    newAlphabet.insert(sym);
   std::set<Chain> intersectionChains = {};
   for (Chain i: chains_)
     if (language.check(i))
       intersectionChains.insert(i);
-  return Language(alphabet_, intersectionChains);
+  return Language(new Alphabet(newAlphabet), intersectionChains);
 }
 
 // Diferencia de 2 lenguajes
 Language
 Language::lDifference(Language language) {
-  assert(*alphabet_ == *language.getAlphabet());
+  std::set<Symbol> newAlphabet = alphabet_->getSymbols();
+  for (Symbol sym: language.getAlphabet()->getSymbols())
+    newAlphabet.insert(sym);
   std::set<Chain> differenceChains = getChains();
   for (Chain i: language.getChains())
     differenceChains.erase(i);
-  return Language(alphabet_, differenceChains);
+  return Language(new Alphabet(newAlphabet), differenceChains);
 }
 
 // Inversa de un lenguaje
@@ -158,6 +165,18 @@ Language::lInverse() {
   for (Chain i: chains_)
     inverseChains.insert(i.inverse());
   return Language(alphabet_, inverseChains);
+}
+
+// Todas las subcadenas de un lenguaje
+Language
+Language::subStrings() {
+  std::set<Chain> subStringsChains = chains_;
+  for (Chain i: chains_) {
+    std::vector<Chain> substringsChaini = i.substrings();
+    for (unsigned i = 0; i < substringsChaini.size(); i++)
+      subStringsChains.insert(substringsChaini[i]);
+  }
+  return Language(alphabet_, subStringsChains);
 }
 
 // Lectura

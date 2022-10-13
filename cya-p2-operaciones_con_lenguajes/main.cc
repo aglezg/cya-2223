@@ -136,6 +136,11 @@ int main(int argc, char* argv[]) {
       Language inverseLanguage = vLanguage[i].lInverse();
       output << inverseLanguage << "\n";
     }
+  } else if (opcode == "--substrings") { // SUBCADENAS
+    for (unsigned i = 0; i < vLanguage.size(); i++) {
+      Language substringLanguage = vLanguage[i].subStrings();
+      output << substringLanguage << "\n";
+    }
   } else {
     std::cout << "Opción inválida: Introduzca una opción válida o revise los ficheros.\n";
     input.close();

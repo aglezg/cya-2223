@@ -44,6 +44,7 @@ class Alphabet {
 
     // Operadores sobrecargados
     bool operator==(Alphabet&);
+    Alphabet operator+(Alphabet&);
   
   private:
     std::set<Symbol> symbols_;

@@ -49,6 +49,7 @@ class Language {
     Language lIntersection(Language);
     Language lDifference(Language);
     Language lInverse();
+    Language subStrings();
 
     // E/S
     void write(std::ostream& = std::cout);

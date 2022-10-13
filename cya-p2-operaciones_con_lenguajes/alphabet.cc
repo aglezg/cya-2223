@@ -97,6 +97,15 @@ Alphabet::operator==(Alphabet& alphabet) {
   return true;
 }
 
+// Sobrecarga del operador "+"
+Alphabet
+Alphabet::operator+(Alphabet& alphabet) {
+  Alphabet newAlphabet(getSymbols());
+  for (Symbol sym: alphabet.getSymbols())
+    newAlphabet.addSymbol(sym);
+  return newAlphabet;
+}
+
 // Operadores sobrecargados de E/S
 std::ostream& operator<<(std::ostream& os, Alphabet& alphabet) {
   alphabet.write(os);
