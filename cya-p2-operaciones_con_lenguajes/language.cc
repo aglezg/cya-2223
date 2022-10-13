@@ -4,7 +4,7 @@
 * 
 * Asignatura: Computabilidad y Algoritmia
 *
-* @brief Práctica #01: Símbolos, alfabetos y cadenas
+* @brief Práctica #02: Operaciones con lenguajes
 * @author Adrián González Galván
 * @date 13/10/2022
 *
