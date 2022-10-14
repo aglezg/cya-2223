@@ -20,6 +20,20 @@ Language::Language(Alphabet* alphabet, std::set<Chain> chains) {
   assert(checkChains());
 }
 
+// Constructor sin alfabeto
+Language::Language(std::set<Chain> chains) {
+  chains_ = chains;
+  if (chains.empty()) {
+    alphabet_ = new Alphabet(std::set<Symbol>({Symbol(".")}));
+  } else {
+    std::set<Symbol> alphabetSymbols = {};
+    for (Chain chain: chains)
+      for (unsigned i = 0; i < chain.length(); i++)
+        alphabetSymbols.insert(chain.getSymbols()[i]);
+    alphabet_ = new Alphabet(alphabetSymbols);
+  }
+}
+
 // Destructor
 Language::~Language() {
   chains_.clear();

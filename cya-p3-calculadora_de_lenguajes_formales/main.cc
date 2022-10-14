@@ -18,7 +18,20 @@
 
 int main(int argc, char* argv[]) {
 
+  Symbol s1("1");
+  Symbol s2("2");
+  Symbol s3("3");
+  Symbol s4("4");
 
+  Symbol a("a");
+  Symbol b("b");
+
+  Chain ch1({s1, s2, s3, s4});
+  Chain ch2({a, a, a, b});
+
+  Language l1(std::set<Chain>({ch1, ch2}));
+
+  l1.print();
 
   /*
   // Comprobamos que se haya ejecutado de la forma correcta

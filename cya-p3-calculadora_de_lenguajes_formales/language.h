@@ -26,6 +26,7 @@ class Language {
   public:
     // Constructor & Destructor
     Language(Alphabet*, std::set<Chain> = {});
+    Language(std::set<Chain> = {});
     ~Language();
   
     // Getters & Setters
@@ -63,3 +64,6 @@ class Language {
 // Operadores sobrecargados de E/S
 std::ostream& operator<<(std::ostream&, Language&);
 std::istream& operator>>(std::istream&, Language&);
+
+// Calculadora de operaciones de lenguajes
+Language languageCalculator(Language, Language, std::string);
