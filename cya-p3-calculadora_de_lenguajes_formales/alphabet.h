@@ -4,9 +4,9 @@
 * 
 * Asignatura: Computabilidad y Algoritmia
 *
-* @brief Práctica #01: Símbolos, alfabetos y cadenas
+* @brief Práctica #03: Calculadora de lenguajes formales
 * @author Adrián González Galván
-* @date 13/10/2022
+* @date 20/10/2022
 *
 * Este archivo contiene la implementación de una clase correspondiente
 * a la representación de un alfabeto.
