@@ -1,0 +1,22 @@
+Modo de empleo: ./main [input.txt]
+
+El fichero de entrada o los ficheros de entrada (en el caso de que se realize
+una operación en la que intervengan 2 operandos) debe contener por cada línea
+un lenguaje distinto. Para la lectura de este se debe especificar primero el
+alfabeto y posteriomente las cadenas que lo forman, cada uno de ellos entre corchetes.
+
+Ejemplo del fichero:
+L1 = {0, 1, 01, 10}
+L2 = {&, 10, 11}
+L3 = {&}
+L4 = {}
+L1 L2 | L3 +
+L2 L3 ^ L1 L2 ^ +
+
+Las operaciones se pueden especificar con los siguientes carácteres:
+- 
+- --power (Potencia de lenguajes)
+- --union (Unión de lenguajes)
+- --intersection (Intersección de lenguajes)
+- --difference (Diferencia de lenguajes)
+- --inverse (Inversa de lenguajes)
