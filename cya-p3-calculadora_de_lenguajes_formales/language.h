@@ -21,6 +21,10 @@
 #include "chain.h"
 #include "alphabet.h"
 
+const char kChainSeparator = ',';
+const char kOpenningLanguage = '{';
+const char kClosingLanguage = '}';
+
 class Language {
 
   public:
@@ -50,6 +54,10 @@ class Language {
     Language lIntersection(Language);
     Language lDifference(Language);
     Language lInverse();
+    Language subStrings();
+
+    // Sobrecarga de operadores
+    bool operator<(const Language&) const;
 
     // E/S
     void write(std::ostream& = std::cout);

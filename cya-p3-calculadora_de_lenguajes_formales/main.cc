@@ -13,100 +13,72 @@
 
 #include <iostream>
 #include <fstream>
-#include <utility>
+#include <stack>
 
-#include "languageCalculator.h"
+#include "language.h"
+
+const std::string kConcatOp = "+";
+const std::string kUnionOp = "|";
+const std::string kIntersectionOp = "^";
+const std::string kDifferenceOp = "-";
+const std::string kInverseOP = "!";
+
+bool
+isLanguageOperation(std::string op) {
+  return op == kConcatOp || op == kUnionOp || op == kIntersectionOp ||
+    op == kDifferenceOp || op == kInverseOP;
+}
+
+bool
+operateLanguageStack(std::stack<Language>& languageStack, std::string op) {
+  if (isLanguageOperation(op) && !languageStack.empty()) {
+    Language l1 = languageStack.top();
+    languageStack.pop();
+    if (op == kConcatOp) {
+      if (languageStack.empty())
+        return false;
+      Language l2 = languageStack.top();
+      languageStack.pop();
+      languageStack.push(l1.lConcat(l2));
+    } else if (op == kUnionOp) {
+      if (languageStack.empty())
+        return false;
+      Language l2 = languageStack.top();
+      languageStack.pop();
+      languageStack.push(l1.lUnion(l2));
+    } else if (op == kIntersectionOp) {
+      if (languageStack.empty())
+        return false;
+      Language l2 = languageStack.top();
+      languageStack.pop();
+      languageStack.push(l1.lIntersection(l2));
+    } else if (op == kDifferenceOp) {
+      if (languageStack.empty())
+        return false;
+      Language l2 = languageStack.top();
+      languageStack.pop();
+      languageStack.push(l1.lDifference(l2));
+    } else if (op == kInverseOP) {
+      languageStack.push(l1.lInverse());
+    }
+  }
+  return isLanguageOperation(op);
+}
+
+template <class T>
+int
+getIndexOfElement(std::vector<T> v, T element) {
+  int index = -1;
+  for (unsigned i = 0; i < v.size(); i++)
+    if (element == v[i]) {
+      index = i;
+      break;
+    }
+  return index;
+}
 
 int main(int argc, char* argv[]) {
 
-/*
-  Symbol s1("1");
-  Symbol s2("2");
-  Symbol s3("3");
-  Symbol s4("4");
-
-  Symbol a("a");
-  Symbol b("b");
-
-  Chain ch1({s1, s2, s3, s4});
-  Chain ch2({a, a, a, b});
-
-  Language l1(std::set<Chain>({ch1, ch2}));
-
-  //l1.print();
-
-  std::pair<std::string, Language> pair1 = {"L1", l1};
-*/
-  //std::set<std::pair<std::string, Language>> set1 = {pair1};
-
-  //for (auto i: set1) {
-  //  std::cout << i.first << std::endl;
- // }
-
-  std::ifstream input;
-  input.open("infile.txt");
-
-  if (input.fail()) {
-    std::cout << "No se pudo abrir archivo de lectura, ";
-    std::cout << "comprueba si se ingresó un nombre correcto\n";
-    return 1;
-  }
-
-  LanguageCalculator languageCalculator;
-
-  languageCalculator.read(input);
-
-
-/*
-  bool isLanguageDefinition = true;
-
-  while (isLanguageDefinition) { // Lectura de lenguajes
-    
-    std::getline(input, line);
-    std::cout << line << std::endl;
-    lineVector = stringToVector(line);
-
-    for (unsigned i = 0; i < lineVector.size(); i++)
-      if (lineVector[i] == "=") {
-        
-        isLanguageDefinition = true;
-        break;
-      }
-      else {
-        isLanguageDefinition = false;
-      }
-  }
-*/
-/*
-  for (unsigned i = 0; i < lineVector.size(); i++)
-    std::cout << lineVector[i];
-*/
-/*
-  while (include(lineVector, equal)) {
-    std::getline(input, line);
-    lineVector = stringToVector(line);
-    std::cout << line << std::endl;
-  }
-*/
-/*
-  std::string line = "";
-  std::cout << input.tellg() << std::endl;
-  std::getline(input, line);
-  std::cout << line << std::endl;
-  input.seekg(0);
-
-  input >> line;
-
-  std::cout << line << std::endl;
-*/
-
-
-
-
-  input.close();
-
-
-  /*
   // Comprobamos que se haya ejecutado de la forma correcta
   if (!argv[1]) {
     std::cout << "Modo de empleo: ";
@@ -129,7 +101,7 @@ int main(int argc, char* argv[]) {
     help_txt.close();
     return 1;
   }
-  
+
   // Archivo de lectura
   std::ifstream input;
   input.open(argv[1]);
@@ -140,102 +112,71 @@ int main(int argc, char* argv[]) {
     return 1;
   }
 
-  // Leemos los lenguajes del primer archivo
-  std::vector<Language> vLanguage = {};
-  Language languageAux(new Alphabet(std::set<Symbol>({Symbol("aux")})));
+  // Vector de nombres de los lenguajes
+  std::vector<std::string> languageNamesVector = {};
+
+  // Vector de lenguajes
+  std::vector<Language> languageVector = {};
+
+  // Vector de cadenas de operaciones
+  std::vector<std::string> operationsVector = {};
+
+  // Lectura
+  std::string read = "";
   while (!input.eof()) {
-    input >> languageAux;
-    vLanguage.push_back(languageAux);
+    std::streampos inputStart = input.tellg();
+    getline(input, read);
+    if (read.find('=') != std::string::npos) { // Es un lenguaje
+      input.seekg(inputStart);
+      input >> read; // Nombre del lenguaje
+      languageNamesVector.push_back(read);
+      input >> read; // =
+      Language languageAux;
+      input >> languageAux; // Lectura del lenguaje
+      languageVector.push_back(languageAux);
+    } else {                                  // Es una operación
+      if (read != "")
+        operationsVector.push_back(read);      
+    }
   }
 
-  // Archivos && código de operación
-  std::ifstream input2;
-  std::ofstream output;
-  std::string opcode = "";
+  // Vector de resultados
+  std::vector<Language> resultVector = {};
 
-  // Segundo vector de lenguajes
-  std::vector<Language> vLanguage2 = {};
-
-  // Leemos el número de parámetros introducidos
-  if (argc == 4) { // 3 Argumentos
-    output.open(argv[2]);
-    opcode = argv[3];
-  } else { // Más de 3 argumentos
-    input2.open(argv[2]);
-
-    if (input2.fail()) {
-      std::cout << "No se pudo abrir archivo de escritura, ";
-      std::cout << "comprueba si se ingresó un nombre correcto\n";
+  // Cálculo
+  for (std::string operation: operationsVector) {
+    // Pila de lenguajes
+    std::stack<Language> languageStack = {};
+    // Calculo de la operacion "i"
+    std::vector<std::string> opV = stringToVector(operation);
+    for (std::string element: opV) {
+      if (isLanguageOperation(element)) {
+        if (!operateLanguageStack(languageStack, element)) {
+          std::cout << "Error en el cálculo de la operación: compruebe la notación escrita.\n";
+          return 1;
+        }
+      } else {
+        int index = getIndexOfElement(languageNamesVector, element);
+        if (index != -1)
+          languageStack.push(languageVector[index]);
+        else {
+          std::cout << "Error: Operando inexistente en las operaciones.\n";
+          return 1;
+        }
+      }
+    }
+    if (languageStack.size() == 1)
+      resultVector.push_back(languageStack.top());
+    else {
+      std::cout << "ERROR: La pila no se vació, cantidad de lenguajes excesiva." << std::endl;
       return 1;
     }
-
-    // Lectura de los lenguajes del segundo archivo
-    while (!input2.eof()) {
-      input2 >> languageAux;
-      vLanguage2.push_back(languageAux);
-    }
-
-    output.open(argv[3]);
-    opcode = argv[4];
   }
 
-  if (output.fail()) {
-    std::cout << "No se pudo abrir archivo de escritura, ";
-    std::cout << "comprueba si se ingresó un nombre correcto\n";
-    return 1;
-  }
-
-  // Operaciones a realizar
-  if (opcode == "--concatenation" && argc > 4) { // CONCATENACIÓN
-    assert(vLanguage.size() == vLanguage2.size());
-    for (unsigned i = 0; i < vLanguage.size(); i++) {
-      Language concatLanguage = vLanguage[i].lConcat(vLanguage2[i]);
-      output << concatLanguage << "\n";
-    }
-  } else if (opcode == "--power") { // POTENCIA
-    int pow = -1;
-    while (pow < 0) {
-      std::cout << "Introduzca un número positivo para la potencia >> ";
-      std::cin >> pow;
-    }
-    for (unsigned i = 0; i < vLanguage.size(); i++) {
-      Language powLanguage = vLanguage[i].lPow(pow);
-      output << powLanguage << "\n";
-    }
-  } else if (opcode == "--union" && argc > 4) { // UNIÓN
-    assert(vLanguage.size() == vLanguage2.size());
-    for (unsigned i = 0; i < vLanguage.size(); i++) {
-      Language unionLanguage = vLanguage[i].lUnion(vLanguage2[i]);
-      output << unionLanguage << "\n";
-    }
-  } else if (opcode == "--intersection" && argc > 4) { // INTERSECCIÓN
-    assert(vLanguage.size() == vLanguage2.size());
-    for (unsigned i = 0; i < vLanguage.size(); i++) {
-      Language intersectionLanguage = vLanguage[i].lIntersection(vLanguage2[i]);
-      output << intersectionLanguage << "\n";
-    }
-  } else if (opcode == "--difference" && argc > 4) { // DIFERENCIA
-    assert(vLanguage.size() == vLanguage2.size());
-    for (unsigned i = 0; i < vLanguage.size(); i++) {
-      Language differenceLanguage = vLanguage[i].lDifference(vLanguage2[i]);
-      output << differenceLanguage << "\n";
-    }
-  } else if (opcode == "--inverse") { // INVERSA
-    for (unsigned i = 0; i < vLanguage.size(); i++) {
-      Language inverseLanguage = vLanguage[i].lInverse();
-      output << inverseLanguage << "\n";
-    }
-  } else {
-    std::cout << "Opción inválida: Introduzca una opción válida o revise los ficheros.\n";
-    input.close();
-    input2.close();
-    output.close();
-    return 1;
+  for (Language element: resultVector) {
+    std::cout << ">> " << element << std::endl;
   }
 
   input.close();
-  input2.close();
-  output.close();
-  */
   return 0;
 }

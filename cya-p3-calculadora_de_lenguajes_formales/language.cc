@@ -119,12 +119,14 @@ Language::remove(Chain chain) {
 // Concatena 2 lenguajes de un mismo alfabeto
 Language
 Language::lConcat(Language language) {
-  assert(*alphabet_ == *language.getAlphabet());
+  std::set<Symbol> newAlphabet = alphabet_->getSymbols();
+  for (Symbol sym: language.getAlphabet()->getSymbols())
+    newAlphabet.insert(sym);
   std::set<Chain> concatChains = {};
   for (Chain chain: chains_)
     for (Chain chain2: language.getChains())
       concatChains.insert(chain.concat(chain2));
-  return Language(alphabet_, concatChains);
+  return Language(new Alphabet(newAlphabet), concatChains);
 }
 
 // Realiza la potencia de un lenguaje
@@ -140,32 +142,37 @@ Language::lPow(unsigned pow) {
 // Unión de 2 lenguajes
 Language
 Language::lUnion(Language language) {
-  assert(*alphabet_ == *language.getAlphabet());
-  std::set<Chain> unionChains = getChains();
+  std::set<Symbol> newAlphabet = alphabet_->getSymbols();
+  for (Symbol sym: language.getAlphabet()->getSymbols())
+    newAlphabet.insert(sym);  std::set<Chain> unionChains = getChains();
   for (Chain i: language.getChains())
     unionChains.insert(i);
-  return Language(alphabet_, unionChains);
+  return Language(new Alphabet(newAlphabet), unionChains);
 }
 
 // Intersección de 2 lenguajes
 Language
 Language::lIntersection(Language language) {
-  assert(*alphabet_ == *language.getAlphabet());
+  std::set<Symbol> newAlphabet = alphabet_->getSymbols();
+  for (Symbol sym: language.getAlphabet()->getSymbols())
+    newAlphabet.insert(sym);
   std::set<Chain> intersectionChains = {};
   for (Chain i: chains_)
     if (language.check(i))
       intersectionChains.insert(i);
-  return Language(alphabet_, intersectionChains);
+  return Language(new Alphabet(newAlphabet), intersectionChains);
 }
 
 // Diferencia de 2 lenguajes
 Language
 Language::lDifference(Language language) {
-  assert(*alphabet_ == *language.getAlphabet());
+  std::set<Symbol> newAlphabet = alphabet_->getSymbols();
+  for (Symbol sym: language.getAlphabet()->getSymbols())
+    newAlphabet.insert(sym);
   std::set<Chain> differenceChains = getChains();
   for (Chain i: language.getChains())
     differenceChains.erase(i);
-  return Language(alphabet_, differenceChains);
+  return Language(new Alphabet(newAlphabet), differenceChains);
 }
 
 // Inversa de un lenguaje
@@ -177,47 +184,53 @@ Language::lInverse() {
   return Language(alphabet_, inverseChains);
 }
 
+// Todas las subcadenas de un lenguaje
+Language
+Language::subStrings() {
+  std::set<Chain> subStringsChains = chains_;
+  for (Chain i: chains_) {
+    std::vector<Chain> substringsChaini = i.substrings();
+    for (unsigned i = 0; i < substringsChaini.size(); i++)
+      subStringsChains.insert(substringsChaini[i]);
+  }
+  return Language(alphabet_, subStringsChains);
+}
+
+// Sobrecarga del operador '>'
+bool
+Language::operator<(const Language& language) const {
+  return chains_ < language.chains_;
+}
+
 // Lectura
 void
 Language::read(std::istream& is) {
   std::string my_read = "";
-  is >> my_read;
-  assert(my_read == "{");
 
-  // Lectura del alfabeto
-  std::set<Symbol> alphabetSymbols = {};
-  while(my_read != "}") {
-    is >> my_read;
-    if (my_read != "}") {
-      alphabetSymbols.insert(Symbol(my_read));
-    }
-  }
-  alphabet_ = new Alphabet(alphabetSymbols);
+  std::vector<Symbol> symbolVector = {};
+  std::set<Chain> languageChains = {};
+
+  bool isEmptyLanguage = true;
 
   // Lectura de las cadenas
-  is >> my_read;
-  assert(my_read == "{");
-  std::set<Chain> languageChains = {};
-  while(my_read != "}") {
-    is >> my_read;
-    if (my_read != "}") {
-      std::string symbolString = "";
-      std::vector<Symbol> symbolVector= {};
-      for (unsigned i = 0; i < my_read.size(); i++) {
-        symbolString += my_read[i];
-        if (alphabet_->checkSymbol(Symbol(symbolString))) {
-          symbolVector.push_back(Symbol(symbolString));
-          symbolString = "";
-        }
-      }
-      if (symbolString != "" && symbolString != kEmptyChainPrint) {
-        symbolVector.push_back(Symbol(symbolString));
-      }
-      languageChains.insert(Chain(symbolVector));
+  char character = '.';
+  while (character != kClosingLanguage) {
+    is.get(character);
+    if (character != ' ' && character != kOpenningLanguage && 
+      character != kChainSeparator && character != kClosingLanguage
+      && character != kEmptyChain) {
+      std::string symbolString(1, character);
+      symbolVector.push_back(Symbol(symbolString));
+      isEmptyLanguage = false;
+    } else if(character == kEmptyChain) {
+      isEmptyLanguage = false;
+    } else if (character == kChainSeparator || character == kClosingLanguage) {
+      if (!isEmptyLanguage)
+        languageChains.insert(Chain(symbolVector));
+      symbolVector.clear();
     }
   }
-
-  *this = Language(alphabet_, languageChains);
+  *this = Language(languageChains);
 }
 
 // Escritura

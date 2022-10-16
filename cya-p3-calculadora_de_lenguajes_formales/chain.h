@@ -18,6 +18,8 @@
 #include <vector>
 #include "alphabet.h"
 
+const char kEmptyChain = '&';
+
 class Chain {
   public:
     // Constructor & Destructor
