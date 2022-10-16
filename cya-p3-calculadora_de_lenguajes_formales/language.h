@@ -64,6 +64,3 @@ class Language {
 // Operadores sobrecargados de E/S
 std::ostream& operator<<(std::ostream&, Language&);
 std::istream& operator>>(std::istream&, Language&);
-
-// Calculadora de operaciones de lenguajes
-Language languageCalculator(Language, Language, std::string);

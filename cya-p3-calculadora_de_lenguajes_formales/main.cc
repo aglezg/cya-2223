@@ -13,6 +13,7 @@
 
 #include <iostream>
 #include <fstream>
+#include <utility>
 
 #include "language.h"
 
@@ -31,7 +32,69 @@ int main(int argc, char* argv[]) {
 
   Language l1(std::set<Chain>({ch1, ch2}));
 
-  l1.print();
+  //l1.print();
+
+  std::ifstream input;
+  input.open("infile.txt");
+
+  if (input.fail()) {
+    std::cout << "No se pudo abrir archivo de lectura, ";
+    std::cout << "comprueba si se ingresó un nombre correcto\n";
+    return 1;
+  }
+
+  std::string line = "=";
+  std::vector<std::string> lineVector = stringToVector(line);
+
+  std::set<std::pair<std::string, Language>> languages; // Pares Nombre-Lenguaje
+
+  bool isLanguageDefinition = true;
+
+  while (isLanguageDefinition) { // Lectura de lenguajes
+    
+    std::getline(input, line);
+    std::cout << line << std::endl;
+    lineVector = stringToVector(line);
+
+    for (unsigned i = 0; i < lineVector.size(); i++)
+      if (lineVector[i] == "=") {
+        
+        isLanguageDefinition = true;
+        break;
+      }
+      else {
+        isLanguageDefinition = false;
+      }
+  }
+
+/*
+  for (unsigned i = 0; i < lineVector.size(); i++)
+    std::cout << lineVector[i];
+*/
+/*
+  while (include(lineVector, equal)) {
+    std::getline(input, line);
+    lineVector = stringToVector(line);
+    std::cout << line << std::endl;
+  }
+*/
+/*
+  std::string line = "";
+  std::cout << input.tellg() << std::endl;
+  std::getline(input, line);
+  std::cout << line << std::endl;
+  input.seekg(0);
+
+  input >> line;
+
+  std::cout << line << std::endl;
+*/
+
+
+
+
+  input.close();
+
 
   /*
   // Comprobamos que se haya ejecutado de la forma correcta
