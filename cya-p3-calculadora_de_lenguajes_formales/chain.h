@@ -12,6 +12,8 @@
 * a la representación de una cadena.
 */
 
+#pragma once
+
 #include <iostream>
 
 #include <iostream>
@@ -64,9 +66,9 @@ bool checkChain(Alphabet*, Chain);
 std::istream& operator>>(std::istream&, Chain&);
 std::ostream& operator<<(std::ostream&, Chain&);
 
-// Conversión de string a vector
-std::vector<std::string> stringToVector(std::string);
-
 // Comprueba si un determinado elemento pertenece a un vector
 template <class T>
 bool include(std::vector<T>, T);
+
+// Conversión de string a vector
+std::vector<std::string> stringToVector(std::string);

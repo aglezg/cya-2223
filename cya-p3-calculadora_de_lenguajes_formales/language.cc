@@ -255,3 +255,48 @@ operator >>(std::istream& is, Language& language) {
   language.read(is);
   return is;
 }
+
+// Comprueba si una string es un operador de lenguaje
+bool
+isLanguageOperation(std::string op) {
+  return op == kConcatOp || op == kUnionOp || op == kIntersectionOp ||
+    op == kDifferenceOp || op == kInverseOP;
+}
+
+// Realiza una operación polaca de lenguajes empleando para ello una pila.
+// Devuelve 'true' si la operación se ejecutó correctamente.
+bool
+operateLanguageStack(std::stack<Language>& languageStack, std::string op) {
+  if (isLanguageOperation(op) && !languageStack.empty()) {
+    Language l1 = languageStack.top();
+    languageStack.pop();
+    if (op == kConcatOp) {
+      if (languageStack.empty())
+        return false;
+      Language l2 = languageStack.top();
+      languageStack.pop();
+      languageStack.push(l1.lConcat(l2));
+    } else if (op == kUnionOp) {
+      if (languageStack.empty())
+        return false;
+      Language l2 = languageStack.top();
+      languageStack.pop();
+      languageStack.push(l1.lUnion(l2));
+    } else if (op == kIntersectionOp) {
+      if (languageStack.empty())
+        return false;
+      Language l2 = languageStack.top();
+      languageStack.pop();
+      languageStack.push(l1.lIntersection(l2));
+    } else if (op == kDifferenceOp) {
+      if (languageStack.empty())
+        return false;
+      Language l2 = languageStack.top();
+      languageStack.pop();
+      languageStack.push(l1.lDifference(l2));
+    } else if (op == kInverseOP) {
+      languageStack.push(l1.lInverse());
+    }
+  }
+  return isLanguageOperation(op);
+}

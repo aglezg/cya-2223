@@ -227,6 +227,16 @@ operator<<(std::ostream& os, Chain& chain) {
   return os;
 }
 
+// Comprueba si un elemento pertenece a un determinado vector
+template <class T>
+bool
+include(std::vector<T> v, T element) {
+  for(unsigned i = 0; i < v.size(); i++)
+    if (v[i] == element)
+      return true;
+  return false;
+}
+
 // Convierte una string separada por espacios en un vector
 std::vector<std::string>
 stringToVector(std::string my_string) {
@@ -241,14 +251,4 @@ stringToVector(std::string my_string) {
     }
   }
   return my_vector;
-}
-
-// Comprueba si un elemento pertenece a un determinado vector
-template <class T>
-bool
-include(std::vector<T> v, T element) {
-  for(unsigned i = 0; i < v.size(); i++)
-    if (v[i] == element)
-      return true;
-  return false;
 }

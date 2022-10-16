@@ -7,7 +7,7 @@ LDIR = ../lib
 
 LIBS = -lm
 
-_DEPS =  functions.h language.h chain.h alphabet.h symbol.h
+_DEPS =  language.h chain.h alphabet.h symbol.h
 DEPS = $(patsubst %,$(IDIR)/%,$(_DEPS))
 
 _OBJ = main.o language.o chain.o alphabet.o symbol.o

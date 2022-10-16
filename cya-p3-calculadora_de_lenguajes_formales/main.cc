@@ -17,54 +17,8 @@
 
 #include "language.h"
 
-const std::string kConcatOp = "+";
-const std::string kUnionOp = "|";
-const std::string kIntersectionOp = "^";
-const std::string kDifferenceOp = "-";
-const std::string kInverseOP = "!";
-
-bool
-isLanguageOperation(std::string op) {
-  return op == kConcatOp || op == kUnionOp || op == kIntersectionOp ||
-    op == kDifferenceOp || op == kInverseOP;
-}
-
-bool
-operateLanguageStack(std::stack<Language>& languageStack, std::string op) {
-  if (isLanguageOperation(op) && !languageStack.empty()) {
-    Language l1 = languageStack.top();
-    languageStack.pop();
-    if (op == kConcatOp) {
-      if (languageStack.empty())
-        return false;
-      Language l2 = languageStack.top();
-      languageStack.pop();
-      languageStack.push(l1.lConcat(l2));
-    } else if (op == kUnionOp) {
-      if (languageStack.empty())
-        return false;
-      Language l2 = languageStack.top();
-      languageStack.pop();
-      languageStack.push(l1.lUnion(l2));
-    } else if (op == kIntersectionOp) {
-      if (languageStack.empty())
-        return false;
-      Language l2 = languageStack.top();
-      languageStack.pop();
-      languageStack.push(l1.lIntersection(l2));
-    } else if (op == kDifferenceOp) {
-      if (languageStack.empty())
-        return false;
-      Language l2 = languageStack.top();
-      languageStack.pop();
-      languageStack.push(l1.lDifference(l2));
-    } else if (op == kInverseOP) {
-      languageStack.push(l1.lInverse());
-    }
-  }
-  return isLanguageOperation(op);
-}
-
+// Dados un vector y un elemento, devuelve la posición en la que se
+// encuentra el mismo (si no se encuentra retorna -1)
 template <class T>
 int
 getIndexOfElement(std::vector<T> v, T element) {

@@ -17,6 +17,7 @@
 #include <iostream>
 #include <set>
 #include <cassert>
+#include <stack>
 
 #include "chain.h"
 #include "alphabet.h"
@@ -24,6 +25,12 @@
 const char kChainSeparator = ',';
 const char kOpenningLanguage = '{';
 const char kClosingLanguage = '}';
+
+const std::string kConcatOp = "+";
+const std::string kUnionOp = "|";
+const std::string kIntersectionOp = "^";
+const std::string kDifferenceOp = "-";
+const std::string kInverseOP = "!";
 
 class Language {
 
@@ -72,3 +79,9 @@ class Language {
 // Operadores sobrecargados de E/S
 std::ostream& operator<<(std::ostream&, Language&);
 std::istream& operator>>(std::istream&, Language&);
+
+// Comprueba si una string es un operador de lenguaje
+bool isLanguageOperation(std::string);
+
+// Realiza una operación polaca de lenguajes
+bool operateLanguageStack(std::stack<Language>&, std::string);
