@@ -30,7 +30,10 @@ Language::Language(std::set<Chain> chains) {
     for (Chain chain: chains)
       for (unsigned i = 0; i < chain.length(); i++)
         alphabetSymbols.insert(chain.getSymbols()[i]);
-    alphabet_ = new Alphabet(alphabetSymbols);
+    if (!alphabetSymbols.empty())
+      alphabet_ = new Alphabet(alphabetSymbols);
+    else
+      alphabet_ = new Alphabet(std::set<Symbol>({Symbol(".")}));
   }
 }
 

@@ -15,10 +15,11 @@
 #include <fstream>
 #include <utility>
 
-#include "language.h"
+#include "languageCalculator.h"
 
 int main(int argc, char* argv[]) {
 
+/*
   Symbol s1("1");
   Symbol s2("2");
   Symbol s3("3");
@@ -34,6 +35,14 @@ int main(int argc, char* argv[]) {
 
   //l1.print();
 
+  std::pair<std::string, Language> pair1 = {"L1", l1};
+*/
+  //std::set<std::pair<std::string, Language>> set1 = {pair1};
+
+  //for (auto i: set1) {
+  //  std::cout << i.first << std::endl;
+ // }
+
   std::ifstream input;
   input.open("infile.txt");
 
@@ -43,11 +52,12 @@ int main(int argc, char* argv[]) {
     return 1;
   }
 
-  std::string line = "=";
-  std::vector<std::string> lineVector = stringToVector(line);
+  LanguageCalculator languageCalculator;
 
-  std::set<std::pair<std::string, Language>> languages; // Pares Nombre-Lenguaje
+  languageCalculator.read(input);
 
+
+/*
   bool isLanguageDefinition = true;
 
   while (isLanguageDefinition) { // Lectura de lenguajes
@@ -66,7 +76,7 @@ int main(int argc, char* argv[]) {
         isLanguageDefinition = false;
       }
   }
-
+*/
 /*
   for (unsigned i = 0; i < lineVector.size(); i++)
     std::cout << lineVector[i];

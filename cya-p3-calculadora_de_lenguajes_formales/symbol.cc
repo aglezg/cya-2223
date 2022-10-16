@@ -15,6 +15,7 @@
 
 // Constructor
 Symbol::Symbol(std::string symbol) {
+  assert(symbol != kEmptyChainPrint);
   symbol_ = symbol;
 }
 

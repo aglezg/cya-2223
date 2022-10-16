@@ -7,10 +7,10 @@ LDIR = ../lib
 
 LIBS = -lm
 
-_DEPS =  language.h chain.h alphabet.h symbol.h
+_DEPS =  languageCalculator.h language.h chain.h alphabet.h symbol.h
 DEPS = $(patsubst %,$(IDIR)/%,$(_DEPS))
 
-_OBJ = main.o language.o chain.o alphabet.o symbol.o
+_OBJ = main.o languageCalculator.o language.o chain.o alphabet.o symbol.o
 OBJ = $(patsubst %,$(ODIR)/%,$(_OBJ))
 
 

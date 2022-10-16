@@ -15,6 +15,9 @@
 #pragma once
 
 #include <iostream>
+#include <cassert>
+
+const std::string kEmptyChainPrint = "&";
 
 class Symbol {
 

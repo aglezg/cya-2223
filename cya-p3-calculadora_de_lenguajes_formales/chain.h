@@ -18,8 +18,6 @@
 #include <vector>
 #include "alphabet.h"
 
-const std::string kEmptyChainPrint = "&";
-
 class Chain {
   public:
     // Constructor & Destructor
