@@ -268,34 +268,34 @@ isLanguageOperation(std::string op) {
 bool
 operateLanguageStack(std::stack<Language>& languageStack, std::string op) {
   if (isLanguageOperation(op) && !languageStack.empty()) {
-    Language l1 = languageStack.top();
+    Language l2 = languageStack.top();
     languageStack.pop();
     if (op == kConcatOp) {
       if (languageStack.empty())
         return false;
-      Language l2 = languageStack.top();
+      Language l1 = languageStack.top();
       languageStack.pop();
       languageStack.push(l1.lConcat(l2));
     } else if (op == kUnionOp) {
       if (languageStack.empty())
         return false;
-      Language l2 = languageStack.top();
+      Language l1 = languageStack.top();
       languageStack.pop();
       languageStack.push(l1.lUnion(l2));
     } else if (op == kIntersectionOp) {
       if (languageStack.empty())
         return false;
-      Language l2 = languageStack.top();
+      Language l1 = languageStack.top();
       languageStack.pop();
       languageStack.push(l1.lIntersection(l2));
     } else if (op == kDifferenceOp) {
       if (languageStack.empty())
         return false;
-      Language l2 = languageStack.top();
+      Language l1 = languageStack.top();
       languageStack.pop();
       languageStack.push(l1.lDifference(l2));
     } else if (op == kInverseOP) {
-      languageStack.push(l1.lInverse());
+      languageStack.push(l2.lInverse());
     }
   }
   return isLanguageOperation(op);
