@@ -23,4 +23,4 @@ main: $(OBJ)
 .PHONY: clean
 
 clean:
-	rm -f $(ODIR)/*.o *~ core $(INCDIR)/*~ o*.txt
+	rm -f $(ODIR)/*.o *~ core $(INCDIR)/*~ o*.txt main
