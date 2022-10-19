@@ -260,13 +260,14 @@ operator >>(std::istream& is, Language& language) {
 bool
 isLanguageOperation(std::string op) {
   return op == kConcatOp || op == kUnionOp || op == kIntersectionOp ||
-    op == kDifferenceOp || op == kInverseOP;
+    op == kDifferenceOp || op == kInverseOP || op == kPowOP;
 }
 
 // Realiza una operación polaca de lenguajes empleando para ello una pila.
 // Devuelve 'true' si la operación se ejecutó correctamente.
 bool
-operateLanguageStack(std::stack<Language>& languageStack, std::string op) {
+operateLanguageStack(std::stack<Language>& languageStack,
+  std::stack<int>& intStack, std::string op) {
   if (isLanguageOperation(op) && !languageStack.empty()) {
     Language l2 = languageStack.top();
     languageStack.pop();
@@ -296,7 +297,14 @@ operateLanguageStack(std::stack<Language>& languageStack, std::string op) {
       languageStack.push(l1.lDifference(l2));
     } else if (op == kInverseOP) {
       languageStack.push(l2.lInverse());
+    } else if (op == kPowOP) {
+      if (!intStack.empty()) {
+        languageStack.push(l2.lPow(intStack.top()));
+        intStack.pop();
+      } else
+        return false;
     }
+    return true;
   }
-  return isLanguageOperation(op);
+  return false;
 }

@@ -31,6 +31,18 @@ getIndexOfElement(std::vector<T> v, T element) {
   return index;
 }
 
+// Comprueba si un string es un número
+bool isNumber(std::string& str)
+{
+    for (char const &c : str) {
+       
+        // using the std::isdigit() function
+        if (std::isdigit(c) == 0)
+          return false;
+    }
+    return true;
+}
+
 int main(int argc, char* argv[]) {
 
   // Comprobamos que se haya ejecutado de la forma correcta
@@ -101,20 +113,23 @@ int main(int argc, char* argv[]) {
   for (std::string operation: operationsVector) {
     // Pila de lenguajes
     std::stack<Language> languageStack = {};
+    // Pila de números para la potencia
+    std::stack<int> intStack = {};
     // Calculo de la operacion "i"
     std::vector<std::string> opV = stringToVector(operation);
     for (std::string element: opV) {
       if (isLanguageOperation(element)) {
-        if (!operateLanguageStack(languageStack, element)) {
+        if (!operateLanguageStack(languageStack, intStack, element)) {
           std::cout << "Error en el cálculo de la operación: compruebe la notación escrita.\n";
           return 1;
         }
+      } else if (isNumber(element) ) {
+        intStack.push(stoi(element));
       } else {
         int index = getIndexOfElement(languageNamesVector, element);
         if (index != -1)
           languageStack.push(languageVector[index]);
         else {
-          std::cout << "Error: Operando inexistente en las operaciones.\n";
           return 1;
         }
       }
@@ -122,11 +137,14 @@ int main(int argc, char* argv[]) {
     if (languageStack.size() == 1)
       resultVector.push_back(languageStack.top());
     else {
+      std::cout << languageStack.size();
       std::cout << "ERROR: La pila no se vació, cantidad de lenguajes excesiva." << std::endl;
       return 1;
     }
   }
 
+  // Resultados
+  std::cout << ">> Alphabet\tLanguage\n";
   for (Language element: resultVector) {
     std::cout << ">> " << element << std::endl;
   }

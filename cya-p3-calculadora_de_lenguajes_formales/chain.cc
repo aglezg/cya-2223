@@ -246,9 +246,13 @@ stringToVector(std::string my_string) {
     if (my_string[i] != ' ') {
       my_vector[j] += my_string[i];
     } else {
-      j++;
-      my_vector.resize(j + 1);
+      if (my_vector[j] != "") {
+        j++;
+        my_vector.resize(j + 1);
+      }
     }
   }
+  if (my_vector[my_vector.size() - 1] == "")
+    my_vector.pop_back();
   return my_vector;
 }

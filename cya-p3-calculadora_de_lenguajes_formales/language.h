@@ -31,6 +31,7 @@ const std::string kUnionOp = "|";
 const std::string kIntersectionOp = "^";
 const std::string kDifferenceOp = "-";
 const std::string kInverseOP = "!";
+const std::string kPowOP = "*";
 
 class Language {
 
@@ -84,4 +85,4 @@ std::istream& operator>>(std::istream&, Language&);
 bool isLanguageOperation(std::string);
 
 // Realiza una operación polaca de lenguajes
-bool operateLanguageStack(std::stack<Language>&, std::string);
+bool operateLanguageStack(std::stack<Language>&, std::stack<int>&, std::string);
