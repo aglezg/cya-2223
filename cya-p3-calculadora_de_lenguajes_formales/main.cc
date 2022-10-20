@@ -117,16 +117,22 @@ int main(int argc, char* argv[]) {
     std::stack<int> intStack = {};
     // Calculo de la operacion "i"
     std::vector<std::string> opV = stringToVector(operation);
-    for (std::string element: opV) {
-      if (isLanguageOperation(element)) {
-        if (!operateLanguageStack(languageStack, intStack, element)) {
+    for (unsigned i = 0; i < opV.size(); i++) {
+      if (isLanguageOperation(opV[i])) {
+        if (!operateLanguageStack(languageStack, intStack, opV[i])) {
           std::cout << "Error en el cálculo de la operación: compruebe la notación escrita.\n";
           return 1;
         }
-      } else if (isNumber(element) ) {
-        intStack.push(stoi(element));
+      } else if (isNumber(opV[i]) ) {
+        if (opV[i + 1] == "*")
+          intStack.push(stoi(opV[i]));
+        else {
+          std::cout << "ERROR: Se encontró un número seguido de una operación";
+          std::cout << " que no es '*'.\n";
+          return 1;
+        }
       } else {
-        int index = getIndexOfElement(languageNamesVector, element);
+        int index = getIndexOfElement(languageNamesVector, opV[i]);
         if (index != -1)
           languageStack.push(languageVector[index]);
         else {

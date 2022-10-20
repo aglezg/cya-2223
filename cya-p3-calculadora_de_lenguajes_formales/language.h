@@ -32,6 +32,7 @@ const std::string kIntersectionOp = "^";
 const std::string kDifferenceOp = "-";
 const std::string kInverseOP = "!";
 const std::string kPowOP = "*";
+const std::string kSubstringOP = "/";
 
 class Language {
 
