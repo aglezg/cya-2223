@@ -64,6 +64,12 @@ Variable::write(std::ostream& os) {
     os << " = " << value_;
 }
 
+// Sobrecarga del operador '<'
+bool
+Variable::operator<(const Variable& var) const {
+  return type_ < var.type_;
+}
+
 // Sobrecarga del operador de escritura
 std::ostream&
 operator<<(std::ostream& os, Variable& v) {

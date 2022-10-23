@@ -34,6 +34,9 @@ class Variable {
 
     // Escritura
     void write(std::ostream&);
+
+    // Sobrecarga de operadores
+    bool operator<(const Variable&) const;
   
   private:
     std::string type_;

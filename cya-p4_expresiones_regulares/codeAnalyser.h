@@ -29,6 +29,7 @@ class CodeAnalyser {
     void write(std::ostream& = std::cout);
   
   private:
+    std::set<std::pair<int, std::string>> comments_;
     std::set<std::pair<int, Variable>> variables_;
     std::set<std::pair<int, std::string>> loops_;
     bool main_ = false;

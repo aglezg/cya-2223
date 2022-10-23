@@ -16,24 +16,25 @@
 
 // Constructor
 CodeAnalyser::CodeAnalyser(std::istream& is) {
-  std::string my_line = "";
-  unsigned lineNumber = 1;
+  std::string reader = "";
+  unsigned line = 1;
 
   while (!is.eof()) {
-    getline(is, my_line);
-    std::cout << ">> " << my_line << std::endl;
+    getline(is, reader);
+    std::cout << ">> " << reader << std::endl;
 
-//    if (!isVariable(my_line).empty()) { // Es una variable
-
-//    } else if (!isComment(my_line).empty()) { // Es un comentario
-
-    /*} else*/ if (!isLoop(my_line).empty()) {
-      loops_.insert(std::pair<int, std::string>(lineNumber, isLoop(my_line)));
-    } else if(isMain(my_line)) {
+    if (!isVariable(reader).empty()) { // Es una variable
+      std::vector<std::string> result = isVariable(reader);
+      Variable var(result[0], result[1], result[2]);
+      variables_.insert(std::pair<int, Variable>(line, var));
+//    } else if (!isComment(reader).empty()) { // Es un comentario
+    } else if (!isLoop(reader).empty()) {
+      loops_.insert(std::pair<int, std::string>(line, isLoop(reader)));
+    } else if(isMain(reader)) {
       main_ = true;
     }
       
-    lineNumber++;
+    line++;
   }
 
 }
@@ -41,7 +42,24 @@ CodeAnalyser::CodeAnalyser(std::istream& is) {
 // Destructor
 CodeAnalyser::~CodeAnalyser() {}
 
+
 // Comprueba si una línea de código es la declaración de una variable
+std::vector<std::string>
+CodeAnalyser::isVariable(std::string str) {
+  std::vector<std::string> result;
+  std::regex re("\\s*(int|double)\\s([a-zA-Z]+\\d*)+(\\s=\\s(.*))?;$");
+  std::smatch m;
+  if (std::regex_match(str, re)) {
+    std::smatch m;
+    std::regex_search(str, m, re);
+    result.push_back(m[1]); // type
+    result.push_back(m[2]); // name
+    result.push_back(m[4]); // value
+  }
+  return result;
+}
+
+// Comprueba si una línea de código es la declaración de un bucle
 std::string
 CodeAnalyser::isLoop(std::string str) {
   std::string result = "";
@@ -65,7 +83,11 @@ CodeAnalyser::isMain(std::string str) {
 // Escritura
 void
 CodeAnalyser::write(std::ostream& os) {
-  os << "STATEMENTS:\n";
+  os << "VARIABLES:\n";
+  for (auto element: variables_) {
+    os << "[Line " << element.first << "] " << element.second << "\n"; 
+  }
+  os << "\nSTATEMENTS:\n";
   for (auto element: loops_) {
     os << "[Line " << element.first << "] LOOP: " << element.second << "\n";
   }
