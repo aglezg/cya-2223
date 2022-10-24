@@ -14,7 +14,7 @@
 #include <iostream>
 #include <cassert>
 
- // Returns the factorial of the argument
+// Returns the factorial of the argument
 int Factorial (int number) {
   switch (number) {
     case 0:

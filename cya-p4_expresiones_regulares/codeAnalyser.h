@@ -29,13 +29,15 @@ class CodeAnalyser {
     void write(std::ostream& = std::cout);
   
   private:
+    //std::string description_;
     std::set<std::pair<int, std::string>> comments_;
     std::set<std::pair<int, Variable>> variables_;
     std::set<std::pair<int, std::string>> loops_;
     bool main_ = false;
 
+    //bool isDescription(std::string);
     std::vector<std::string> isVariable(std::string);
-    std::vector<std::string> isComment(std::string);
+    std::string isComment(std::string);
     std::string isLoop(std::string);
     bool isMain(std::string);
 };

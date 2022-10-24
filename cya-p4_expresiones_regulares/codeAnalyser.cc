@@ -27,10 +27,11 @@ CodeAnalyser::CodeAnalyser(std::istream& is) {
       std::vector<std::string> result = isVariable(reader);
       Variable var(result[0], result[1], result[2]);
       variables_.insert(std::pair<int, Variable>(line, var));
-//    } else if (!isComment(reader).empty()) { // Es un comentario
-    } else if (!isLoop(reader).empty()) {
+    } else if (!isComment(reader).empty()) { // Es un comentario
+      comments_.insert(std::pair<int, std::string>(line, isComment(reader)));
+    } else if (!isLoop(reader).empty()) { // Es un bucle
       loops_.insert(std::pair<int, std::string>(line, isLoop(reader)));
-    } else if(isMain(reader)) {
+    } else if(isMain(reader)) { // Es la declaración del  main
       main_ = true;
     }
       
@@ -42,6 +43,12 @@ CodeAnalyser::CodeAnalyser(std::istream& is) {
 // Destructor
 CodeAnalyser::~CodeAnalyser() {}
 
+
+// Comprueba si una línea es el comienzo de una descripción
+//bool
+//CodeAnalyser::isDescription(std::string str) {
+//  std::regex re("\\/\\")
+//}
 
 // Comprueba si una línea de código es la declaración de una variable
 std::vector<std::string>
@@ -55,6 +62,17 @@ CodeAnalyser::isVariable(std::string str) {
     result.push_back(m[1]); // type
     result.push_back(m[2]); // name
     result.push_back(m[4]); // value
+  }
+  return result;
+}
+
+// Comprueba si una línea de código es un comentario
+std::string
+CodeAnalyser::isComment(std::string str) {
+  std::string result = "";
+  std::regex re("\\s*\\/\\/.*");
+  if (std::regex_match(str, re)) {
+    result = str;
   }
   return result;
 }
@@ -96,4 +114,8 @@ CodeAnalyser::write(std::ostream& os) {
     os << "True\n";
   else
     os << "False\n";
+  os << "\nCOMMENTS:\n";
+  for (auto element: comments_) {
+    os << "[Line " << element.first << "] " << element.second << "\n";
+  }
 }
