@@ -4,9 +4,9 @@
 * 
 * Asignatura: Computabilidad y Algoritmia
 *
-* @brief Práctica #03: Calculadora de lenguajes formales
+* @brief Práctica #04: Expresiones regulares
 * @author Adrián González Galván
-* @date 20/10/2022
+* @date 27/10/2022
 *
 * Este archivo contiene la declaración de la clase principal empleada en este
 * programa. Esta analiza un archivo con código C++. 
@@ -30,11 +30,21 @@ const std::regex kMainRE("^int\\smain\\s\\(.*\\)\\s\\{$");
 class CodeAnalyser {
 
   public:
+    // Constructor && Destructor
     CodeAnalyser(std::istream&);
     ~CodeAnalyser();
 
+    // Getters
+    std::set<std::pair<std::pair<int, int>, std::string>> getComments();
+    std::set<std::pair<int, Variable>> getVariables();
+    std::set<std::pair<int, std::string>> getLoops();
     std::string getDescription();
+    
+    // Comprueba si existe un main
+    bool haveMain();
 
+    // Lectura && escritura
+    void read(std::istream& = std::cin);
     void write(std::ostream& = std::cout);
   
   private:
@@ -43,9 +53,15 @@ class CodeAnalyser {
     std::set<std::pair<int, std::string>> loops_;
     bool main_ = false;
 
+    // Funciones privadas que determinan si una linea coincide con cierta
+    // expresión regular
     bool isMultiLineComment(std::string);
     bool isVariable(std::string);
     bool isComment(std::string);
     bool isLoop(std::string);
     bool isMain(std::string);
 };
+
+// Sobrecarga de operadores de E/S
+std::ostream& operator<<(std::ostream&, CodeAnalyser&);
+std::istream& operator>>(std::istream&, CodeAnalyser&);

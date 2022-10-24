@@ -4,12 +4,12 @@
 * 
 * Asignatura: Computabilidad y Algoritmia
 *
-* @brief Práctica #03: Calculadora de lenguajes formales
+* @brief Práctica #04: Expresiones regulares
 * @author Adrián González Galván
-* @date 20/10/2022
+* @date 27/10/2022
 *
-* Este archivo contiene la declaración de la clase principal empleada en este
-* programa. Esta analiza un archivo con código C++. 
+* Este archivo contiene la declaración de la clase Variable, empleada para
+* representar la estructura de una variable (tipo, nombre y valor).
 */
 
 #include <iostream>

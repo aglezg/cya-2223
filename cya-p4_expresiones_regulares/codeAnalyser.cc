@@ -4,57 +4,40 @@
 * 
 * Asignatura: Computabilidad y Algoritmia
 *
-* @brief Práctica #03: Calculadora de lenguajes formales
+* @brief Práctica #04: Expresiones regulares
 * @author Adrián González Galván
-* @date 20/10/2022
+* @date 27/10/2022
 *
-* Este archivo contiene la declaración de la clase principal empleada en este
-* programa. Esta analiza un archivo con código C++. 
+* Este archivo contiene el desarrollo de los métodos declarados en
+* "codeAnalyser.h"
 */
 
 #include "codeAnalyser.h"
 
 // Constructor
 CodeAnalyser::CodeAnalyser(std::istream& is) {
-  std::string reader = "";
-  unsigned line = 1;
-
-  while (!is.eof()) {
-    getline(is, reader);
-    //std::cout << ">> " << reader << std::endl;
-    if (isMultiLineComment(reader)) {
-      int startLine = line;
-      std::string content = reader + "\n";
-      do {
-        getline(is, reader);
-        content += reader + "\n";
-        line++;
-      } while (!bool(std::regex_match(reader, kMultiCommentCloseRE)));
-      comments_.insert(std::pair<std::pair<int, int>,
-        std::string>(std::pair<int, int>(startLine, line), content));
-    } else if (isVariable(reader)) { // Es una variable
-      std::smatch m;
-      std::regex_search(reader, m, kVariableRE);
-      variables_.insert(std::pair<int, Variable>(line, Variable(m[1], m[2], m[4])));
-    } else if (isComment(reader)) { // Es un comentario
-      comments_.insert(std::pair<std::pair<int, int>,
-        std::string>(std::pair<int, int>(line, 0), reader));
-    } else if (isLoop(reader)) { // Es un bucle
-      std::smatch m;
-      std::regex_search(reader, m, kLoopRE);
-      loops_.insert(std::pair<int, std::string>(line, m[1]));
-    } else if(isMain(reader)) { // Es la declaración del  main
-      main_ = true;
-    }
-    line++;
-  }
-
+  read(is);
 }
 
 // Destructor
 CodeAnalyser::~CodeAnalyser() {}
 
 // Getters
+std::set<std::pair<std::pair<int, int>, std::string>>
+CodeAnalyser::getComments() {
+  return comments_;
+}
+
+std::set<std::pair<int, Variable>>
+CodeAnalyser::getVariables() {
+  return variables_;
+}
+
+std::set<std::pair<int, std::string>>
+CodeAnalyser::getLoops() {
+  return loops_;
+}
+
 std::string
 CodeAnalyser::getDescription() {
   for (auto element: comments_) {
@@ -62,6 +45,13 @@ CodeAnalyser::getDescription() {
       return element.second;
   }
   return "";
+}
+
+// Comprueba, devolviendo el correspondiente atributo privado
+// si el código analizado contiene un "main"
+bool
+CodeAnalyser::haveMain() {
+  return main_;
 }
 
 // Comprueba si una línea es el comienzo de una descripción
@@ -94,6 +84,42 @@ CodeAnalyser::isMain(std::string str) {
   return bool(std::regex_match(str, kMainRE));
 }
 
+// Lectura
+void
+CodeAnalyser::read(std::istream& is) {
+  std::string reader = "";
+  unsigned line = 1;
+
+  while (!is.eof()) {
+    getline(is, reader);
+    if (isMultiLineComment(reader)) { // Es u comentario múltiple
+      int startLine = line;
+      std::string content = reader + "\n";
+      do {
+        getline(is, reader);
+        content += reader + "\n";
+        line++;
+      } while (!bool(std::regex_match(reader, kMultiCommentCloseRE)));
+      comments_.insert(std::pair<std::pair<int, int>,
+        std::string>(std::pair<int, int>(startLine, line), content));
+    } else if (isVariable(reader)) { // Es una variable
+      std::smatch m;
+      std::regex_search(reader, m, kVariableRE);
+      variables_.insert(std::pair<int, Variable>(line, Variable(m[1], m[2], m[4])));
+    } else if (isComment(reader)) { // Es un comentario
+      comments_.insert(std::pair<std::pair<int, int>,
+        std::string>(std::pair<int, int>(line, 0), reader));
+    } else if (isLoop(reader)) { // Es un bucle
+      std::smatch m;
+      std::regex_search(reader, m, kLoopRE);
+      loops_.insert(std::pair<int, std::string>(line, m[1]));
+    } else if(isMain(reader)) { // Es la declaración del  main
+      main_ = true;
+    }
+    line++;
+  }
+}
+
 // Escritura
 void
 CodeAnalyser::write(std::ostream& os) {
@@ -120,4 +146,18 @@ CodeAnalyser::write(std::ostream& os) {
       os << "[Line " << element.first.first << "-" << element.first.second << "] DESCRIPTION\n";
     }
   }
+}
+
+// Sobrecarga del operador de escritura
+std::ostream&
+operator<<(std::ostream& os, CodeAnalyser& ca) {
+  ca.write(os);
+  return os;
+}
+
+// Sobrecarga del operador de lectura
+std::istream&
+operator>>(std::istream& is, CodeAnalyser& ca) {
+  ca.read(is);
+  return is;
 }

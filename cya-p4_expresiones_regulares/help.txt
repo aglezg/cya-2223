@@ -1,4 +1,3 @@
 Modo de empleo: ./main [input.cc] [output.txt]
-
-El programa recibe como entrada un fichero de código C++ y devuelve en un fichero
-de salida con extensión 'txt' el análisis del contenido.
+>> [input.cc] Fichero de código C++ sintáticamente correcto.
+>> [output.txt] Fichero de texto con el análisis del fichero introducido.

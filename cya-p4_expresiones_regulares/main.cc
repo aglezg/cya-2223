@@ -4,9 +4,9 @@
 * 
 * Asignatura: Computabilidad y Algoritmia
 *
-* @brief Práctica #03: Calculadora de lenguajes formales
+* @brief Práctica #04: Expresiones regulares
 * @author Adrián González Galván
-* @date 20/10/2022
+* @date 27/10/2022
 *
 * Este archivo contiene el menú principal de la práctica.
 */
@@ -16,24 +16,7 @@
 #include <regex>
 #include "codeAnalyser.h"
 
-int main(int argc, char* argv[]) {
-
-/*
-
-  std::string str1 = "int main (int argc, int archv) {";
-
-  std::regex r1("^int\\smain\\s\\(.*\\)\\s\\{$");
-
-  //std::regex r1("\\s*([a-zA-Z]+)\\s([a-zA-Z]+\\d*)+(\\s=\\s(.*))?;$");  CORREGIR !! Lee el return
-  std::smatch m;
-  std::cout << std::regex_match(str1, r1) << std::endl;
-  std::regex_search(str1, m, r1);
-
-  for (auto x: m)
-    std::cout <<"[" << x << "] ";
-  return 0;
-*/
-  
+int main (int argc, char* argv[]) {
 
   // Comprobamos que se haya ejecutado de la forma correcta
   if (!argv[1]) {
@@ -68,10 +51,10 @@ int main(int argc, char* argv[]) {
     return 1;
   }
 
+  // Clase analizadora
   CodeAnalyser cA(input);
 
   // Archivo de escritura
-/*
   std::ofstream output;
   output.open(argv[2]);
 
@@ -79,11 +62,13 @@ int main(int argc, char* argv[]) {
     std::cout << "No se pudo abrir el archivo de escritura, ";
     std::cout << "comprueba si se ingresó un nombre correcto.\n";
   }
-*/
-  cA.write();
 
+  // Escritura
+  output << cA;
+
+  // Cierre de ficheros
   input.close();
-//  output.close();
+  output.close();
 
   return 0;
 }
