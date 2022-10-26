@@ -29,6 +29,12 @@ int Factorial (int number) {
   }
 }
 
+/**
+* Hola jacob niversidad de La Laguna
+* Escuela Superior de Ingenieria y Tecnologia
+* Informatica Basica
+*/
+
 int main (int argc, char* argv[]) {
   std::cout << " Introduzca el numero de factoriales a calcular : ";
   int limit;

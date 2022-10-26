@@ -143,7 +143,13 @@ CodeAnalyser::write(std::ostream& os) {
     if (element.first.second == 0) {
       os << "[Line " << element.first.first << "] " << element.second << "\n";
     } else {
-      os << "[Line " << element.first.first << "-" << element.first.second << "] DESCRIPTION\n";
+      os << "[Line " << element.first.first << "-" << element.first.second << "]";
+      if (element.second == getDescription()) {
+         os << " DESCRIPTION\n";
+      }
+      else {
+        os << "\n" << element.second;
+      }
     }
   }
 }
