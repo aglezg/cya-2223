@@ -30,7 +30,7 @@ class Symbol {
     void setSymbol(std::string);
 
     // Sobrecarga de operadores
-    bool operator==(Symbol&);
+    bool operator==(const Symbol&) const;
     bool operator!=(Symbol&);
     Symbol& operator=(Symbol);
     bool operator<(const Symbol&) const;

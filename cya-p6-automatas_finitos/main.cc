@@ -15,6 +15,7 @@
 #include <fstream>
 
 #include "chain.h"
+#include "state.h"
 
 int main(int argc, char* argv[]) {  
 
@@ -61,12 +62,18 @@ int main(int argc, char* argv[]) {
     return 1;
   }
   
-  Chain ch1;
-
-  std::cin >> ch1;
-
-  std::cout << ch1.isPalindrome() << std::endl;
+  Symbol s1("a");
+  Symbol s2("b");
+  Symbol s3("c");
+  std::set<std::pair<Symbol, std::string>> c = {std::pair<Symbol, std::string>(s1, "0"), std::pair<Symbol, std::string>(s2, "0")};
+  c.insert(std::pair<Symbol, std::string>(s1, "1"));
   
+  State state("0", true, c);
+
+  for (auto el: state[s2])
+    std::cout << el << std::endl;
+
+
 /*
   // Leemos las cadenas del archivo correspondiente
   std::vector<Chain> vChain = {};

@@ -13,9 +13,8 @@
 */
 
 #include <iostream>
-
-#include <iostream>
 #include <vector>
+
 #include "alphabet.h"
 
 class Chain {
