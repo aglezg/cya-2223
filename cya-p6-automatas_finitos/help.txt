@@ -1,0 +1,19 @@
+Modo de empleo: ./main [input.fa] [input.txt]
+
+El fichero de entrada debe contener el conjunto de cadenas a analizar separadas
+por retornos de carros (cada una de ellas). En cada línea debe presentarse
+primeramente el alfabeto y a posteriori la cadena en sí (se puede prescindir
+del alfabeto, lo que implica que los símbolos de la misma cadena lo conformarán).
+
+Un ejemplo de esto sería:
+
+a b abbab
+hola
+0 1 2 3 4 5 6 7 8 9 6793836
+
+Las operaciones que se pueden realizar son:
+- --length (Calcula la longitud de cada cadena)
+- --inverse (Calcula la inversa de cada cadena)
+- --prefixes (Calcula el conjunto de prefijos de cada cadena)
+- --suffixes (Calcula el conjunto de sufijos de cada cadena)
+- --substrings (Calcula el conjunto de subcadenas de cada cadena)
