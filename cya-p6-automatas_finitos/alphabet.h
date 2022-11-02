@@ -4,9 +4,9 @@
 * 
 * Asignatura: Computabilidad y Algoritmia
 *
-* @brief Práctica #01: Símbolos, alfabetos y cadenas
+* @brief Práctica #04: Simulación de autómatas finitos
 * @author Adrián González Galván
-* @date 06/10/2022
+* @date 10/10/2022
 *
 * Este archivo contiene la implementación de una clase correspondiente
 * a la representación de un alfabeto.
@@ -15,8 +15,7 @@
 #pragma once
 
 #include <iostream>
-#include <vector>
-#include <algorithm>
+#include <set>
 
 #include "symbol.h"
 
@@ -24,12 +23,12 @@ class Alphabet {
 
   public:
     // Constructor & Destructor
-    Alphabet(std::vector<Symbol>);
+    Alphabet(std::set<Symbol>);
     ~Alphabet();
   
     // Getters & Setters
-    std::vector<Symbol> getSymbols();
-    void setSymbols(std::vector<Symbol>);
+    std::set<Symbol> getSymbols();
+    void setSymbols(std::set<Symbol>);
 
     // Operaciones
     bool addSymbol(Symbol);
@@ -41,9 +40,13 @@ class Alphabet {
 
     // E/S
     void write(std::ostream& = std::cout);
+
+    // Operadores sobrecargados
+    bool operator==(Alphabet&);
+    Alphabet operator+(Alphabet&);
   
   private:
-    std::vector<Symbol> symbols_;
+    std::set<Symbol> symbols_;
     void removeDuplicates();
 };
 

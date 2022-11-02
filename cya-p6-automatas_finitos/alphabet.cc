@@ -4,9 +4,9 @@
 * 
 * Asignatura: Computabilidad y Algoritmia
 *
-* @brief Práctica #01: Símbolos, alfabetos y cadenas
+* @brief Práctica #04: Simulación de autómatas finitos
 * @author Adrián González Galván
-* @date 06/10/2022
+* @date 10/10/2022
 *
 * Este archivo contiene el desarrollo de los métodos de la clase Alphabet.
 */
@@ -15,7 +15,7 @@
 #include <cassert>
 
 // Constructor
-Alphabet::Alphabet(std::vector<Symbol> symbols) {
+Alphabet::Alphabet(std::set<Symbol> symbols) {
   setSymbols(symbols);
 }
 
@@ -25,24 +25,24 @@ Alphabet::~Alphabet() {
 }
 
 // Getters
-std::vector<Symbol>
+std::set<Symbol>
 Alphabet::getSymbols() {
   return symbols_;
 }
 
 // Setters
 void
-Alphabet::setSymbols(std::vector<Symbol> symbols) {
-  assert(!symbols.empty());
+Alphabet::setSymbols(std::set<Symbol> symbols) {
+  if(!symbols.empty())
+    throw "Alphabet cant be empty";
   symbols_ = symbols;
-  removeDuplicates();
 }
 
 // Comprueba si un determinado símbolo pertenece al alfabeto
 bool
 Alphabet::checkSymbol(Symbol symbol) {
-  for (unsigned i = 0; i < symbols_.size(); i++)
-    if (symbols_[i] == symbol)
+  for (Symbol i: symbols_)
+    if (i == symbol)
       return true;
   return false;
 }
@@ -53,7 +53,7 @@ Alphabet::addSymbol(Symbol symbol) {
   if (checkSymbol(symbol))
     return false;
   else {
-    symbols_.push_back(symbol);
+    symbols_.insert(symbol);
     return true;
   }
 }
@@ -62,9 +62,7 @@ Alphabet::addSymbol(Symbol symbol) {
 bool
 Alphabet::removeSymbol(Symbol symbol) {
   if (checkSymbol(symbol)) {
-    for (unsigned i = 0; i < symbols_.size(); i++)
-      if (symbols_[i] == symbol)
-        symbols_.erase(symbols_.begin() + i);
+    symbols_.erase(symbol);
     return true;
   }
   return false;
@@ -74,31 +72,39 @@ Alphabet::removeSymbol(Symbol symbol) {
 void
 Alphabet::print() {
   std::cout << "{ ";
-  for (unsigned i = 0; i < symbols_.size() - 1; i++)
-    std::cout << symbols_[i] << ", ";
-  std::cout << symbols_[symbols_.size() - 1] << " }\n";
+  for (Symbol i: symbols_)
+    std::cout << i << " ";
+  std::cout << "}";
 }
 
 // Escritura
 void
 Alphabet::write(std::ostream& os) {
   os << "{ ";
-  for (unsigned i = 0; i < symbols_.size() - 1; i++)
-    os << symbols_[i] << ", ";
-  os << symbols_[symbols_.size() - 1] << " }\n";
+  for (Symbol i: symbols_)
+    os << i << " ";
+  os << "}";
 }
 
-// Elimina los elementos duplicados del alfabeto, en el caso de que los haya
-void
-Alphabet::removeDuplicates() {
-  for (unsigned i = 0; i < symbols_.size(); i++) {
-    for (unsigned j = i + 1; j < symbols_.size(); j++) {
-      if (symbols_[i] == symbols_[j]) {
-        symbols_.erase(symbols_.begin() + j);
-        j--;
-      }
-    }
-  }
+// Sobrecarga del operador "=="
+bool
+Alphabet::operator==(Alphabet& alphabet) {
+  for (Symbol i: symbols_)
+    if (!alphabet.checkSymbol(i))
+      return false;
+  for (Symbol j: alphabet.getSymbols())
+    if(!checkSymbol(j))
+      return false;
+  return true;
+}
+
+// Sobrecarga del operador "+"
+Alphabet
+Alphabet::operator+(Alphabet& alphabet) {
+  Alphabet newAlphabet(getSymbols());
+  for (Symbol sym: alphabet.getSymbols())
+    newAlphabet.addSymbol(sym);
+  return newAlphabet;
 }
 
 // Operadores sobrecargados de E/S
