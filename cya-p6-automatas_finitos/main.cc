@@ -14,7 +14,7 @@
 #include <iostream>
 #include <fstream>
 
-#include "symbol.h"
+#include "chain.h"
 
 int main(int argc, char* argv[]) {  
 
@@ -60,16 +60,13 @@ int main(int argc, char* argv[]) {
     std::cout << "comprueba si se ingresó un nombre correcto\n";
     return 1;
   }
+  
+  Chain ch1;
 
-  Symbol s1("a");
-  Symbol s2("b");
-  std::cout << s1 << ", " << s2 << std::endl;
-  try {
-    Symbol s3("sa");
-    std::cin >> s3;
-  } catch (const char* message) {
-    std::cerr << "Hubo un error pibe: " << message << std::endl;
-  }
+  std::cin >> ch1;
+
+  std::cout << ch1.isPalindrome() << std::endl;
+  
 /*
   // Leemos las cadenas del archivo correspondiente
   std::vector<Chain> vChain = {};

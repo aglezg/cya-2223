@@ -48,6 +48,12 @@ Symbol::operator==(Symbol& other) {
   return symbol_ == other.getSymbol();
 }
 
+// Sobrecarga del operador "!="
+bool
+Symbol::operator!=(Symbol& other) {
+  return symbol_ != other.getSymbol();
+}
+
 // Sobrecarga del operador "<"
 bool Symbol::operator<(const Symbol& symbol) const {
   return symbol_ < symbol.symbol_;
