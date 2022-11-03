@@ -14,6 +14,7 @@
 #include "finiteAutomata.h"
 
 // Constructor
+/*
 FiniteAutomata::FiniteAutomata(Alphabet alphabet, std::set<State> states, std::string initialState) {
   alphabet_ = alphabet;
   states_ = states;
@@ -21,3 +22,4 @@ FiniteAutomata::FiniteAutomata(Alphabet alphabet, std::set<State> states, std::s
     throw "You have to define the initial state";
   initialState_ = initialState;
 }
+*/

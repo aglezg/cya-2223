@@ -20,29 +20,28 @@
 class State {
   public:
     // Constructor & Destructor
-    State(std::string, bool = false, std::set<std::pair<Symbol, std::string>> = {});
+    State(std::string, std::set<std::pair<Symbol, State*>> = {});
     ~State();
 
     // Getters
     std::string getName();
-    std::set<std::pair<Symbol, std::string>> getTransitions();
+    std::set<std::pair<Symbol, State*>> getTransitions();
     
     // Setters
     void setName(std::string);
-    void setTransitions(std::set<std::pair<Symbol, std::string>>);
-    void setFinal(bool);
+    void setTransitions(std::set<std::pair<Symbol, State*>>);
 
     // Operaciones
-    bool checkTransition(std::pair<Symbol, std::string>);
-    bool addTransition(std::pair<Symbol, std::string>);
-    bool deleteTransition(std::pair<Symbol, std::string>);
+    bool checkTransition(std::pair<Symbol, State*>);
+    bool addTransition(std::pair<Symbol, State*>);
+    bool deleteTransition(std::pair<Symbol, State*>);
     bool isFinal();
 
     // at
-    std::set<std::string> at(Symbol);
+    std::set<State*> at(Symbol);
 
     // Sobrecarga de operadores
-    std::set<std::string> operator[](Symbol);
+    std::set<State*> operator[](Symbol);
     bool operator<(const State&) const;
 
     // E/S
@@ -50,6 +49,5 @@ class State {
 
   private:
     std::string name_;
-    bool final_;
-    std::set<std::pair<Symbol, std::string>> transitions_;
+    std::set<std::pair<Symbol, State*>> transitions_;
 };

@@ -65,13 +65,16 @@ int main(int argc, char* argv[]) {
   Symbol s1("a");
   Symbol s2("b");
   Symbol s3("c");
-  std::set<std::pair<Symbol, std::string>> c = {std::pair<Symbol, std::string>(s1, "0"), std::pair<Symbol, std::string>(s2, "0")};
-  c.insert(std::pair<Symbol, std::string>(s1, "1"));
   
-  State state("0", true, c);
+  State* st1 = new State("0");
 
-  for (auto el: state[s2])
-    std::cout << el << std::endl;
+  std::set<std::pair<Symbol, State*>> c;
+  c.insert(std::pair<Symbol, State*>(s1, st1));
+
+  State* st2 = new State("1", c);
+
+  for (auto el: st2->operator[](s1))
+    std::cout << el->getName() << std::endl;
 
 
 /*

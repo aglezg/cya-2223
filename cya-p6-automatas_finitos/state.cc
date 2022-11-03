@@ -14,9 +14,8 @@
 #include "state.h"
 
 // Constructor
-State::State(std::string name, bool final, std::set<std::pair<Symbol, std::string>> transitions) {
+State::State(std::string name, std::set<std::pair<Symbol, State*>> transitions) {
   name_ = name;
-  final_ = final;
   transitions_ = transitions;
 }
 
@@ -31,7 +30,7 @@ State::getName() {
   return name_;
 }
 
-std::set<std::pair<Symbol, std::string>>
+std::set<std::pair<Symbol, State*>>
 State::getTransitions() {
   return transitions_;
 }
@@ -43,18 +42,14 @@ State::setName(std::string name) {
 }
 
 void
-State::setTransitions(std::set<std::pair<Symbol, std::string>> transitions) {
+State::setTransitions(std::set<std::pair<Symbol, State*>> transitions) {
   transitions_ = transitions;
 }
 
-void
-State::setFinal(bool final) {
-  final_ = final;
-}
 
 // Comprueba si una transición está presente en el estado
 bool
-State::checkTransition(std::pair<Symbol, std::string> transition) {
+State::checkTransition(std::pair<Symbol, State*> transition) {
   for (auto t: transitions_)
     if (t == transition)
       return true;
@@ -63,7 +58,7 @@ State::checkTransition(std::pair<Symbol, std::string> transition) {
 
 // Añade una transición al estado
 bool
-State::addTransition(std::pair<Symbol, std::string> transition) {
+State::addTransition(std::pair<Symbol, State*> transition) {
   if (checkTransition(transition))
     return false;
   transitions_.insert(transition);
@@ -72,24 +67,18 @@ State::addTransition(std::pair<Symbol, std::string> transition) {
 
 // Elimina una transición del estado
 bool
-State::deleteTransition(std::pair<Symbol, std::string> transition) {
+State::deleteTransition(std::pair<Symbol, State*> transition) {
   if (!checkTransition(transition))
     return false;
   transitions_.erase(transition);
   return true;
 }
 
-// Comrpueba si es un estado final
-bool
-State::isFinal() {
-  return final_;
-}
-
 // Metodo de indexación 'at'. Dado un simbolo devuelve el conjnto de estados
 // resultante de la transición
-std::set<std::string>
+std::set<State*>
 State::at(Symbol symbol) {
-  std::set<std::string> result;
+  std::set<State*> result;
   for (auto el: transitions_)
     if (el.first == symbol)
       result.insert(el.second);
@@ -97,7 +86,7 @@ State::at(Symbol symbol) {
 }
 
 // Sobrecarga del operador "[]"
-std::set<std::string>
+std::set<State*>
 State::operator[](Symbol symbol) {
   return at(symbol);
 }
