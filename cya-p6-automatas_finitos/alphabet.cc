@@ -33,7 +33,7 @@ Alphabet::getSymbols() {
 // Setters
 void
 Alphabet::setSymbols(std::set<Symbol> symbols) {
-  if(!symbols.empty())
+  if(symbols.empty())
     throw "Alphabet cant be empty";
   symbols_ = symbols;
 }

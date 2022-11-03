@@ -14,8 +14,9 @@
 #include "state.h"
 
 // Constructor
-State::State(std::string name, std::set<std::pair<Symbol, State*>> transitions) {
+State::State(std::string name, bool final, std::set<std::pair<Symbol, State*>> transitions) {
   name_ = name;
+  finalState_ = final;
   transitions_ = transitions;
 }
 
@@ -35,6 +36,11 @@ State::getTransitions() {
   return transitions_;
 }
 
+bool
+State::getFinal() {
+  return finalState_;
+}
+
 // Setters
 void
 State::setName(std::string name) {
@@ -46,6 +52,19 @@ State::setTransitions(std::set<std::pair<Symbol, State*>> transitions) {
   transitions_ = transitions;
 }
 
+void
+State::setFinal(bool final) {
+  finalState_ = final;
+}
+
+// Impresión por pantalla
+void
+State::print() {
+  for (auto el: transitions_) {
+    std::cout << name_ << "(" << el.first << ") -> " <<el.second->getName();
+    std::cout << "\n";
+  }
+}
 
 // Comprueba si una transición está presente en el estado
 bool
@@ -100,5 +119,31 @@ State::operator<(const State& state) const {
 // Lectura
 void
 State::read(std::istream& is) {
+  std::string reader = "";
+  is >> name_; // Nombre
+  is >> reader; // Determina si es un estado de aceptación
+  if (reader == "0")
+    finalState_ = false;
+  else if (reader == "1")
+    finalState_ = true;
+  else
+    throw "final state option is not '0' or '1'";
+  is >> reader; // Número de transiciones
+  if (!is_number(reader))
+    throw "number of state transitions is NaN";
+  transitions_ = {};
+  for (unsigned i = 0; i < stoi(reader); i++) {
+    Symbol symbolAux("aux");
+    is >> symbolAux;
+    is >> reader;
+  }
 
+}
+
+// Comprueba si una cadena es un número
+bool is_number(const std::string& s)
+{
+    std::string::const_iterator it = s.begin();
+    while (it != s.end() && std::isdigit(*it)) ++it;
+    return !s.empty() && it == s.end();
 }

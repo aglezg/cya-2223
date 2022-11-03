@@ -14,8 +14,7 @@
 #include <iostream>
 #include <fstream>
 
-#include "chain.h"
-#include "state.h"
+#include "finiteAutomata.h"
 
 int main(int argc, char* argv[]) {  
 
@@ -62,20 +61,34 @@ int main(int argc, char* argv[]) {
     return 1;
   }
   
-  Symbol s1("a");
-  Symbol s2("b");
-  Symbol s3("c");
+  Symbol s0("0");
+  Symbol s1("1");
+  Symbol s2("2)");
+
+  Chain ch1({s1, s0, s1});
+  Chain ch2({s0});
+  Chain ch3({s2, s1, s1});
   
-  State* st1 = new State("0");
 
-  std::set<std::pair<Symbol, State*>> c;
-  c.insert(std::pair<Symbol, State*>(s1, st1));
+  State *st3 = new State("q3", true);
+  State *st2 = new State("q2", false, std::set<std::pair<Symbol, State*>>({std::pair<Symbol, State*>(s0, st3), std::pair<Symbol, State*>(s1, st3)}));
+  State *st1 = new State("q1", false, std::set<std::pair<Symbol, State*>>({std::pair<Symbol, State*>(s0, st2), std::pair<Symbol, State*>(s1, st2)}));
+  State *st0 = new State("q0", false, std::set<std::pair<Symbol, State*>>({std::pair<Symbol, State*>(s1, st1)}));
 
-  State* st2 = new State("1", c);
+  st0->addTransition(std::pair<Symbol, State*>(s0, st0));
+  st0->addTransition(std::pair<Symbol, State*>(s1, st0));
 
-  for (auto el: st2->operator[](s1))
-    std::cout << el->getName() << std::endl;
-
+  try {
+    FiniteAutomata fA(new Alphabet(std::set<Symbol>({s0, s1})), st0);
+    std::cout << fA.checkChain(ch1) << std::endl;
+  } catch(char const* mssg) {
+    std::cerr << "ERROR PIBE: "<< mssg << "\n";
+  }
+  
+  delete st3;
+  delete st2;
+  delete st1;
+  delete st0;
 
 /*
   // Leemos las cadenas del archivo correspondiente
@@ -140,11 +153,10 @@ int main(int argc, char* argv[]) {
     output.close();
     return 1;
   }
-
-  // Cerramos archivos
-  input.close();
-  output.close();
 */
+  // Cerramos archivos
+  inputFA.close();
+  inputTxt.close();
 
   return 0;
 }

@@ -20,22 +20,26 @@
 class State {
   public:
     // Constructor & Destructor
-    State(std::string, std::set<std::pair<Symbol, State*>> = {});
+    State(std::string, bool = false, std::set<std::pair<Symbol, State*>> = {});
     ~State();
 
     // Getters
     std::string getName();
     std::set<std::pair<Symbol, State*>> getTransitions();
+    bool getFinal();
     
     // Setters
     void setName(std::string);
     void setTransitions(std::set<std::pair<Symbol, State*>>);
+    void setFinal(bool);
 
     // Operaciones
     bool checkTransition(std::pair<Symbol, State*>);
     bool addTransition(std::pair<Symbol, State*>);
     bool deleteTransition(std::pair<Symbol, State*>);
-    bool isFinal();
+
+    // Print
+    void print();
 
     // at
     std::set<State*> at(Symbol);
@@ -49,5 +53,9 @@ class State {
 
   private:
     std::string name_;
+    bool finalState_;
     std::set<std::pair<Symbol, State*>> transitions_;
 };
+
+// Comprueba si una cadena es un número
+bool is_number(const std::string&);

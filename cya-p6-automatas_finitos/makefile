@@ -7,10 +7,10 @@ LDIR = ../lib
 
 LIBS = -lm
 
-_DEPS = state.h chain.h alphabet.h symbol.h
+_DEPS = finiteAutomata.h state.h chain.h alphabet.h symbol.h
 DEPS = $(patsubst %,$(IDIR)/%,$(_DEPS))
 
-_OBJ = main.o state.o chain.o alphabet.o symbol.o
+_OBJ = main.o finiteAutomata.o state.o chain.o alphabet.o symbol.o
 OBJ = $(patsubst %,$(ODIR)/%,$(_OBJ))
 
 

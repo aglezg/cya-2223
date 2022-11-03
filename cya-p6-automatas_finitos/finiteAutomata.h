@@ -13,24 +13,28 @@
 */
 
 #include <iostream>
+#include <cassert>
 
-#include "chain.h";
-#include "state.h";
+#include "chain.h"
+#include "state.h"
 
 class FiniteAutomata {
   public:
     // Constructor && Destructor
-    FiniteAutomata(Alphabet, std::set<State> = {}, std::string = "");
+    FiniteAutomata(Alphabet*, State*);
     FiniteAutomata();
     ~FiniteAutomata();
 
     // Getters
-    Alphabet getAlphabet();
-    std::set<State> getStates();
-    unsigned getInitialState();
+    Alphabet* getAlphabet();
+    State* getInitialState();
+
+    // Setters
+    void setInitialState(State*);
 
     // Otro
-    std::set<unsigned> finalStates();
+    std::set<State*> getStates();
+    std::set<State*> getFinalStates();
 
     // Operaciones
     bool checkChain(Chain);
@@ -39,7 +43,10 @@ class FiniteAutomata {
     void read(std::istream&);
 
   private:
-    Alphabet alphabet_;
-    std::string initialState_;
-    std::set<State> states_;
+    // Atributos
+    Alphabet* alphabet_;
+    State* initialState_;
+
+    // Métodos privados
+    bool checkStatesAlphabet();
   };
