@@ -165,10 +165,14 @@ void
 Chain::read(std::istream& is) {
   std::string my_chain = "";
   is >> my_chain;
-  std::vector<Symbol> chainSymbols;
-  for (unsigned i = 0; i < my_chain.length(); i++)
-    chainSymbols.push_back(Symbol(std::string(1, my_chain[i])));
-  *this = Chain(chainSymbols);
+  if (my_chain == emptyChainSymbol) {
+    *this = Chain();
+  } else {
+    std::vector<Symbol> chainSymbols;
+    for (unsigned i = 0; i < my_chain.length(); i++)
+      chainSymbols.push_back(Symbol(std::string(1, my_chain[i])));
+    *this = Chain(chainSymbols);
+  }
 }
 
 // Comprueba si una determinada cadena está formada con símbolos de un
@@ -193,22 +197,6 @@ std::ostream&
 operator<<(std::ostream& os, Chain& chain) {
   chain.write(os);
   return os;
-}
-
-// Convierte una string separada por espacios en un vector
-std::vector<std::string>
-stringToVector(std::string my_string) {
-  std::vector<std::string> my_vector = {""};
-  unsigned j = 0;
-  for (unsigned i = 0; i < my_string.size(); i++) {
-    if (my_string[i] != ' ') {
-      my_vector[j] += my_string[i];
-    } else {
-      j++;
-      my_vector.resize(j + 1);
-    }
-  }
-  return my_vector;
 }
 
 // Comprueba si un elemento pertenece a un determinado vector

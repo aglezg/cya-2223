@@ -16,6 +16,7 @@
 
 #include <iostream>
 #include <set>
+#include <vector>
 
 #include "symbol.h"
 
@@ -39,6 +40,7 @@ class Alphabet {
     void print();
 
     // E/S
+    void read(std::istream& = std::cin);
     void write(std::ostream& = std::cout);
 
     // Operadores sobrecargados
@@ -52,3 +54,7 @@ class Alphabet {
 
 // Operadores sobrecargados de E/S
 std::ostream& operator<<(std::ostream&, Alphabet&);
+std::istream& operator>>(std::istream&, Alphabet&);
+
+// Conversión de string a vector
+std::vector<std::string> stringToVector(std::string);

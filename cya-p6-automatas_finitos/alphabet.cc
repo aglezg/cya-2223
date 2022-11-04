@@ -77,6 +77,18 @@ Alphabet::print() {
   std::cout << "}";
 }
 
+// Lectura
+void
+Alphabet::read(std::istream& is) {
+  std::set<Symbol> result = {};
+  std::string reader = "";
+  getline(is, reader);
+  std::vector<std::string> vReader = stringToVector(reader);
+  for (std::string el: vReader)
+    result.insert(Symbol(el));
+  *this = Alphabet(result);
+}
+
 // Escritura
 void
 Alphabet::write(std::ostream& os) {
@@ -111,4 +123,29 @@ Alphabet::operator+(Alphabet& alphabet) {
 std::ostream& operator<<(std::ostream& os, Alphabet& alphabet) {
   alphabet.write(os);
   return os;
+}
+
+std::istream& operator>>(std::istream& is, Alphabet& alphabet) {
+  alphabet.read(is);
+  return is;
+}
+
+// Convierte una string separada por espacios en un vector
+std::vector<std::string>
+stringToVector(std::string my_string) {
+  std::vector<std::string> my_vector = {""};
+  unsigned j = 0;
+  for (unsigned i = 0; i < my_string.size(); i++) {
+    if (my_string[i] != ' ') {
+      my_vector[j] += my_string[i];
+    } else {
+      if (my_vector[j] != "") {
+        j++;
+        my_vector.resize(j + 1);
+      }
+    }
+  }
+  if (my_vector[my_vector.size() - 1] == "")
+    my_vector.pop_back();
+  return my_vector;
 }

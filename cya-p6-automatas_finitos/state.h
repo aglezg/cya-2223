@@ -12,6 +12,8 @@
 * a la representación de un estado de un automata finito.
 */
 
+#pragma once
+
 #include <iostream>
 #include <set>
 
@@ -47,9 +49,6 @@ class State {
     // Sobrecarga de operadores
     std::set<State*> operator[](Symbol);
     bool operator<(const State&) const;
-
-    // E/S
-    void read(std::istream& = std::cin);
 
   private:
     std::string name_;

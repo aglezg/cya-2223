@@ -12,6 +12,8 @@
 * a la representación de una cadena.
 */
 
+#pragma once
+
 #include <iostream>
 #include <vector>
 

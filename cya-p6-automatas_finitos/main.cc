@@ -60,7 +60,26 @@ int main(int argc, char* argv[]) {
     std::cout << "comprueba si se ingresó un nombre correcto\n";
     return 1;
   }
-  
+
+  // Lectura de cadenas
+  std::vector<Chain> chains;
+  while (!inputTxt.eof()) {
+    Chain chainAux;
+    inputTxt >> chainAux;
+    chains.push_back(chainAux);
+  }
+
+  // Lectura del FA
+  try {
+    FiniteAutomata fa;
+    fa.read(inputFA);
+    fa.print();
+  } catch(const char* mssg) {
+    std::cout << "err: " << mssg << "\n";
+    return 1;
+  }
+
+  /*
   Symbol s0("0");
   Symbol s1("1");
   Symbol s2("2)");
@@ -89,7 +108,7 @@ int main(int argc, char* argv[]) {
   delete st2;
   delete st1;
   delete st0;
-
+*/
 /*
   // Leemos las cadenas del archivo correspondiente
   std::vector<Chain> vChain = {};

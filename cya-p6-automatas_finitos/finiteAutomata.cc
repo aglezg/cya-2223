@@ -15,10 +15,15 @@
 
 // Constructor
 FiniteAutomata::FiniteAutomata(Alphabet* alphabet, State* initialState) {
-  alphabet_ = alphabet;
-  initialState_ = initialState;
-  if (!checkStatesAlphabet())
-    throw "finite automata alphabet doesnt coincide with states transitions";
+  if (!isEmpty()) {
+    alphabet_ = alphabet;
+    initialState_ = initialState;
+    if (!checkStatesAlphabet())
+      throw "finite automata alphabet doesnt coincide with states transitions";
+  } else {
+    alphabet_ = nullptr;
+    initialState_ = nullptr;
+  }
 }
 
 // Constructor por defecto
@@ -51,15 +56,17 @@ FiniteAutomata::setInitialState(State* state) {
 std::set<State*>
 FiniteAutomata::getStates() {
   std::set<State*> visitedStates = {};
-  std::set<State*> notVisitedStates = {initialState_};
-  while (!notVisitedStates.empty()) {
-    auto itr = notVisitedStates.begin();
-    State* state = *itr;
-    visitedStates.insert(state);
-    notVisitedStates.erase(itr);
-    for (auto el: state->getTransitions()) {
-      if (visitedStates.find(el.second) == visitedStates.end()) {
-        notVisitedStates.insert(el.second);
+  if (!isEmpty()) {
+    std::set<State*> notVisitedStates = {initialState_};
+    while (!notVisitedStates.empty()) {
+      auto itr = notVisitedStates.begin();
+      State* state = *itr;
+      visitedStates.insert(state);
+      notVisitedStates.erase(itr);
+      for (auto el: state->getTransitions()) {
+        if (visitedStates.find(el.second) == visitedStates.end()) {
+          notVisitedStates.insert(el.second);
+        }
       }
     }
   }
@@ -91,10 +98,37 @@ FiniteAutomata::getFinalStates() {
   return result;
 }
 
+// Devuelve un puntero a un estado del autómata según su nombre
+// el puntero es "nullptr" si dicho estado no existe
+State*
+FiniteAutomata::at(std::string name) {
+  State* result = nullptr;
+  for (State* st: getStates())
+    if (st->getName() == name)
+      result = st;
+  return result;
+}
+
+// Comprueba si el automata finito reconoce el lenguaje vacío
+bool
+FiniteAutomata::isEmpty() {
+  return alphabet_ == nullptr || initialState_ == nullptr;
+}
+
+// Impresión por pantalla
+void
+FiniteAutomata::print() {
+  if (!isEmpty()) {
+    std::cout << "Alphabet: " << *getAlphabet() << "\n";
+  } else {
+    std::cout << "Empty FA\n";
+  }
+}
+
 // Comprueba si una cadena es reconocida por el autómata
 bool
 FiniteAutomata::checkChain(Chain chain) {
-  if (alphabet_ == nullptr || !chain.belongsToAlphabet(Alphabet(alphabet_->getSymbols())))
+  if (isEmpty() || !chain.belongsToAlphabet(*alphabet_))
     return false;
   std::set<State*> result = {initialState_};
   for (Symbol symbol: chain.getSymbols()) {
@@ -105,10 +139,34 @@ FiniteAutomata::checkChain(Chain chain) {
     }
     result = aux;
   }
-
   for (State* state: result)
     if (state->getFinal())
       return true;
-
   return false;
+}
+
+// Sobrecarga del operador "[]"
+State*
+FiniteAutomata::operator[](std::string name) {
+  return at(name);
+}
+
+// Lectura
+void
+FiniteAutomata::read(std::istream& is) {
+  while (!is.eof()) {
+    Alphabet alphabet({Symbol("aux")});
+    is >> alphabet;
+    std::string initialStateName;
+    is >> initialStateName;
+    
+    *this = FiniteAutomata(new Alphabet(alphabet), nullptr);
+  }
+}
+
+// Sobrecarga del operador de lectura
+std::istream&
+operator>>(std::istream& is, FiniteAutomata& fa) {
+  fa.read(is);
+  return is;
 }

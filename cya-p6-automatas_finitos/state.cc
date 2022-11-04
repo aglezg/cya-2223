@@ -22,7 +22,7 @@ State::State(std::string name, bool final, std::set<std::pair<Symbol, State*>> t
 
 // Destructor
 State::~State() {
-  transitions_.clear();
+  //transitions_.clear();
 }
 
 // Getters
@@ -116,29 +116,6 @@ State::operator<(const State& state) const {
   return name_ < state.name_;
 }
 
-// Lectura
-void
-State::read(std::istream& is) {
-  std::string reader = "";
-  is >> name_; // Nombre
-  is >> reader; // Determina si es un estado de aceptación
-  if (reader == "0")
-    finalState_ = false;
-  else if (reader == "1")
-    finalState_ = true;
-  else
-    throw "final state option is not '0' or '1'";
-  is >> reader; // Número de transiciones
-  if (!is_number(reader))
-    throw "number of state transitions is NaN";
-  transitions_ = {};
-  for (unsigned i = 0; i < stoi(reader); i++) {
-    Symbol symbolAux("aux");
-    is >> symbolAux;
-    is >> reader;
-  }
-
-}
 
 // Comprueba si una cadena es un número
 bool is_number(const std::string& s)

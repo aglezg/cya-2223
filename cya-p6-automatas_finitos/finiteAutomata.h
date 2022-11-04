@@ -12,6 +12,8 @@
 * a la representación de una autómata finito.
 */
 
+#pragma once
+
 #include <iostream>
 #include <cassert>
 
@@ -35,9 +37,17 @@ class FiniteAutomata {
     // Otro
     std::set<State*> getStates();
     std::set<State*> getFinalStates();
+    State* at(std::string);
+    bool isEmpty();
+
+    // print
+    void print();
 
     // Operaciones
     bool checkChain(Chain);
+
+    // Sobrecarga de operadores
+    State* operator[](std::string);
 
     // E/S
     void read(std::istream&);
@@ -50,3 +60,6 @@ class FiniteAutomata {
     // Métodos privados
     bool checkStatesAlphabet();
   };
+
+  // Sobrecarga de operadores de E/S
+std::istream& operator>>(std::istream&, FiniteAutomata&);
