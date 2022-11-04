@@ -1,19 +1,30 @@
 Modo de empleo: ./main [input.fa] [input.txt]
 
-El fichero de entrada debe contener el conjunto de cadenas a analizar separadas
-por retornos de carros (cada una de ellas). En cada línea debe presentarse
-primeramente el alfabeto y a posteriori la cadena en sí (se puede prescindir
-del alfabeto, lo que implica que los símbolos de la misma cadena lo conformarán).
+El programa recibe 2 parámetros por entrada
+- [input.fa] Un archivo con las especifaciones de un DFA
+- [input.txt] Un archivo de texto con cadenas separadas por saltos de línea
 
-Un ejemplo de esto sería:
+Ejemplo de fichero [input.fa]:
+0 1 --> Alfabeto
+4   --> Número de transiciones
+0   --> Estado inicial
+0 0 3 0 0 1 0 1 1
+1 0 2 0 2 1 2
+2 0 2 0 3 1 3
+3 1 0 | |
+| | | | -> Estado al que transita
+| | | -> Simbolo con el que transita
+| | -> Nº de transiciones
+| -> '1' = aceptación && '0' = no aceptación
+-> Nombre de estado
 
-a b abbab
-hola
-0 1 2 3 4 5 6 7 8 9 6793836
-
-Las operaciones que se pueden realizar son:
-- --length (Calcula la longitud de cada cadena)
-- --inverse (Calcula la inversa de cada cadena)
-- --prefixes (Calcula el conjunto de prefijos de cada cadena)
-- --suffixes (Calcula el conjunto de sufijos de cada cadena)
-- --substrings (Calcula el conjunto de subcadenas de cada cadena)
+Ejemplo de fichero [input.txt]:
+&
+0
+11
+000
+100
+010101
+1111
+0000100
+0101010
