@@ -6,7 +6,7 @@
 *
 * @brief Práctica #04: Simulación de autómatas finitos
 * @author Adrián González Galván
-* @date 10/10/2022
+* @date 10/11/2022
 *
 * Este archivo contiene el desarrollo de los métodos de la clase Alphabet.
 */

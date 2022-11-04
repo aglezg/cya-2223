@@ -23,6 +23,7 @@ class Symbol {
   public:
     // Constructor & Destructor
     Symbol(std::string);
+    Symbol();
     ~Symbol();
   
     // Getters & Setters

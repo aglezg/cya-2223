@@ -6,7 +6,7 @@
 *
 * @brief Práctica #04: Simulación de autómatas finitos
 * @author Adrián González Galván
-* @date 10/10/2022
+* @date 10/11/2022
 *
 * Este archivo contiene el desarrollo de los métodos de la clase FiniteAutomata.
 */
@@ -120,6 +120,7 @@ void
 FiniteAutomata::print() {
   if (!isEmpty()) {
     std::cout << "Alphabet: " << *getAlphabet() << "\n";
+    std::cout << "S = " << initialState_->getName() << "\n";
   } else {
     std::cout << "Empty FA\n";
   }
@@ -154,13 +155,75 @@ FiniteAutomata::operator[](std::string name) {
 // Lectura
 void
 FiniteAutomata::read(std::istream& is) {
-  while (!is.eof()) {
-    Alphabet alphabet({Symbol("aux")});
-    is >> alphabet;
-    std::string initialStateName;
-    is >> initialStateName;
-    
-    *this = FiniteAutomata(new Alphabet(alphabet), nullptr);
+  Alphabet alphabet({Symbol("aux")});
+  is >> alphabet; // Alfabeto
+  alphabet_ = new Alphabet(alphabet);
+  std::string nTransitions;
+  is >> nTransitions; // Nº transiciones
+  if (!is_number(nTransitions) || stoi(nTransitions) < 0)
+    throw "number of transitions is NaN or negative";
+  std::string initialStateName;
+  is >> initialStateName; // Nombre del estado inicial
+  std::vector<State*> vStates; // Estados
+  std::vector<std::string> vStatesNames; // Nombres de los etados
+  std::vector<std::list<std::string>> vectorList; // Transiciones
+  for (unsigned i = 0; i < stoi(nTransitions); i++) { 
+    std::string reader = "";
+    getline(is, reader);
+    if (reader != "") {
+      std::list<std::string> readerList = stringToList(reader);
+      std::string stateName = readerList.front();
+      readerList.pop_front();
+      std::string isFinal = readerList.front();
+      readerList.pop_front();
+      if (isFinal != "0" && isFinal != "1")
+        throw "acceptance option is not 0 or 1";
+      State *stateAux = new State(stateName, stoi(isFinal));
+      if (getIndex(vStates, stateAux) == -1) {
+        vStates.push_back(stateAux);
+        vStatesNames.push_back(stateName);
+      } else {
+        throw "a state is defined twice or more";
+      }
+      vectorList.push_back(readerList);
+    } else {
+      i--;
+    }
+  }
+
+  for (unsigned i = 0; i < vectorList.size(); i++) {
+    if(!is_number(vectorList[i].front()) || stoi(vectorList[i].front()) < 0)
+      throw "number of an especific state transitions is NaN or negative";
+    else {
+      unsigned stateTransitions = stoi(vectorList[i].front());
+      vectorList[i].pop_front();
+      for (unsigned j = 0; j < stateTransitions; j++) {
+        Symbol symbolAux(vectorList[i].front());
+        vectorList[i].pop_front();
+        if (!alphabet_->checkSymbol(symbolAux)) {
+          throw "symbol defined in a transition doesnt exist in the finite automatan";
+        }
+        std::string stateName = vectorList[i].front();
+        vectorList[i].pop_front();
+        int index = getIndex(vStatesNames, stateName);
+        if (index == -1)
+          throw "state defined in a transition doesnt exist in the finite automatan";
+        else
+          vStates[i]->addTransition(std::pair<Symbol, State*>(symbolAux, vStates[index]));
+      }
+    }
+  }
+
+  initialState_ = nullptr; // Estado inicial
+  if (stoi(nTransitions) != 0) {
+    for (State* state: vStates) {
+      if (state->getName() == initialStateName) {
+        initialState_ = state;
+        break;
+      }
+    }
+    if (initialState_ == nullptr)
+      throw "initial state doesnt exist";
   }
 }
 
@@ -169,4 +232,33 @@ std::istream&
 operator>>(std::istream& is, FiniteAutomata& fa) {
   fa.read(is);
   return is;
+}
+
+// Dado un vector y un elemento, devuelve (si se encuentra) el índice de
+// dicho elemento en el vector
+template<class T>
+int getIndex(std::vector<T> v, T K) {
+  auto it = find(v.begin(), v.end(), K);
+  if (it != v.end()) 
+      return it - v.begin();
+  else
+    return -1;
+}
+
+// Transforma un string en una lista de strings, separadndolos por espacios
+std::list<std::string>
+stringToList(std::string str) {
+  std::list<std::string> result = {};
+  std::string aux;
+  for (unsigned i = 0; i < str.size(); i++) {
+    if (str[i] != ' ') {
+      aux += str[i];
+    } else {
+      result.push_back(aux);
+      aux = "";
+    }
+  }
+  if (aux != "")
+    result.push_back(aux);
+  return result;
 }

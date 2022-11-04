@@ -6,7 +6,7 @@
 *
 * @brief Práctica #04: Simulación de autómatas finitos
 * @author Adrián González Galván
-* @date 10/10/2022
+* @date 10/11/2022
 *
 * Este archivo contiene la implementación de una clase correspondiente
 * a la representación de un alfabeto.

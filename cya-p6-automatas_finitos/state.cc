@@ -6,7 +6,7 @@
 *
 * @brief Práctica #04: Simulación de autómatas finitos
 * @author Adrián González Galván
-* @date 10/10/2022
+* @date 10/11/2022
 *
 * Este archivo contiene el desarrollo de los métodos de la clase State.
 */
@@ -18,6 +18,13 @@ State::State(std::string name, bool final, std::set<std::pair<Symbol, State*>> t
   name_ = name;
   finalState_ = final;
   transitions_ = transitions;
+}
+
+// Constructor por defecto
+State::State() {
+  name_ = "noName";
+  finalState_ = false;
+  transitions_ = {};
 }
 
 // Destructor
@@ -114,6 +121,32 @@ State::operator[](Symbol symbol) {
 bool
 State::operator<(const State& state) const {
   return name_ < state.name_;
+}
+
+// Sobrecarga del operador "=="
+bool
+State::operator==(const State& state) const {
+  return name_ == state.name_;
+}
+
+// Lectura
+void
+State::read(std::istream& is) {
+  is >> name_;
+  std::string isFinal;
+  is >> isFinal;
+  if (isFinal != "0" && isFinal != "1")
+    throw "acceptance option is not 0 or 1";
+  else
+    finalState_ = stoi(isFinal);
+  transitions_ = {};
+}
+
+// Sobrecarga del operador de lectura
+std::istream&
+operator>>(std::istream& is, State& state) {
+  state.read(is);
+  return is;
 }
 
 
