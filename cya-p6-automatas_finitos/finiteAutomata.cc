@@ -161,70 +161,41 @@ FiniteAutomata::read(std::istream& is) {
   std::string nTransitions;
   is >> nTransitions; // Nº transiciones
   if (!is_number(nTransitions) || stoi(nTransitions) < 0)
-    throw "number of transitions is NaN or negative";
+    throw "number of transitions is NaN or negative ( " + nTransitions + ")";
   std::string initialStateName;
   is >> initialStateName; // Nombre del estado inicial
-  std::vector<State*> vStates; // Estados
-  std::vector<std::string> vStatesNames; // Nombres de los etados
-  std::vector<std::list<std::string>> vectorList; // Transiciones
-  for (unsigned i = 0; i < stoi(nTransitions); i++) { 
-    std::string reader = "";
+  std::vector<State*> vStates;
+  std::vector<std::string> vTransitions;
+  std::string reader = "";
+  for (unsigned i = 0; i < stoi(nTransitions); i++) { // Lectura transiciones
+    State stateAux;
+    is >> stateAux;
+    vStates.push_back(new State(stateAux.getName(), stateAux.getFinal()));
     getline(is, reader);
-    if (reader != "") {
-      std::list<std::string> readerList = stringToList(reader);
-      std::string stateName = readerList.front();
-      readerList.pop_front();
-      std::string isFinal = readerList.front();
-      readerList.pop_front();
-      if (isFinal != "0" && isFinal != "1")
-        throw "acceptance option is not 0 or 1";
-      State *stateAux = new State(stateName, stoi(isFinal));
-      if (getIndex(vStates, stateAux) == -1) {
-        vStates.push_back(stateAux);
-        vStatesNames.push_back(stateName);
-      } else {
-        throw "a state is defined twice or more";
+    vTransitions.push_back(reader);
+  }
+
+  for (unsigned i = 0; i < vTransitions.size(); i++) { // Establecemos transiciones
+    std::vector<std::string> vStr = stringToVector(vTransitions[i]);
+    if (!is_number(vStr[0]) || stoi(vStr[0]) != vStr.size() / 2) {
+      throw "number of an especific state transitions is NaN or incorrect";
+    }
+    for (unsigned j = 1; j < vStr.size(); j+=2) {
+      Symbol symbolAux(vStr[j]);
+      if (!alphabet_->checkSymbol(symbolAux)) {
+        std::cout << "SYMBOL > " << symbolAux << std::endl;
+        throw "a symbol especified in a transition doesnt exist in the finite automatan";
       }
-      vectorList.push_back(readerList);
-    } else {
-      i--;
+      State *stateAux = findState(vStates, vStr[j+1]);
+      if (stateAux == nullptr)
+        throw "a state especifed in a transition doesnt exist in the finite automatan";
+      vStates[i]->addTransition(std::pair<Symbol, State*>(symbolAux, stateAux));
     }
   }
 
-  for (unsigned i = 0; i < vectorList.size(); i++) {
-    if(!is_number(vectorList[i].front()) || stoi(vectorList[i].front()) < 0)
-      throw "number of an especific state transitions is NaN or negative";
-    else {
-      unsigned stateTransitions = stoi(vectorList[i].front());
-      vectorList[i].pop_front();
-      for (unsigned j = 0; j < stateTransitions; j++) {
-        Symbol symbolAux(vectorList[i].front());
-        vectorList[i].pop_front();
-        if (!alphabet_->checkSymbol(symbolAux)) {
-          throw "symbol defined in a transition doesnt exist in the finite automatan";
-        }
-        std::string stateName = vectorList[i].front();
-        vectorList[i].pop_front();
-        int index = getIndex(vStatesNames, stateName);
-        if (index == -1)
-          throw "state defined in a transition doesnt exist in the finite automatan";
-        else
-          vStates[i]->addTransition(std::pair<Symbol, State*>(symbolAux, vStates[index]));
-      }
-    }
-  }
-
-  initialState_ = nullptr; // Estado inicial
-  if (stoi(nTransitions) != 0) {
-    for (State* state: vStates) {
-      if (state->getName() == initialStateName) {
-        initialState_ = state;
-        break;
-      }
-    }
-    if (initialState_ == nullptr)
-      throw "initial state doesnt exist";
-  }
+  initialState_ = findState(vStates, initialStateName); // Estado inicial
+  if (initialState_ == nullptr && stoi(nTransitions) != 0)
+    throw "initial state doesnt exist in the finite automatan";
 }
 
 // Sobrecarga del operador de lectura

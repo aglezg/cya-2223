@@ -15,6 +15,7 @@
 #pragma once
 
 #include <iostream>
+#include <vector>
 #include <set>
 
 #include "symbol.h"
@@ -60,6 +61,9 @@ class State {
     bool finalState_;
     std::set<std::pair<Symbol, State*>> transitions_;
 };
+
+// Busca un estado en un vector de punteros de estados dado su nombre
+State* findState(std::vector<State*>, std::string);
 
 // Sobrecarga de los operadores de E/S
 std::istream& operator>>(std::istream&, State&);

@@ -142,6 +142,18 @@ State::read(std::istream& is) {
   transitions_ = {};
 }
 
+// Busca un estado en un vector de punteros de estados dado su nombre
+// Devuelve "NULL" si no se encontró
+State* findState(std::vector<State*> v, std::string name) {
+  for (State* state: v) {
+    if (state != nullptr)
+      if (state->getName() == name)
+        return state;
+  }
+  return nullptr;
+}
+
+
 // Sobrecarga del operador de lectura
 std::istream&
 operator>>(std::istream& is, State& state) {
