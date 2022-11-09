@@ -20,7 +20,7 @@ Symbol::Symbol(std::string symbol) {
 
 // Constructor por defecto
 Symbol::Symbol() {
-  setSymbol(".");
+  setSymbol("~");
 }
 
 // Destructor

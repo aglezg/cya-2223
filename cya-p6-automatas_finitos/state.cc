@@ -67,8 +67,9 @@ State::setFinal(bool final) {
 // Impresión por pantalla
 void
 State::print() {
+  std::cout << "State (" << getName() << "):\n";
   for (auto el: transitions_) {
-    std::cout << name_ << "(" << el.first << ") -> " <<el.second->getName();
+    std::cout << " > (" << el.first << ") -> " <<el.second->getName();
     std::cout << "\n";
   }
 }
@@ -104,10 +105,28 @@ State::deleteTransition(std::pair<Symbol, State*> transition) {
 // resultante de la transición
 std::set<State*>
 State::at(Symbol symbol) {
-  std::set<State*> result;
-  for (auto el: transitions_)
-    if (el.first == symbol)
-      result.insert(el.second);
+  std::set<State*> visitedStates = {};
+  std::set<State*> notVisitedStates = {this};
+  std::set<State*> result = {};
+  bool symbolUsed = false;
+  while (!notVisitedStates.empty()) {
+    auto itr = notVisitedStates.begin();
+    State* state = *itr;
+    visitedStates.insert(state);
+    notVisitedStates.erase(state);
+    for (auto tr: transitions_) {
+      if (tr.first == symbol && !symbolUsed) {
+        result.insert(tr.second);
+        if (visitedStates.find(tr.second) == visitedStates.end()) {
+          notVisitedStates.insert(tr.second);
+        }
+      } else if (tr.first == Symbol()) {
+        if (visitedStates.find(tr.second) == visitedStates.end()) {
+          notVisitedStates.insert(tr.second);
+        }
+      }
+    }
+  }
   return result;
 }
 

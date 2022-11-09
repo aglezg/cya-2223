@@ -80,7 +80,7 @@ FiniteAutomata::checkStatesAlphabet() {
     std::set<State*> states = getStates();
     for (State* state: states) {
       for (std::pair<Symbol, State*> transition: state->getTransitions()) {
-        if (!alphabet_->checkSymbol(transition.first))
+        if (!alphabet_->checkSymbol(transition.first) && transition.first.getSymbol() != "~")
           return false;
       }
     }
@@ -129,9 +129,11 @@ FiniteAutomata::print() {
 // Comprueba si una cadena es reconocida por el autómata
 bool
 FiniteAutomata::checkChain(Chain chain) {
-  if (isEmpty() || !chain.belongsToAlphabet(*alphabet_))
+  if (isEmpty() || !chain.belongsToAlphabet(*alphabet_)) {
     return false;
-  std::set<State*> result = {initialState_};
+  }
+  std::set<State*> result = initialState_->at(Symbol("~"));
+  result.insert(initialState_);
   for (Symbol symbol: chain.getSymbols()) {
     std::set<State*> aux;
     for (State* state: result) {
@@ -140,9 +142,10 @@ FiniteAutomata::checkChain(Chain chain) {
     }
     result = aux;
   }
-  for (State* state: result)
+  for (State* state: result) {
     if (state->getFinal())
       return true;
+  }
   return false;
 }
 
@@ -182,8 +185,7 @@ FiniteAutomata::read(std::istream& is) {
     }
     for (unsigned j = 1; j < vStr.size(); j+=2) {
       Symbol symbolAux(vStr[j]);
-      if (!alphabet_->checkSymbol(symbolAux)) {
-        std::cout << "SYMBOL > " << symbolAux << std::endl;
+      if (!alphabet_->checkSymbol(symbolAux) && symbolAux.getSymbol() != "~") {
         throw "a symbol especified in a transition doesnt exist in the finite automatan";
       }
       State *stateAux = findState(vStates, vStr[j+1]);
