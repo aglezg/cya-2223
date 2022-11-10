@@ -1,0 +1,30 @@
+Modo de empleo: ./main [input.fa] [input.txt]
+
+El programa recibe 2 parámetros por entrada
+- [input.fa] Un archivo con las especifaciones de un DFA
+- [input.txt] Un archivo de texto con cadenas separadas por saltos de línea
+
+Ejemplo de fichero [input.fa]:
+0 1 --> Alfabeto
+4   --> Número de transiciones
+0   --> Estado inicial
+0 0 3 0 0 1 0 1 1
+1 0 2 0 2 1 2
+2 0 2 0 3 1 3
+3 1 0 | |
+| | | | -> Estado al que transita
+| | | -> Simbolo con el que transita
+| | -> Nº de transiciones
+| -> '1' = aceptación && '0' = no aceptación
+-> Nombre de estado
+
+Ejemplo de fichero [input.txt]:
+&
+0
+11
+000
+100
+010101
+1111
+0000100
+0101010
