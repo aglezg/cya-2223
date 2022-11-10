@@ -41,6 +41,7 @@ class State {
     bool checkTransition(std::pair<Symbol, State*>);
     bool addTransition(std::pair<Symbol, State*>);
     bool deleteTransition(std::pair<Symbol, State*>);
+    bool isEquivalent(State);
 
     // Lectura
     void read(std::istream&);

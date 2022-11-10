@@ -80,6 +80,17 @@ int main(int argc, char* argv[]) {
       else
         std::cout << "Rejected\n";
     }
+    std::set<std::set<State*>> equivalentStates = fa.getEquivalents();
+    if (!equivalentStates.empty()) {
+      std::cout << "Equivalent states:\n";
+      for (std::set<State*> stateSet: equivalentStates) {
+        std::cout << ">> { ";
+        for (State* state: stateSet) {
+          std::cout << state->getName() << " ";
+        }
+        std::cout << "}\n";
+      }
+    }
   } catch(const char* mssg) {
     std::cout << "error: " << mssg << "\n";
     return 1;

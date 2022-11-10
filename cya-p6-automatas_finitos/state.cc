@@ -101,6 +101,25 @@ State::deleteTransition(std::pair<Symbol, State*> transition) {
   return true;
 }
 
+// Comprueba si un estado es equivalente a otro
+bool
+State::isEquivalent(State state) {
+  if (transitions_.size() != state.getTransitions().size()) {
+    return false;
+  }
+  auto stateTransitions = state.getTransitions();
+  auto ptr = stateTransitions.begin();
+  for (auto tr: transitions_) {
+    Symbol symbolAux = ptr->first;
+    if (tr.first.getSymbol() != symbolAux.getSymbol() || tr.second != ptr->second) {
+      return false;
+    } else {
+      ++ptr;
+    }
+  }
+  return true;
+}
+
 // Metodo de indexación 'at'. Dado un simbolo devuelve el conjnto de estados
 // resultante de la transición
 std::set<State*>

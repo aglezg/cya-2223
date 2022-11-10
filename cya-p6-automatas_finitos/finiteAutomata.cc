@@ -115,6 +115,22 @@ FiniteAutomata::isEmpty() {
   return alphabet_ == nullptr || initialState_ == nullptr;
 }
 
+std::set<std::set<State*>>
+FiniteAutomata::getEquivalents() {
+  std::set<State*> notVisitedStates = getStates();
+  std::set<std::set<State*>> result = {};
+  for (State* state: getStates()) {
+    notVisitedStates.erase(state);
+    for (State* state2: notVisitedStates) {
+      State stateAux(state2->getName(), state2->getFinal(), state2->getTransitions());
+      if (state->isEquivalent(stateAux)) {
+        result.insert(std::set<State*>({state, state2}));
+      }
+    }
+  }
+  return result;
+}
+
 // Impresión por pantalla
 void
 FiniteAutomata::print() {

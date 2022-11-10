@@ -41,6 +41,7 @@ class FiniteAutomata {
     std::set<State*> getFinalStates();
     State* at(std::string);
     bool isEmpty();
+    std::set<std::set<State*>> getEquivalents();
 
     // print
     void print();
