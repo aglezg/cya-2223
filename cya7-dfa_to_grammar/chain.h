@@ -46,7 +46,7 @@ class Chain {
     bool belongsToAlphabet(Alphabet);
 
     // Sobrecarga de operadores
-    bool operator==(Chain&);
+    bool operator==(const Chain&) const;
     bool operator<(const Chain&) const;
 
     // E/S

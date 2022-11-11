@@ -55,8 +55,8 @@ Symbol::operator==(const Symbol& other) const {
 
 // Sobrecarga del operador "!="
 bool
-Symbol::operator!=(Symbol& other) {
-  return symbol_ != other.getSymbol();
+Symbol::operator!=(const Symbol& other) const {
+  return symbol_ != other.symbol_;
 }
 
 // Sobrecarga del operador "<"

@@ -32,7 +32,7 @@ class Symbol {
 
     // Sobrecarga de operadores
     bool operator==(const Symbol&) const;
-    bool operator!=(Symbol&);
+    bool operator!=(const Symbol&) const;
     Symbol& operator=(Symbol);
     bool operator<(const Symbol&) const;
 

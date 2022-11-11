@@ -15,6 +15,7 @@
 #include <fstream>
 
 #include "finiteAutomata.h"
+#include "rightRegularGrammar.h"
 
 int main(int argc, char* argv[]) {  
 
@@ -67,6 +68,29 @@ int main(int argc, char* argv[]) {
   } catch(const char* mssg) {
     std::cout << "error: " << mssg << "\n";
     return 1;
+  }
+
+  Symbol sS("S");
+  Symbol sA("A");
+  Symbol sB("B");
+
+  Alphabet* noTerminals = new Alphabet({sS, sA});
+
+  Symbol s0("0");
+  Symbol s1("1");
+
+  Alphabet* terminals = new Alphabet({s0, s1});
+
+  Production p1(sS, std::vector<Symbol>({s0, sA}));
+  Production p2(sA, std::vector<Symbol>({s1, s0, sA}));
+  Production p3(sA);
+  std::set<Production> setP({p1, p2, p3});
+
+  try {
+    RightRegularGrammar rRG(sS, terminals, noTerminals, setP);
+    std::cout << rRG;
+  } catch(const char* msg) {
+    std::cerr << "error: " << msg << "\n";
   }
 
   // Cerramos archivos

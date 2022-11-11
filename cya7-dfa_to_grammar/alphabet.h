@@ -49,7 +49,6 @@ class Alphabet {
   
   private:
     std::set<Symbol> symbols_;
-    void removeDuplicates();
 };
 
 // Operadores sobrecargados de E/S

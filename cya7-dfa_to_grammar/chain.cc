@@ -136,11 +136,11 @@ Chain::print() {
 
 // Sobrecarga del operador "=="
 bool
-Chain::operator==(Chain& chain) {
-  if (length() != chain.length())
+Chain::operator==(const Chain& chain) const {
+  if (symbols_.size() != chain.symbols_.size())
     return false;
-  for (unsigned i = 0; i < length(); i++)
-    if (getSymbols()[i] != chain.getSymbols()[i])
+  for (unsigned i = 0; i < symbols_.size(); i++)
+    if (symbols_[i] != chain.symbols_[i])
       return false;
   return true;
 }
