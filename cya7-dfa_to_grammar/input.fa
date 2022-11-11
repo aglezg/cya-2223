@@ -1,7 +1,6 @@
 a b
-4
-0
-0 0 2 a 1 b 3
-1 0 2 a 2 b 3
-2 0 2 a 1 b 3
-3 1 0
+3
+A
+A 0 2 a A b B 
+B 0 2 a C b C
+C 1 2 a C b C

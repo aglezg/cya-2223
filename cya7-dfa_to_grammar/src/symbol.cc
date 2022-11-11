@@ -11,7 +11,7 @@
 * Este archivo contiene el desarrollo de los métodos de la clase Symbol.
 */
 
-#include "symbol.h"
+#include "../include/symbol.h"
 
 // Constructor
 Symbol::Symbol(std::string symbol) {

@@ -11,7 +11,7 @@
 * Este archivo contiene el desarrollo de los métodos de la clase rightRegularGrammar.
 */
 
-#include "rightRegularGrammar.h"
+#include "../include/rightRegularGrammar.h"
 
 // Constructor
 RightRegularGrammar::RightRegularGrammar(Symbol initial, Alphabet terminals,
@@ -170,9 +170,11 @@ RightRegularGrammar::checkProductions() {
 // Método de escritura
 void
 RightRegularGrammar::write(std::ostream& os) {
-  os << terminals_->getSymbols().size() << "\n";
-  for (Symbol symbol: terminals_->getSymbols()) {
-    os << symbol << "\n";
+  if (terminals_ != nullptr) {
+    os << terminals_->getSymbols().size() << "\n";
+    for (Symbol symbol: terminals_->getSymbols()) {
+      os << symbol << "\n";
+    }
   }
   os << noTerminals_->getSymbols().size() << "\n";
   for (Symbol symbol: noTerminals_->getSymbols()) {
@@ -181,7 +183,7 @@ RightRegularGrammar::write(std::ostream& os) {
   os << initial_ << "\n";
   os << productions_.size() << "\n";
   for (Production p: productions_) {
-    std::cout << p << "\n";
+    os << p << "\n";
   }
 }
 

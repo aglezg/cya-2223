@@ -11,7 +11,7 @@
 * Este archivo contiene el desarrollo de los métodos de la clase Production.
 */
 
-#include "production.h"
+#include "../include/production.h"
 
 // Constructor
 Production::Production(Symbol start, std::vector<Symbol> generation) {

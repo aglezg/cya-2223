@@ -11,7 +11,7 @@
 * Este archivo contiene el desarrollo de los métodos de la clase Alphabet.
 */
 
-#include "alphabet.h"
+#include "../include/alphabet.h"
 #include <cassert>
 
 // Constructor

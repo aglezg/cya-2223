@@ -9,7 +9,7 @@
 * @date 17/11/2022
 *
 * Este archivo contiene la implementación de una clase correspondiente
-* a la representación de una gramática regular.
+* a la representación de una gramática regular por la derecha.
 */
 
 #pragma once

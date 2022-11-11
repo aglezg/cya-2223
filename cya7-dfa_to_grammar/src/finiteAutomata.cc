@@ -11,7 +11,7 @@
 * Este archivo contiene el desarrollo de los métodos de la clase FiniteAutomata.
 */
 
-#include "finiteAutomata.h"
+#include "../include/finiteAutomata.h"
 
 // Constructor
 FiniteAutomata::FiniteAutomata(Alphabet* alphabet, State* initialState) {
@@ -174,7 +174,7 @@ FiniteAutomata::operator[](std::string name) {
 // Lectura
 void
 FiniteAutomata::read(std::istream& is) {
-  Alphabet alphabet({Symbol("aux")});
+  Alphabet alphabet({Symbol()});
   is >> alphabet; // Alfabeto
   alphabet_ = new Alphabet(alphabet);
   std::string nTransitions;
@@ -220,8 +220,28 @@ FiniteAutomata::read(std::istream& is) {
 RightRegularGrammar
 FiniteAutomata::toRightRegularGrammar() {
   if (!isEmpty()) {
-    Symbol initial(initialState_->getName());
-    Alphabet terminals = *alphabet_;
+    Symbol initial(initialState_->getName()); // Simbolo inicial
+    Alphabet terminals = *alphabet_;          // Terminales
+    std::set<Symbol> noTerminalsSet = {};     // No terminales
+    std::set<Production> productionSet = {};  // Producciones
+    for (State* state: getStates()) {
+      Symbol stateName(state->getName());
+      noTerminalsSet.insert(stateName);
+      for (auto tr: state->getTransitions()) {
+        Symbol finalState(tr.second->getName());
+        if (tr.first == Symbol()) {
+          productionSet.insert(Production(stateName, {finalState}));
+        } else {
+          productionSet.insert(Production(stateName, {tr.first, finalState}));
+        }
+
+      }
+      if (state->getFinal()) {
+        productionSet.insert(Production(stateName));
+      }
+    }
+    Alphabet noTerminals(noTerminalsSet);
+    return RightRegularGrammar(initial, terminals, noTerminals, productionSet);
   } else {
     RightRegularGrammar rRG;
     return rRG;

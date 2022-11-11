@@ -1,26 +1,43 @@
-IDIR =../include
-CC = g++
-CFLAGS = -I$(IDIR)
+#################################################
+# MAKEFILE
+#################################################
 
-ODIR = .
-LDIR = ../lib
+CXX		 := g++
+CXXFLAGS := -std=c++11
 
-LIBS = -lm
+BIN     := bin
+SRC     := src
+BUILD	:= build
+INCLUDE := include
+LIB     := lib
+LIBRARIES   := 
+EXECUTABLE  := main
 
-_DEPS = finiteAutomata.h rightRegularGrammar.h production.h state.h chain.h alphabet.h symbol.h
-DEPS = $(patsubst %,$(IDIR)/%,$(_DEPS))
+SOURCES := $(wildcard $(SRC)/*.cc)
+OBJS	:= $(patsubst $(SRC)/%.cc,$(BUILD)/%.o,$(SOURCES))
 
-_OBJ = main.o finiteAutomata.o rightRegularGrammar.o production.o state.o chain.o alphabet.o symbol.o
-OBJ = $(patsubst %,$(ODIR)/%,$(_OBJ))
+.PHONY: all project run clean
 
+all: $(BIN)/$(EXECUTABLE)
 
-$(ODIR)/%.o: %.c $(DEPS)
-	$(CC) -c -o $@ $< $(CFLAGS)
+$(BIN)/$(EXECUTABLE): $(OBJS)
+	@echo "🚧 Building..."
+	$(CXX) -o $@ $(CXXFLAGS) -L$(LIB) $(OBJS)
 
-main: $(OBJ)
-	$(CC) -std=c++14 -g -Wall -o $@ $^ $(CFLAGS) $(LIBS)
+$(BUILD)/%.o: $(SRC)/%.cc
+	@echo "🚧 Building..."
+	$(CXX) -c -o $@ $(CXXFLAGS) $<
 
-.PHONY: clean
+project:
+	clear
+	@echo "📁 Creating Project Structure..."
+	mkdir -p bin build include src
+
+run:
+	clear
+	@echo "🚀 Executing..."
+	./$(BIN)/$(EXECUTABLE)
 
 clean:
-	rm -f $(ODIR)/*.o *~ core $(INCDIR)/*~ o*.txt
+	@echo "🧹 Clearing..."
+	rm -f $(BIN)/* $(BUILD)/*

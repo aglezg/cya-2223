@@ -11,7 +11,7 @@
 * Este archivo contiene el desarrollo de los métodos de la clase State.
 */
 
-#include "state.h"
+#include "../include/state.h"
 
 // Constructor
 State::State(std::string name, bool final, std::set<std::pair<Symbol, State*>> transitions) {

@@ -11,7 +11,7 @@
 * Este archivo contiene el desarrollo de los métodos de la clase Chain.
 */
 
-#include "chain.h"
+#include "../include/chain.h"
 #include <cassert>
 
 // Constructor

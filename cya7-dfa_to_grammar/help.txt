@@ -1,30 +1,40 @@
-Modo de empleo: ./main [input.fa] [input.txt]
+Usage: ./main [input.fa] [output.gra]
 
-El programa recibe 2 parámetros por entrada
-- [input.fa] Un archivo con las especifaciones de un DFA
-- [input.txt] Un archivo de texto con cadenas separadas por saltos de línea
+The program get 2 parameters by entry:
+- [input.fa] A file with FA specifications.
+- [output.gra] A file that will be written with the FA equivalent grammar.
 
-Ejemplo de fichero [input.fa]:
-0 1 --> Alfabeto
-4   --> Número de transiciones
-0   --> Estado inicial
+Example of [input.fa]:
+0 1 --> Alphabet
+4   --> Number of transitions
+0   --> Initial state
 0 0 3 0 0 1 0 1 1
 1 0 2 0 2 1 2
 2 0 2 0 3 1 3
 3 1 0 | |
-| | | | -> Estado al que transita
-| | | -> Simbolo con el que transita
-| | -> Nº de transiciones
-| -> '1' = aceptación && '0' = no aceptación
--> Nombre de estado
+| | | | -> Destination state
+| | | -> Symbol to use
+| | -> Nº of transitions
+| -> '1' = aceptation state && '0' = not aceptation state
+-> State name
 
-Ejemplo de fichero [input.txt]:
-&
-0
-11
-000
-100
-010101
-1111
-0000100
-0101010
+Example of generated [output.gra]:
+2 --> Number of terminals
+a --> Terminal 1
+b --> Terminal 2
+3 --> Number of no-Terminals
+A --> No terminal 1
+B --> No terminal 2
+C --> No terminal 3
+A --> Initial terminal
+7 --> Number of productions
+A -> aA
+A -> bB
+B -> aC
+B -> bC
+C -> &
+C -> aC
+C -> bC
+|    |
+|    -> Production right side
+-> Production left side
