@@ -14,12 +14,19 @@
 #include "rightRegularGrammar.h"
 
 // Constructor
-RightRegularGrammar::RightRegularGrammar(Symbol initial, Alphabet* terminals,
-  Alphabet* noTerminals, std::set<Production> productions) {
-    terminals_ = terminals;
-    noTerminals_ = noTerminals;
+RightRegularGrammar::RightRegularGrammar(Symbol initial, Alphabet terminals,
+  Alphabet noTerminals, std::set<Production> productions) {
+    terminals_ = new Alphabet(terminals.getSymbols());
+    noTerminals_ = new Alphabet(noTerminals.getSymbols());
     setInitial(initial);
     setProductions(productions);
+}
+
+RightRegularGrammar::RightRegularGrammar() {
+  terminals_ = nullptr;
+  noTerminals_ = new Alphabet({Symbol("S")});
+  initial_ = Symbol("S");
+  productions_ = {};
 }
 
 // Destructor
@@ -33,14 +40,14 @@ RightRegularGrammar::getInitial() {
   return initial_;
 }
 
-Alphabet*
+Alphabet
 RightRegularGrammar::getTerminals() {
-  return terminals_;
+  return *terminals_;
 }
 
-Alphabet*
+Alphabet
 RightRegularGrammar::getNoTerminals() {
-  return noTerminals_;
+  return *noTerminals_;
 }
 
 std::set<Production>
@@ -58,8 +65,8 @@ RightRegularGrammar::setInitial(Symbol initial) {
 }
 
 void
-RightRegularGrammar::setTerminals(Alphabet* terminals) {
-  terminals_ = terminals;
+RightRegularGrammar::setTerminals(Alphabet terminals) {
+  terminals_ = new Alphabet(terminals.getSymbols());
   if (!checkInitial()) {
     throw "initial symbol is not a no-terminal symbol.";
   }
@@ -69,8 +76,8 @@ RightRegularGrammar::setTerminals(Alphabet* terminals) {
 }
 
 void
-RightRegularGrammar::setNoTerminals(Alphabet* noTerminals) {
-  noTerminals_ = noTerminals;
+RightRegularGrammar::setNoTerminals(Alphabet noTerminals) {
+  noTerminals_ = new Alphabet(noTerminals.getSymbols());
   if (!checkProductions()) {
       throw "incorrect productions defined.";
   }

@@ -21,19 +21,20 @@
 class RightRegularGrammar {
   public:
     // Constructor && Destructor
-    RightRegularGrammar(Symbol, Alphabet*, Alphabet*, std::set<Production> = {});
+    RightRegularGrammar(Symbol, Alphabet, Alphabet, std::set<Production> = {});
+    RightRegularGrammar();
     ~RightRegularGrammar();
 
     // Getters
     Symbol getInitial();
-    Alphabet* getTerminals();
-    Alphabet* getNoTerminals();
+    Alphabet getTerminals();
+    Alphabet getNoTerminals();
     std::set<Production> getProductions();
 
     // Setters
     void setInitial(Symbol);
-    void setTerminals(Alphabet*);
-    void setNoTerminals(Alphabet*);
+    void setTerminals(Alphabet);
+    void setNoTerminals(Alphabet);
     void setProductions(std::set<Production>);
 
     // Operaciones

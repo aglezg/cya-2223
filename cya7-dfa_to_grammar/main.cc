@@ -64,7 +64,7 @@ int main(int argc, char* argv[]) {
   // Finite automatan
   try {
     FiniteAutomata fa;
-    fa.read(inputFA);
+    inputFA >> fa;
   } catch(const char* mssg) {
     std::cout << "error: " << mssg << "\n";
     return 1;
@@ -74,12 +74,12 @@ int main(int argc, char* argv[]) {
   Symbol sA("A");
   Symbol sB("B");
 
-  Alphabet* noTerminals = new Alphabet({sS, sA});
+  Alphabet noTerminals({sS, sA});
 
   Symbol s0("0");
   Symbol s1("1");
 
-  Alphabet* terminals = new Alphabet({s0, s1});
+  Alphabet terminals({s0, s1});
 
   Production p1(sS, std::vector<Symbol>({s0, sA}));
   Production p2(sA, std::vector<Symbol>({s1, s0, sA}));

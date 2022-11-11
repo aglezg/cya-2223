@@ -21,6 +21,7 @@
 
 #include "chain.h"
 #include "state.h"
+#include "rightRegularGrammar.h"
 
 class FiniteAutomata {
   public:
@@ -48,6 +49,7 @@ class FiniteAutomata {
 
     // Operaciones
     bool checkChain(Chain);
+    RightRegularGrammar toRightRegularGrammar();
 
     // Sobrecarga de operadores
     State* operator[](std::string);

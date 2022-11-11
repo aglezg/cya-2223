@@ -216,6 +216,18 @@ FiniteAutomata::read(std::istream& is) {
     throw "initial state doesnt exist in the finite automatan";
 }
 
+// Genera una gramática regular por la derecha a partir del FA
+RightRegularGrammar
+FiniteAutomata::toRightRegularGrammar() {
+  if (!isEmpty()) {
+    Symbol initial(initialState_->getName());
+    Alphabet terminals = *alphabet_;
+  } else {
+    RightRegularGrammar rRG;
+    return rRG;
+  }
+}
+
 // Sobrecarga del operador de lectura
 std::istream&
 operator>>(std::istream& is, FiniteAutomata& fa) {
