@@ -65,8 +65,11 @@ int main(int argc, char* argv[]) {
   try {
     FiniteAutomata fa;
     inputFA >> fa;
-    RightRegularGrammar rRG = fa.toRightRegularGrammar();
+    Grammar rRG = fa.toGrammar();
     outputGra << rRG;
+    std::cout << "IS REGULAR RIGHT >> " << rRG.isRightRegular() << "\n";
+    std::cout << "IS LEFT RIGHT >> " << rRG.isLeftRegular() << "\n";
+    std::cout << "IS REGULAR >> " << rRG.isRegular() << "\n";
   } catch(const char* mssg) {
     std::cout << "error: " << mssg << "\n";
     inputFA.close();

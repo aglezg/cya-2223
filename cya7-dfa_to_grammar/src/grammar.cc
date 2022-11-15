@@ -8,13 +8,13 @@
 * @author Adrián González Galván
 * @date 17/11/2022
 *
-* Este archivo contiene el desarrollo de los métodos de la clase rightRegularGrammar.
+* Este archivo contiene el desarrollo de los métodos de la clase Grammar.
 */
 
-#include "../include/rightRegularGrammar.h"
+#include "../include/grammar.h"
 
 // Constructor
-RightRegularGrammar::RightRegularGrammar(Symbol initial, Alphabet terminals,
+Grammar::Grammar(Symbol initial, Alphabet terminals,
   Alphabet noTerminals, std::set<Production> productions) {
     terminals_ = new Alphabet(terminals.getSymbols());
     noTerminals_ = new Alphabet(noTerminals.getSymbols());
@@ -22,7 +22,7 @@ RightRegularGrammar::RightRegularGrammar(Symbol initial, Alphabet terminals,
     setProductions(productions);
 }
 
-RightRegularGrammar::RightRegularGrammar() {
+Grammar::Grammar() {
   terminals_ = nullptr;
   noTerminals_ = new Alphabet({Symbol("S")});
   initial_ = Symbol("S");
@@ -30,34 +30,34 @@ RightRegularGrammar::RightRegularGrammar() {
 }
 
 // Destructor
-RightRegularGrammar::~RightRegularGrammar() {
+Grammar::~Grammar() {
   productions_.clear();
 }
 
 // Getters
 Symbol
-RightRegularGrammar::getInitial() {
+Grammar::getInitial() {
   return initial_;
 }
 
 Alphabet
-RightRegularGrammar::getTerminals() {
+Grammar::getTerminals() {
   return *terminals_;
 }
 
 Alphabet
-RightRegularGrammar::getNoTerminals() {
+Grammar::getNoTerminals() {
   return *noTerminals_;
 }
 
 std::set<Production>
-RightRegularGrammar::getProductions() {
+Grammar::getProductions() {
   return productions_;
 }
 
 // Setters
 void
-RightRegularGrammar::setInitial(Symbol initial) {
+Grammar::setInitial(Symbol initial) {
   initial_ = initial;
   if (!checkInitial()) {
     throw "initial symbol is not a no-terminal symbol.";
@@ -65,7 +65,7 @@ RightRegularGrammar::setInitial(Symbol initial) {
 }
 
 void
-RightRegularGrammar::setTerminals(Alphabet terminals) {
+Grammar::setTerminals(Alphabet terminals) {
   terminals_ = new Alphabet(terminals.getSymbols());
   if (!checkInitial()) {
     throw "initial symbol is not a no-terminal symbol.";
@@ -76,7 +76,7 @@ RightRegularGrammar::setTerminals(Alphabet terminals) {
 }
 
 void
-RightRegularGrammar::setNoTerminals(Alphabet noTerminals) {
+Grammar::setNoTerminals(Alphabet noTerminals) {
   noTerminals_ = new Alphabet(noTerminals.getSymbols());
   if (!checkProductions()) {
       throw "incorrect productions defined.";
@@ -84,16 +84,16 @@ RightRegularGrammar::setNoTerminals(Alphabet noTerminals) {
 }
 
 void
-RightRegularGrammar::setProductions(std::set<Production> productions) {
+Grammar::setProductions(std::set<Production> productions) {
   productions_ = productions;
   if (!checkProductions()) {
-      throw "incorrect productions defined in the right regular grammar.";
+      throw "incorrect productions defined.";
   }
 }
 
 // Comprueba si una producción pertenece a la gramática
 bool
-RightRegularGrammar::checkProduction(Production p) {
+Grammar::existProduction(Production p) {
   for (Production prod: productions_) {
     if (prod == p) {
       return true;
@@ -105,8 +105,8 @@ RightRegularGrammar::checkProduction(Production p) {
 // Añade una producción a la gramática
 // Devuelve 'true' si se añadió con éxito
 bool
-RightRegularGrammar::addProduction(Production p) {
-  if (checkProduction(p)) {
+Grammar::addProduction(Production p) {
+  if (existProduction(p)) {
     return false;
   } else {
     productions_.insert(p);
@@ -117,8 +117,8 @@ RightRegularGrammar::addProduction(Production p) {
 // Elimina una producción de la gramática
 // Devuelve 'true' si se eliminó con éxito
 bool
-RightRegularGrammar::deleteProduction(Production p) {
-  if (checkProduction(p)) {
+Grammar::deleteProduction(Production p) {
+  if (existProduction(p)) {
     productions_.erase(p);
     return true;
   } else {
@@ -129,7 +129,7 @@ RightRegularGrammar::deleteProduction(Production p) {
 
 // Impresión por pantalla
 void
-RightRegularGrammar::print() {
+Grammar::print() {
   std::cout << "V = " << *noTerminals_ << "\n";
   std::cout << "Alphabet = " << *terminals_ << "\n";
   std::cout << "S = " << initial_ << "\n";
@@ -141,17 +141,10 @@ RightRegularGrammar::print() {
   }
 }
 
-// Comprueba si el símbolo de arranque se encuentra en el conjunto de símbolos
-// no terminales
-bool
-RightRegularGrammar::checkInitial() {
-  return noTerminals_->checkSymbol(initial_);
-}
-
 // Comprueba si las producciones son producciones regulares por la derecha
 // y están formados por los símbolos terminales y no terminales de la gramática
 bool
-RightRegularGrammar::checkProductions() {
+Grammar::isRightRegular() {
   for (Production p: productions_) {
     if (!noTerminals_->checkSymbol(p.getStart())) {
       return false;
@@ -167,9 +160,61 @@ RightRegularGrammar::checkProductions() {
   return true;
 }
 
+// Comprueba si las producciones son producciones regulares por la izquierda
+// y están formados por los símbolos terminales y no terminales de la gramática
+bool
+Grammar::isLeftRegular() {
+  for (Production p: productions_) {
+    if (!noTerminals_->checkSymbol(p.getStart())) {
+      return false;
+    }
+    if (!p.isEmpty()) {
+      for (unsigned i = 1; i < p.getGeneration().size(); i++) {
+        if (!terminals_->checkSymbol(p.getGeneration()[i])) {
+          return false;
+        }
+      } 
+    }
+  }
+  return true;
+}
+
+// Comprueba si una gramática es regular
+bool
+Grammar::isRegular() {
+  return isRightRegular() || isLeftRegular();
+}
+
+
+// Comprueba si el símbolo de arranque se encuentra en el conjunto de símbolos
+// no terminales
+bool
+Grammar::checkInitial() {
+  return noTerminals_->checkSymbol(initial_);
+}
+
+// Comprueba si las producciones son producciones regulares por la derecha
+// y están formados por los símbolos terminales y no terminales de la gramática
+bool
+Grammar::checkProductions() {
+  for (Production p: productions_) {
+    if (!noTerminals_->checkSymbol(p.getStart())) {
+      return false;
+    }
+    if (!p.isEmpty()) {
+      for (unsigned i = 0; i < p.getGeneration().size(); i++) {
+        if (!terminals_->checkSymbol(p.getGeneration()[i]) && !noTerminals_->checkSymbol(p.getGeneration()[i])) {
+          return false;
+        }
+      } 
+    }
+  }
+  return true;
+}
+
 // Método de escritura
 void
-RightRegularGrammar::write(std::ostream& os) {
+Grammar::write(std::ostream& os) {
   if (terminals_ != nullptr) {
     os << terminals_->getSymbols().size() << "\n";
     for (Symbol symbol: terminals_->getSymbols()) {
@@ -190,7 +235,7 @@ RightRegularGrammar::write(std::ostream& os) {
 
 // Sobrecarga del operador de escritura
 std::ostream&
-operator<<(std::ostream& os, RightRegularGrammar& rRg) {
+operator<<(std::ostream& os, Grammar& rRg) {
   rRg.write(os);
   return os;
 }

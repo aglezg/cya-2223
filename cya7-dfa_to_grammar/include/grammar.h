@@ -18,12 +18,12 @@
 #include "production.h"
 #include "alphabet.h"
 
-class RightRegularGrammar {
+class Grammar {
   public:
     // Constructor && Destructor
-    RightRegularGrammar(Symbol, Alphabet, Alphabet, std::set<Production> = {});
-    RightRegularGrammar();
-    ~RightRegularGrammar();
+    Grammar(Symbol, Alphabet, Alphabet, std::set<Production> = {});
+    Grammar();
+    ~Grammar();
 
     // Getters
     Symbol getInitial();
@@ -38,9 +38,14 @@ class RightRegularGrammar {
     void setProductions(std::set<Production>);
 
     // Operaciones
-    bool checkProduction(Production);
+    bool existProduction(Production);
     bool addProduction(Production);
     bool deleteProduction(Production);
+
+    // Comprobaciones
+    bool isRightRegular();
+    bool isLeftRegular();
+    bool isRegular();
 
     // print
     void print();
@@ -59,4 +64,4 @@ class RightRegularGrammar {
 };
 
 // Sobrecarga de los operadores de E/S
-std::ostream& operator<<(std::ostream&, RightRegularGrammar&);
+std::ostream& operator<<(std::ostream&, Grammar&);

@@ -217,8 +217,8 @@ FiniteAutomata::read(std::istream& is) {
 }
 
 // Genera una gramática regular por la derecha a partir del FA
-RightRegularGrammar
-FiniteAutomata::toRightRegularGrammar() {
+Grammar
+FiniteAutomata::toGrammar() {
   if (!isEmpty()) {
     Symbol initial(initialState_->getName()); // Simbolo inicial
     Alphabet terminals = *alphabet_;          // Terminales
@@ -241,9 +241,9 @@ FiniteAutomata::toRightRegularGrammar() {
       }
     }
     Alphabet noTerminals(noTerminalsSet);
-    return RightRegularGrammar(initial, terminals, noTerminals, productionSet);
+    return Grammar(initial, terminals, noTerminals, productionSet);
   } else {
-    RightRegularGrammar rRG;
+    Grammar rRG;
     return rRG;
   }
 }
