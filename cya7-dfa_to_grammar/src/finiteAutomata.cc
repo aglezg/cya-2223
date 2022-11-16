@@ -80,7 +80,7 @@ FiniteAutomata::checkStatesAlphabet() {
     std::set<State*> states = getStates();
     for (State* state: states) {
       for (std::pair<Symbol, State*> transition: state->getTransitions()) {
-        if (!alphabet_->checkSymbol(transition.first) && transition.first.getSymbol() != "~")
+        if (!alphabet_->checkSymbol(transition.first) && transition.first != Symbol(emptyTransitionSymbol))
           return false;
       }
     }
@@ -148,7 +148,7 @@ FiniteAutomata::checkChain(Chain chain) {
   if (isEmpty() || !chain.belongsToAlphabet(*alphabet_)) {
     return false;
   }
-  std::set<State*> result = initialState_->at(Symbol("~"));
+  std::set<State*> result = initialState_->at(Symbol(emptyTransitionSymbol));
   result.insert(initialState_);
   for (Symbol symbol: chain.getSymbols()) {
     std::set<State*> aux;
@@ -201,7 +201,7 @@ FiniteAutomata::read(std::istream& is) {
     }
     for (unsigned j = 1; j < vStr.size(); j+=2) {
       Symbol symbolAux(vStr[j]);
-      if (!alphabet_->checkSymbol(symbolAux) && symbolAux.getSymbol() != "~") {
+      if (!alphabet_->checkSymbol(symbolAux) && symbolAux != Symbol(emptyTransitionSymbol)) {
         throw "a symbol especified in a transition doesnt exist in the finite automatan";
       }
       State *stateAux = findState(vStates, vStr[j+1]);
@@ -214,6 +214,21 @@ FiniteAutomata::read(std::istream& is) {
   initialState_ = findState(vStates, initialStateName); // Estado inicial
   if (initialState_ == nullptr && stoi(nTransitions) != 0)
     throw "initial state doesnt exist in the finite automatan";
+}
+
+// Comprueba si el autómata es determinista
+bool
+FiniteAutomata::isDFA() {
+  if (!isEmpty()) {
+    for (State* state: getStates()) {
+      if (!state->isADFAState()) {
+        return false;
+      }
+    }
+    return true;
+  } else {
+    return false;
+  }
 }
 
 // Genera una gramática regular por la derecha a partir del FA

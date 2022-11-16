@@ -20,6 +20,8 @@
 
 #include "symbol.h"
 
+const std::string emptyTransitionSymbol = "~";
+
 class State {
   public:
     // Constructor & Destructor
@@ -42,6 +44,7 @@ class State {
     bool addTransition(std::pair<Symbol, State*>);
     bool deleteTransition(std::pair<Symbol, State*>);
     bool isEquivalent(State);
+    bool isADFAState();
 
     // Lectura
     void read(std::istream&);

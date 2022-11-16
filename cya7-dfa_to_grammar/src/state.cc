@@ -120,6 +120,25 @@ State::isEquivalent(State state) {
   return true;
 }
 
+// Comprueba si es un estado que corresponde a un DFA, esto es
+// si no tiene transiciones que no consuman ningún símbolo y si
+// no tiene diferentes transiciones que empleen el mismo símbolo
+bool
+State::isADFAState() {
+  std::set<Symbol> visitedSymbols;
+  for (auto tr: transitions_) {
+    if (tr.first == Symbol(emptyTransitionSymbol)) {
+      return false;
+    }
+    if (visitedSymbols.find(tr.first) != visitedSymbols.end()) {
+      return false;
+    }
+    visitedSymbols.insert(tr.first);
+  }
+  return true;
+}
+
+
 // Metodo de indexación 'at'. Dado un simbolo devuelve el conjnto de estados
 // resultante de la transición
 std::set<State*>

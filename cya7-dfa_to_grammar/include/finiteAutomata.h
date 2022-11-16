@@ -49,6 +49,7 @@ class FiniteAutomata {
 
     // Operaciones
     bool checkChain(Chain);
+    bool isDFA();
     Grammar toGrammar();
 
     // Sobrecarga de operadores
