@@ -16,7 +16,7 @@
 
 #include <iostream>
 
-const std::string emptyChainSymbol = "&";
+const std::string kEmptyChainSymbol = "&";
 
 class Symbol {
 

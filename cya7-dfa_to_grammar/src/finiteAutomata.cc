@@ -80,7 +80,7 @@ FiniteAutomata::checkStatesAlphabet() {
     std::set<State*> states = getStates();
     for (State* state: states) {
       for (std::pair<Symbol, State*> transition: state->getTransitions()) {
-        if (!alphabet_->checkSymbol(transition.first) && transition.first != Symbol(emptyTransitionSymbol))
+        if (!alphabet_->checkSymbol(transition.first) && transition.first != Symbol(kEmptyTransitionSymbol))
           return false;
       }
     }
@@ -148,7 +148,7 @@ FiniteAutomata::checkChain(Chain chain) {
   if (isEmpty() || !chain.belongsToAlphabet(*alphabet_)) {
     return false;
   }
-  std::set<State*> result = initialState_->at(Symbol(emptyTransitionSymbol));
+  std::set<State*> result = initialState_->at(Symbol(kEmptyTransitionSymbol));
   result.insert(initialState_);
   for (Symbol symbol: chain.getSymbols()) {
     std::set<State*> aux;
@@ -201,7 +201,7 @@ FiniteAutomata::read(std::istream& is) {
     }
     for (unsigned j = 1; j < vStr.size(); j+=2) {
       Symbol symbolAux(vStr[j]);
-      if (!alphabet_->checkSymbol(symbolAux) && symbolAux != Symbol(emptyTransitionSymbol)) {
+      if (!alphabet_->checkSymbol(symbolAux) && symbolAux != Symbol(kEmptyTransitionSymbol)) {
         throw "a symbol especified in a transition doesnt exist in the finite automatan";
       }
       State *stateAux = findState(vStates, vStr[j+1]);

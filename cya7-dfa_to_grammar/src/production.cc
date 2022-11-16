@@ -63,7 +63,7 @@ void
 Production::print() {
   std::cout << start_ << " -> ";
   if (generation_.empty()) {
-    std::cout << emptyChainSymbol;
+    std::cout << kEmptyChainSymbol;
   } else {
     for (Symbol s: generation_) {
     std::cout << s;
@@ -107,7 +107,7 @@ void
 Production::write(std::ostream& os) {
   os << start_ << " -> ";
   if (generation_.empty()) {
-    os << emptyChainSymbol;
+    os << kEmptyChainSymbol;
   } else {
     for (Symbol s: generation_) {
     os << s;

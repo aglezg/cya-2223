@@ -35,8 +35,8 @@ Symbol::getSymbol() {
 // Setters
 void
 Symbol::setSymbol(std::string symbol) {
-  if (isSubstring(emptyChainSymbol, symbol))
-    throw "Symbol cannot contain '&' character";
+  if (isSubstring(kEmptyChainSymbol, symbol))
+    throw "Symbol cannot contain" + kEmptyChainSymbol + "character";
   symbol_ = symbol;
 }
 

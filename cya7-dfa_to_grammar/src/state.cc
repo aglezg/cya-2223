@@ -127,7 +127,7 @@ bool
 State::isADFAState() {
   std::set<Symbol> visitedSymbols;
   for (auto tr: transitions_) {
-    if (tr.first == Symbol(emptyTransitionSymbol)) {
+    if (tr.first == Symbol(kEmptyTransitionSymbol)) {
       return false;
     }
     if (visitedSymbols.find(tr.first) != visitedSymbols.end()) {

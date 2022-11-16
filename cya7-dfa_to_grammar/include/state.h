@@ -20,7 +20,7 @@
 
 #include "symbol.h"
 
-const std::string emptyTransitionSymbol = "~";
+const std::string kEmptyTransitionSymbol = "~";
 
 class State {
   public:
