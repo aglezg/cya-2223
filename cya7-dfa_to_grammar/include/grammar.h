@@ -17,6 +17,7 @@
 #include <iostream>
 #include "production.h"
 #include "alphabet.h"
+#include "chain.h"
 
 class Grammar {
   public:
@@ -46,6 +47,9 @@ class Grammar {
     bool isRightRegular();
     bool isLeftRegular();
     bool isRegular();
+
+    // Modificación
+    bool checkChain(Chain);
 
     // print
     void print();

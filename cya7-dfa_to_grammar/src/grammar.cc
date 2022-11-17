@@ -185,6 +185,29 @@ Grammar::isRegular() {
   return isRightRegular() || isLeftRegular();
 }
 
+// Comprueba si una cadena puede ser generada por la gramática
+bool
+Grammar::checkChain(Chain chain) {
+  Symbol actualProd = getInitial();
+  if (isRightRegular()) {
+    for (Symbol s: chain.getSymbols()) {
+      for (Production p: getProductions()) {
+        if (p.getStart() == actualProd  && !p.isEmpty() && p.getGeneration()[0] == s) {
+          actualProd = p.getGeneration()[1];
+          break;
+        }
+      }
+    }
+    for (Production p: getProductions()) {
+      if (p.getStart() == actualProd && p.isEmpty()) {
+        return true;
+      }
+    }
+    return false;
+  } else {
+    return false;
+  }
+}
 
 // Comprueba si el símbolo de arranque se encuentra en el conjunto de símbolos
 // no terminales

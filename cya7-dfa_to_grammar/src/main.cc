@@ -67,6 +67,13 @@ int main(int argc, char* argv[]) {
     inputFA >> fa;
     Grammar rRG = fa.toGrammar();
     outputGra << rRG;
+
+    Chain ch1({Symbol("1"), Symbol("0"), Symbol("1"), Symbol("0")});
+    Chain ch2({Symbol("0"), Symbol("1"), Symbol("0"), Symbol("1")});
+
+    std::cout << "Chain '1010' ? >> " << rRG.checkChain(ch1) << "\n";
+    std::cout << "Chain '0101' ? >> " << rRG.checkChain(ch2) << "\n";
+
   } catch(const char* mssg) {
     std::cout << "error: " << mssg << "\n";
     inputFA.close();
