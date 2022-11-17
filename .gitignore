@@ -2,3 +2,6 @@
 *.out
 o*.txt
 main
+o*.gra
+bin
+build

@@ -29,17 +29,13 @@ int Factorial (int number) {
   }
 }
 
-/**
-* Hola jacob niversidad de La Laguna
-* Escuela Superior de Ingenieria y Tecnologia
-* Informatica Basica
-*/
-
 int main (int argc, char* argv[]) {
   std::cout << " Introduzca el numero de factoriales a calcular : ";
   int limit;
+  int number = 1;
   std::cin >> limit;
-  for (int i = 1; i <= limit; ++i) {
+  for (int i = 1; i <= limit; i = i + 1) {
+    number = number * 1;
     std::cout << i << "! = " << (double)Factorial(i) << std::endl;
   }
   return 0;

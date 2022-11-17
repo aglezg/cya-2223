@@ -84,6 +84,12 @@ CodeAnalyser::isMain(std::string str) {
   return bool(std::regex_match(str, kMainRE));
 }
 
+// Comprueba si una línea de codigo es la declaración de una operacion (+|*)
+bool
+CodeAnalyser::isOperation(std::string str) {
+  return bool(std::regex_match(str, kOperationRE));
+}
+
 // Lectura
 void
 CodeAnalyser::read(std::istream& is) {
@@ -92,7 +98,7 @@ CodeAnalyser::read(std::istream& is) {
 
   while (!is.eof()) {
     getline(is, reader);
-    if (isMultiLineComment(reader)) { // Es u comentario múltiple
+    if (isMultiLineComment(reader)) { // Es un comentario múltiple
       int startLine = line;
       std::string content = reader + "\n";
       do {
@@ -113,8 +119,18 @@ CodeAnalyser::read(std::istream& is) {
       std::smatch m;
       std::regex_search(reader, m, kLoopRE);
       loops_.insert(std::pair<int, std::string>(line, m[1]));
-    } else if(isMain(reader)) { // Es la declaración del  main
+      if (isOperation(reader)) {
+        std::regex_match(reader, m, kOperationRE);
+        std::tuple<std::string, std::string> operands(m[1], m[3]);
+        operations_.insert(std::pair<int, Operation>(line, Operation(operands, m[2])));
+      }
+    } else if (isMain(reader)) { // Es la declaración del  main
       main_ = true;
+    } else if (isOperation(reader)) {
+      std::smatch m;
+      std::regex_search(reader, m, kOperationRE);
+      std::tuple<std::string, std::string> operands(m[1], m[3]);
+      operations_.insert(std::pair<int, Operation>(line, Operation(operands, m[2])));
     }
     line++;
   }
@@ -151,6 +167,10 @@ CodeAnalyser::write(std::ostream& os) {
         os << "\n" << element.second;
       }
     }
+  }
+  os << "\nOPERATIONS:\n";
+  for (auto element: operations_) {
+    os << "[Line " << element.first << "]: " << element.second << "\n";
   }
 }
 

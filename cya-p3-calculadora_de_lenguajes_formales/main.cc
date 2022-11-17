@@ -43,7 +43,7 @@ bool isNumber(std::string& str)
     return true;
 }
 
-int main(int argc, char* argv[]) {
+int main (int argc, char* argv[]) {
 
   // Comprobamos que se haya ejecutado de la forma correcta
   if (!argv[1]) {

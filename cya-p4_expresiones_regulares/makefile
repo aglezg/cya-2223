@@ -7,10 +7,10 @@ LDIR = ../lib
 
 LIBS = -lm
 
-_DEPS = codeAnalyser.h variable.h
+_DEPS = codeAnalyser.h variable.h operation.h
 DEPS = $(patsubst %,$(IDIR)/%,$(_DEPS))
 
-_OBJ = codeAnalyser.o variable.o main.o
+_OBJ = codeAnalyser.o variable.o operation.o main.o
 OBJ = $(patsubst %,$(ODIR)/%,$(_OBJ))
 
 

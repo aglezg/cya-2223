@@ -13,6 +13,7 @@
 
 #include "symbol.h"
 
+
 // Constructor
 Symbol::Symbol(std::string symbol) {
   symbol_ = symbol;

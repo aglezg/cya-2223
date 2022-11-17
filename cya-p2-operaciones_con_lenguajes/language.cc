@@ -220,6 +220,7 @@ Language::read(std::istream& is) {
   }
 
   *this = Language(alphabet_, languageChains);
+  
 }
 
 // Escritura
