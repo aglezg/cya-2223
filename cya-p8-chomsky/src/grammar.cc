@@ -235,6 +235,52 @@ Grammar::checkProductions() {
   return true;
 }
 
+// Lectura
+void
+Grammar::read(std::istream& is) {
+  std::string nTerminals = "";
+  is >> nTerminals;
+  if (!is_number(nTerminals) || stoi(nTerminals) < 0) {
+    throw "number of terminals specified is Nan or Negative (" +  nTerminals + ")";
+  }
+  std::set<Symbol> terminals; // Lectura terminales
+  for (unsigned i = 0; i < stoi(nTerminals); i++) {
+    Symbol symReader;
+    is >> symReader;
+    terminals.insert(symReader);
+  }
+
+  std::string nNoTerminals = "";
+  is >> nNoTerminals;
+  std::set<Symbol> noTerminals; // Lectura no terminales
+  if (!is_number(nNoTerminals) || stoi(nNoTerminals) < 0) {
+    throw "number of non terminals specified is Nan or Negative (" +  nNoTerminals + ")";
+  }
+  for (unsigned i = 0; i < stoi(nNoTerminals); i++) {
+    Symbol symReader;
+    is >> symReader;
+    noTerminals.insert(symReader);
+  }
+  
+  Symbol initial;
+  is >> initial; // Lectura del símbolo inicial
+
+  std::string nProductions;
+  is >> nProductions;
+  std::set<Production> productions; // Lectura de producciones
+  if (!is_number(nProductions) || stoi(nProductions) < 0) {
+    throw "number of productions specified is Nan or Negative (" +  nNoTerminals + ")";
+  }
+
+  for (unsigned i = 0; i < stoi(nProductions); i++) {
+    Production prodAux;
+    is >> prodAux;
+    productions.insert(prodAux);
+  }
+
+  *this = Grammar(initial, Alphabet(terminals), Alphabet(noTerminals), productions);
+}
+
 // Método de escritura
 void
 Grammar::write(std::ostream& os) {
@@ -255,10 +301,17 @@ Grammar::write(std::ostream& os) {
   }
 }
 
+// Sobrecarga del operador de lectura
+std::istream&
+operator>>(std::istream& is, Grammar& grammar) {
+  grammar.read(is);
+  return is;
+}
 
 // Sobrecarga del operador de escritura
 std::ostream&
-operator<<(std::ostream& os, Grammar& rRg) {
-  rRg.write(os);
+operator<<(std::ostream& os, Grammar& grammar) {
+  grammar.write(os);
   return os;
 }
+

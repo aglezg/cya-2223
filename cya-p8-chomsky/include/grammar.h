@@ -55,6 +55,7 @@ class Grammar {
     void print();
 
     // E/S
+    void read(std::istream& = std::cin);
     void write(std::ostream& = std::cout);
     
   private:
@@ -68,4 +69,5 @@ class Grammar {
 };
 
 // Sobrecarga de los operadores de E/S
+std::istream& operator>>(std::istream&, Grammar&);
 std::ostream& operator<<(std::ostream&, Grammar&);

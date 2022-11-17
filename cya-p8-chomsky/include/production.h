@@ -16,7 +16,7 @@
 
 #include <iostream>
 #include <vector>
-#include "symbol.h"
+#include "chain.h"
 
 class Production {
   public:
@@ -45,6 +45,7 @@ class Production {
     bool operator!=(const Production&) const;
 
     // E/S
+    void read(std::istream& = std::cin);
     void write(std::ostream& = std::cout);
 
   private:
@@ -53,4 +54,5 @@ class Production {
 };
 
 // Sobrecarga de los operadores de E/S
+std::istream& operator>>(std::istream&, Production&);
 std::ostream& operator<<(std::ostream&, Production&);

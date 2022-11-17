@@ -64,3 +64,6 @@ std::ostream& operator<<(std::ostream&, Chain&);
 // Comprueba si un determinado elemento pertenece a un vector
 template <class T>
 bool include(std::vector<T>, T);
+
+// Comprueba si una cadena es un número
+bool is_number(const std::string& s);

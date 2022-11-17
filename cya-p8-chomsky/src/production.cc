@@ -102,7 +102,18 @@ Production::operator!=(const Production& p) const {
   return !(*this == p);
 }
 
-// Sobrecarga del operador de escritura
+// Lectura
+void
+Production::read(std::istream& is) {
+  std::string reader = "";
+  is >> start_;   // start
+  is >> reader;   // ->
+  Chain chReader;
+  is >> chReader; // generation
+  generation_ = chReader.getSymbols();
+}
+
+// Escritura
 void
 Production::write(std::ostream& os) {
   os << start_ << " -> ";
@@ -113,6 +124,13 @@ Production::write(std::ostream& os) {
     os << s;
     }
   }
+}
+
+// Sobrecarga del operador de lectura
+std::istream&
+operator>>(std::istream& is, Production& p) {
+  p.read(is);
+  return is;
 }
 
 // Sobrecarga del operador de escritura

@@ -63,7 +63,9 @@ int main(int argc, char* argv[]) {
 
   // Conversión a gramática en FNC
   try {
-    
+    Grammar grammar;
+    input >> grammar;
+    std::cout << grammar << "\n";
   } catch(const char* mssg) {
     std::cout << "error: " << mssg << "\n";
     input.close();
