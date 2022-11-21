@@ -167,7 +167,7 @@ ContextFreeGrammar::toChomsky() {
   ContextFreeGrammar resultGrammar(initial_, *terminals_, *noTerminals_);
   std::set<Production> productions = productions_;
 
-  for (Production p: productions_) {
+  for (Production p: productions_) { // Primera fase
     if (p.getSize() >= 2) {
       std::vector<Symbol> newGeneration = {};
       for (Symbol s: p.getGeneration()) {
@@ -187,13 +187,16 @@ ContextFreeGrammar::toChomsky() {
   }
 
   std::set<Production> productions2 = productions;
+  unsigned prodLetter = 3;
 
-  for (Production p: productions) {
+  for (Production p: productions) { // Segunda fase
     if (p.getSize() >= 3) {
       std::vector<Symbol> newGeneration = p.getGeneration();
       for (unsigned i = p.getSize() - 2; i >= 1; i--) {
-        Symbol symbolAux("D" + std::to_string(i));
-        productions2.insert(Production(symbolAux, {p[p.getSize() - 2], p[p.getSize() - 1]}));
+        Symbol symbolAux(kCapitalLetters[prodLetter] + std::to_string(i));
+        productions2.insert(Production(symbolAux,
+          {newGeneration[newGeneration.size() - 2],
+          newGeneration[newGeneration.size() - 1]}));
         resultGrammar.addNonTerminal(symbolAux);
         newGeneration.pop_back();
         newGeneration.pop_back();
@@ -202,6 +205,7 @@ ContextFreeGrammar::toChomsky() {
       Production newProd(p.getStart(), newGeneration);
       productions2.insert(newProd);
       productions2.erase(p);
+      prodLetter = (prodLetter + 1) % kCapitalLetters.size();
     }
   }
 

@@ -9,7 +9,7 @@
 * @date 24/11/2022
 *
 * Este archivo contiene la implementación de una clase correspondiente
-* a la representación de una gramática regular por la derecha.
+* a la representación de una gramática independiente del contexto.
 */
 
 #pragma once
@@ -18,6 +18,10 @@
 #include "production.h"
 #include "alphabet.h"
 #include "chain.h"
+
+const std::vector<std::string> kCapitalLetters = {"A", "B", "C", "D", "E", "F",
+  "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U",
+  "V", "W", "X", "Y", "Z"};
 
 class ContextFreeGrammar {
   public:

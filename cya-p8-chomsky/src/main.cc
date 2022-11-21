@@ -66,7 +66,7 @@ int main(int argc, char* argv[]) {
     ContextFreeGrammar grammar;
     input >> grammar;
     ContextFreeGrammar g2 = grammar.toChomsky();
-    std::cout << g2 << "\n";
+    output << g2;
   } catch(const char* mssg) {
     std::cout << "error: " << mssg << "\n";
     input.close();
