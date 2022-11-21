@@ -52,10 +52,25 @@ Production::setGeneration(std::vector<Symbol> generation) {
   generation_ = generation;
 }
 
+unsigned
+Production::getSize() {
+  return generation_.size();
+}
+
 // Comprueba si es una producción que genera la cadena vacía
 bool
 Production::isEmpty() {
   return generation_.empty();
+}
+
+// Devuelve el simbolo correspondiente a la posición especificada del conjunto
+// de símbolos que genera la producción
+Symbol&
+Production::at(unsigned i) {
+  if (i >= generation_.size()) {
+    throw "unnacesible symbol position in production ";
+  }
+  return generation_[i];
 }
 
 // Impresión por pantalla
@@ -69,6 +84,15 @@ Production::print() {
     std::cout << s;
     }
   }
+}
+
+// Sobrecarga del operador "[]"
+Symbol&
+Production::operator[](unsigned i){
+    if (i >= generation_.size()) {
+    throw "unnacesible symbol position in production ";
+  }
+  return generation_[i];
 }
 
 // Sobrecarga del operador '<'

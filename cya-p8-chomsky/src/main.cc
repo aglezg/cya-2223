@@ -14,7 +14,7 @@
 #include <iostream>
 #include <fstream>
 
-#include "../include/grammar.h"
+#include "../include/contextFreeGrammar.h"
 
 int main(int argc, char* argv[]) {  
 
@@ -63,14 +63,15 @@ int main(int argc, char* argv[]) {
 
   // Conversión a gramática en FNC
   try {
-    Grammar grammar;
+    ContextFreeGrammar grammar;
     input >> grammar;
-    std::cout << grammar << "\n";
+    ContextFreeGrammar g2 = grammar.toChomsky();
+    std::cout << g2 << "\n";
   } catch(const char* mssg) {
     std::cout << "error: " << mssg << "\n";
     input.close();
     output.close();
-    return 1;
+    return 1; 
   }
 
   // Cerramos archivos

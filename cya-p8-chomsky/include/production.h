@@ -34,12 +34,15 @@ class Production {
     void setGeneration(std::vector<Symbol>);
 
     // Operaciones
+    unsigned getSize();
     bool isEmpty();
+    Symbol& at(unsigned);
 
     // print
     void print();
 
     // Sobrecarga de operadores
+    Symbol& operator[](unsigned);
     bool operator<(const Production&) const;
     bool operator==(const Production&) const;
     bool operator!=(const Production&) const;

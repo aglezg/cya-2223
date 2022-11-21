@@ -19,12 +19,12 @@
 #include "alphabet.h"
 #include "chain.h"
 
-class Grammar {
+class ContextFreeGrammar {
   public:
     // Constructor && Destructor
-    Grammar(Symbol, Alphabet, Alphabet, std::set<Production> = {});
-    Grammar();
-    ~Grammar();
+    ContextFreeGrammar(Symbol, Alphabet, Alphabet, std::set<Production> = {});
+    ContextFreeGrammar();
+    ~ContextFreeGrammar();
 
     // Getters
     Symbol getInitial();
@@ -42,13 +42,19 @@ class Grammar {
     bool existProduction(Production);
     bool addProduction(Production);
     bool deleteProduction(Production);
+    bool existNonTerminal(Symbol);
+    bool addNonTerminal(Symbol);
+    bool deleteNonTerminal(Symbol);
+    ContextFreeGrammar toChomsky();
 
     // Comprobaciones
     bool isRightRegular();
     bool isLeftRegular();
     bool isRegular();
+    bool hasEmptyProductions();
+    bool hasUnitProductions();
 
-    // Modificación
+    // Compración de cadenas
     bool checkChain(Chain);
 
     // print
@@ -69,5 +75,5 @@ class Grammar {
 };
 
 // Sobrecarga de los operadores de E/S
-std::istream& operator>>(std::istream&, Grammar&);
-std::ostream& operator<<(std::ostream&, Grammar&);
+std::istream& operator>>(std::istream&, ContextFreeGrammar&);
+std::ostream& operator<<(std::ostream&, ContextFreeGrammar&);
