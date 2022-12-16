@@ -28,6 +28,12 @@ class Coin {
     void setName(std::string);
     void setValue(int);
 
+    // Operators overloading
+    bool operator<(const Coin&) const;
+    bool operator==(const Coin&);
+    Coin& operator=(Coin);
+
+
     // W/R
     void write(std::ostream&);
 

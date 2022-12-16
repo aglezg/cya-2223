@@ -16,7 +16,7 @@
 /**
  * Class constructor
  */
-GreedyChangeCoins::GreedyChangeCoins(std::set<int> coins): coins_(coins) {
+GreedyChangeCoins::GreedyChangeCoins(std::set<Coin> coins): coins_(coins) {
   if (coins_.empty()) {
     throw 'set of coins cant be empty';
   }
@@ -33,7 +33,7 @@ GreedyChangeCoins::~GreedyChangeCoins() {
  * Setter of coins 
  */
 void
-GreedyChangeCoins::setCoins(std::set<int> coins) {
+GreedyChangeCoins::setCoins(std::set<Coin> coins) {
   if (coins.empty()) {
     throw 'set of coins cant be empty';
   }
@@ -43,7 +43,7 @@ GreedyChangeCoins::setCoins(std::set<int> coins) {
 /**
  * Getter of coins
  */
-std::set<int>
+std::set<Coin>
 GreedyChangeCoins::getCoins() {
   return coins_;
 }
@@ -51,8 +51,8 @@ GreedyChangeCoins::getCoins() {
 /**
  * Calculate the list of coins to use for a specific change 
 */
-std::list<int>
+std::list<Coin>
 GreedyChangeCoins::getChange(double change) {
-  std::list<int> solution = {};
+  std::list<Coin> solution = {};
   return solution;
 }

@@ -16,20 +16,22 @@
 #include <set>
 #include <list>
 
+#include "coin.h"
+
 class GreedyChangeCoins {
   public:
     // Constructor && Destructor
-    GreedyChangeCoins(std::set<int>);
+    GreedyChangeCoins(std::set<Coin>);
     ~GreedyChangeCoins();
 
     // Getters
-    std::set<int> getCoins();
+    std::set<Coin> getCoins();
 
     // Setters
-    void setCoins(std::set<int>);
+    void setCoins(std::set<Coin>);
 
     // Calculate list of coins to use in a change
-    std::list<int> getChange(double);
+    std::list<Coin> getChange(double);
   private:
-    std::set<int> coins_;
+    std::set<Coin> coins_;
 };

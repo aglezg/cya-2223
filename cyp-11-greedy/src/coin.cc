@@ -62,6 +62,35 @@ Coin::setValue(int value) {
 }
 
 /**
+ * Operator '<' overloading
+ * @param Coin Coin to compare
+*/
+bool
+Coin::operator<(const Coin& coin) const {
+  return value_ < coin.value_;
+}
+
+/**
+ * Operator '==' overloading
+ * @param Coin to compare
+*/
+bool
+Coin::operator==(const Coin& coin) {
+  return ((name_ == coin.name_) && (value_ == coin.value_));
+}
+
+/**
+ * Operator '=' overloading
+ * @param Coin Coin to compare
+*/
+Coin&
+Coin::operator=(Coin coin) {
+  setName(coin.getName());
+  setValue(coin.getValue());
+  return *this;
+}
+
+/**
  * Write method
  * @param ostream Write operator
 */
