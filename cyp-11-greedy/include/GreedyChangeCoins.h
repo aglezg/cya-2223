@@ -34,4 +34,7 @@ class GreedyChangeCoins {
     std::list<Coin> getChange(double);
   private:
     std::set<Coin> coins_;
+
+    // Obtiene el mejor candidato (el de valor más grande sin pasarse de 'n')
+    Coin getBestCandidate(int n);
 };

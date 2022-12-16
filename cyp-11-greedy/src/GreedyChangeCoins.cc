@@ -18,7 +18,7 @@
  */
 GreedyChangeCoins::GreedyChangeCoins(std::set<Coin> coins): coins_(coins) {
   if (coins_.empty()) {
-    throw 'set of coins cant be empty';
+    throw "set of coins cant be empty";
   }
 }
 
@@ -35,7 +35,7 @@ GreedyChangeCoins::~GreedyChangeCoins() {
 void
 GreedyChangeCoins::setCoins(std::set<Coin> coins) {
   if (coins.empty()) {
-    throw 'set of coins cant be empty';
+    throw "set of coins cant be empty";
   }
   coins_ = coins;
 }
@@ -54,5 +54,16 @@ GreedyChangeCoins::getCoins() {
 std::list<Coin>
 GreedyChangeCoins::getChange(double change) {
   std::list<Coin> solution = {};
+  double sum = 0.0;
+  for (auto itr = coins_.rbegin(); itr != coins_.rend(); itr++) {
+    Coin coin = *itr;
+    int nItems = (change - sum) / coin.getValue();
+    if (nItems > 0) {
+      for (unsigned i = 0; i < nItems; i++) {
+        solution.push_back(coin);
+      }
+      sum += nItems * coin.getValue();
+    }
+  }
   return solution;
 }

@@ -33,7 +33,6 @@ class Coin {
     bool operator==(const Coin&);
     Coin& operator=(Coin);
 
-
     // W/R
     void write(std::ostream&);
 

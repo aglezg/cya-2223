@@ -44,11 +44,12 @@ int main(int argc, char* argv[]) {
   // Set of coins
   std::set<Coin> setOfCoins = {
     Coin("2€", 200),
-    Coin("100€", 100),
+    Coin("1€", 100),
     Coin("0,50€", 50),
     Coin("0,20€", 20),
     Coin("0,10€", 10),
     Coin("0,05€", 5),
+    Coin("0,02€", 2),
     Coin("0,01€", 1)
   }; 
 
@@ -63,5 +64,15 @@ int main(int argc, char* argv[]) {
     Coin("5€", 500)
   };
 
+  // Class GreedyChangeCoins
+  try {
+    GreedyChangeCoins greedyChangeCoins(setOfCoins);
+    std::list<Coin> result = greedyChangeCoins.getChange(743.0);
+    for (Coin coin: result) {
+      std::cout << coin << "\n";
+    }
+  } catch(...) {
+    std::cout << "Malos momentos\n";
+  }
   return 0;
 }
