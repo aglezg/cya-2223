@@ -14,6 +14,8 @@
 #include <iostream>
 #include <fstream>
 
+#include "../include/GreedyChangeCoins.h"
+
 int main(int argc, char* argv[]) {  
 
   // Checking correctly execution
@@ -38,6 +40,12 @@ int main(int argc, char* argv[]) {
     help_txt.close();
     return 1;
   }
+
+  // Set of coins to use
+  std::set<int> setOfCoins = {200, 100, 50, 20, 10, 5, 2, 1};
+  std::set<int> setOfBills = {50000, 20000, 10000, 5000, 2000, 1000, 500};
+
+  
 
   return 0;
 }
