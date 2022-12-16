@@ -9,39 +9,39 @@
 * @date 22/12/2022
 *
 * Este archivo contiene la implementación de una clase correspondiente
-* a la representación de una moneda
+* a la representación de una colección de monedas
 */
 
 #pragma once
 
 #include <iostream>
+#include <vector>
+#include <algorithm>
 
-class Coin {
+#include "coin.h"
+
+class CoinCollection {
   public:
     // Constructor && Destructor
-    Coin(std::string, int);
-    ~Coin();
+    CoinCollection(std::vector<Coin>);
+    ~CoinCollection();
 
     // Getters
-    std::string getName();
-    int getValue();
+    std::vector<Coin> getCoins();
 
     // Setters
-    void setName(std::string);
-    void setValue(int);
+    void setCoins(std::vector<Coin>);
 
-    // Operators overloading
-    bool operator<(const Coin&) const;
-    bool operator==(const Coin&);
-    Coin& operator=(Coin);
+    // Operations
+    void add (Coin coin);
+    unsigned length();
 
     // W/R
     void write(std::ostream&);
 
   private:
-    std::string name_;
-    int value_;
+    std::vector<Coin> coinsVector_;
 };
 
 // Overloading of write operator
-std::ostream& operator<<(std::ostream&, Coin&);
+std::ostream& operator<<(std::ostream&, CoinCollection&);

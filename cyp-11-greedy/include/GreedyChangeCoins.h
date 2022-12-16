@@ -12,11 +12,13 @@
 * a la representación del algoritmo voraz de intercambio de monedas
 */
 
+#pragma once
+
 #include <iostream>
 #include <set>
 #include <list>
 
-#include "coin.h"
+#include "coinCollection.h"
 
 class GreedyChangeCoins {
   public:
@@ -30,11 +32,11 @@ class GreedyChangeCoins {
     // Setters
     void setCoins(std::set<Coin>);
 
+    // Operations
+    void add(Coin);
+
     // Calculate list of coins to use in a change
-    std::list<Coin> getChange(double);
+    CoinCollection getChange(unsigned);
   private:
     std::set<Coin> coins_;
-
-    // Obtiene el mejor candidato (el de valor más grande sin pasarse de 'n')
-    Coin getBestCandidate(int n);
 };
