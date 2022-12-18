@@ -14,7 +14,7 @@
 #include <iostream>
 #include <fstream>
 
-#include "../include/GreedyChangeCoins.h"
+#include "../include/greedyChangeCoins.h"
 #include "../include/coinCollection.h"
 
 /**

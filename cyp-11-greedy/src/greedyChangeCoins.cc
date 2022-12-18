@@ -11,7 +11,7 @@
 * Este archivo contiene el desarrollo de los métodos de la clase GreedyChangeCoins.
 */
 
-#include "../include/GreedyChangeCoins.h"
+#include "../include/greedyChangeCoins.h"
 
 /**
  * Class constructor
