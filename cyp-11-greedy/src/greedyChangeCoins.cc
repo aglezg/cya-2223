@@ -53,14 +53,34 @@ GreedyChangeCoins::add(Coin coin) {
   coins_.insert(coin);
 }
 
-
 /**
- * Calculate the list of coins to use for a specific change.
+ * Calculate the list of coins to use for a specific change (more efficient)
  * @param change Change to use to calculate
  * @return CoinColection generated, it's empty if there is no solution.
 */
 CoinCollection
 GreedyChangeCoins::getChange(unsigned change) {
+  CoinCollection solution({});
+  unsigned sum = 0;
+  while (sum != change) {
+    Coin coin = getCandidate(change, sum);
+    if (coin.getName() == "null" && coin.getValue() == -1) {
+      return CoinCollection({});
+    }
+    solution.add(coin);
+    sum += coin.getValue();
+  }
+  return solution;
+}
+
+
+/**
+ * Calculate the list of coins to use for a specific change (more efficient)
+ * @param change Change to use to calculate
+ * @return CoinColection generated, it's empty if there is no solution.
+*/
+CoinCollection
+GreedyChangeCoins::getChangeMoreOptimus(unsigned change) {
   CoinCollection solution({});
   unsigned sum = 0;
   for (auto itr = coins_.rbegin(); itr != coins_.rend(); itr++) {
@@ -78,4 +98,21 @@ GreedyChangeCoins::getChange(unsigned change) {
   } else {
     return CoinCollection({});
   }
+}
+
+/**
+ * Calculate the greater element in the set of coins such (sum + candidate) <= n
+ * @param n Change to use
+ * @param sum Summatory used
+ * @return Coin candidate
+*/
+Coin
+GreedyChangeCoins::getCandidate(unsigned n, unsigned sum) {
+  for (auto itr = coins_.rbegin(); itr != coins_.rend(); itr++) {
+    Coin coin = *itr;
+    if (sum + coin.getValue() <= n) {
+      return coin;
+    }
+  }
+  return Coin("null", -1);
 }

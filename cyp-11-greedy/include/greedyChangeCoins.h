@@ -37,6 +37,11 @@ class GreedyChangeCoins {
 
     // Calculate list of coins to use in a change
     CoinCollection getChange(unsigned);
+
+    // Calculate list of coins to use in a change (more efficient)
+    CoinCollection getChangeMoreOptimus(unsigned);
+  
   private:
     std::set<Coin> coins_;
+    Coin getCandidate(unsigned, unsigned);
 };

@@ -22,7 +22,8 @@
  * @param string String to check
  * @return True if that string is a number
 */
-bool is_number(const std::string& s) {
+bool
+isNumber(const std::string& s) {
   try {
     std::stod(s);
   } catch(...) {
@@ -31,12 +32,30 @@ bool is_number(const std::string& s) {
   return true;
 }
 
+/**
+ * Check if string is an option
+ * @param string Option
+ * @return Option string if it's an option, else return the string 'nonOption'
+*/
+std::string
+isAnOption(const std::string& s) {
+  std::string billsOption = "-b";
+  std::string moreOptimusOption = "-o";
+  if(s == billsOption) {
+    return billsOption;
+  } else if (s == moreOptimusOption) {
+    return moreOptimusOption;
+  } else {
+    return "nonOption";
+  }
+}
+
 int main(int argc, char* argv[]) {  
 
   // Checking correctly execution
   if (!argv[1]) {
     std::cout << "Usage: ";
-    std::cout << "./main [-b] [coins]\n" ;
+    std::cout << "./main [-b] [-o] [coins]\n" ;
     std::cout << "Try './main --help' for more...\n";   
     return 1;
   }
@@ -79,26 +98,33 @@ int main(int argc, char* argv[]) {
     Coin("5€", 500)
   };
 
-  // Options
+  // Parameters
   double n = 0.0;
   bool useBills = false;
-  std::string billsOption = "-b";
-  if (is_number(argv[1])) {
-    n = std::stod(argv[1]);
-  } else if (argv[1] == billsOption) {
-    if (is_number(argv[2])) {
-      useBills = true;
-      n = std::stod(argv[2]);
+  bool useMoreOptimus = false;
+
+  // Options
+  for (unsigned i = 1; i < argc; i++) {
+    std::string reader = argv[i];
+    std::string option = isAnOption(reader);
+    if (isNumber(reader)) {
+      n = std::stod(reader);
+      break;
+    } else if (option != "nonOption") {
+      if (option == "-b") {
+        useBills = true;
+      } else if (option == "-o") {
+        useMoreOptimus = true;
+      }
     } else {
-      std::cerr << "err: Invalid coins number...\n" << 
-      "Usage: ./main [-b] [coins]\n";
+      std::cerr << "err: Invalid parameters...\n" << 
+        "Usage: ./main [-b] [-o] [coins]\n";
       return 1;
     }
-  } else {
-    std::cerr << "err: Invalid parameters...\n" << 
-      "Usage: ./main [-b] [coins]\n";
-    return 1;
   }
+
+  // Print 'n'
+  std::cout << "n: " << n << "\n";
 
   // Class GreedyChangeCoins
   try {
@@ -108,7 +134,12 @@ int main(int argc, char* argv[]) {
         greedyChangeCoins.add(coin);
       }
     }
-    CoinCollection result = greedyChangeCoins.getChange(n * 100.0);
+    CoinCollection result({});
+    if (useMoreOptimus) {
+      result = greedyChangeCoins.getChangeMoreOptimus(n * 100.0);
+    } else {
+      result = greedyChangeCoins.getChange(n * 100.0);
+    }
     std::cout << "Solution: " << result << "\n";
     std::cout << "Number of coins used: " << result.length() << "\n";
   } catch(const char* mssg) {
