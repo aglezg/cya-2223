@@ -60,6 +60,7 @@ GreedyChangeCoins::add(Coin coin) {
 */
 CoinCollection
 GreedyChangeCoins::getChange(unsigned change) {
+  std::set<Coin> usedCoinSet = coins_;
   CoinCollection solution({});
   unsigned sum = 0;
   while (sum != change) {
@@ -70,6 +71,7 @@ GreedyChangeCoins::getChange(unsigned change) {
     solution.add(coin);
     sum += coin.getValue();
   }
+  coins_ = usedCoinSet;
   return solution;
 }
 
@@ -108,10 +110,13 @@ GreedyChangeCoins::getChangeMoreOptimus(unsigned change) {
 */
 Coin
 GreedyChangeCoins::getCandidate(unsigned n, unsigned sum) {
-  for (auto itr = coins_.rbegin(); itr != coins_.rend(); itr++) {
+  std::set<Coin> usedCoinSet = coins_;
+  for (auto itr = usedCoinSet.rbegin(); itr != usedCoinSet.rend(); itr++) {
     Coin coin = *itr;
     if (sum + coin.getValue() <= n) {
       return coin;
+    } else {
+      coins_.erase(coin);
     }
   }
   return Coin("null", -1);

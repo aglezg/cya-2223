@@ -140,8 +140,12 @@ int main(int argc, char* argv[]) {
     } else {
       result = greedyChangeCoins.getChange(n * 100.0);
     }
-    std::cout << "Solution: " << result << "\n";
-    std::cout << "Number of coins used: " << result.length() << "\n";
+    if (result.length() != 0) {
+      std::cout << "Solution: " << result << "\n";
+      std::cout << "Number of coins used: " << result.length() << "\n";
+    } else {
+      std::cout << "Solution: " << "there is no solution.\n";
+    }
   } catch(const char* mssg) {
     std::cerr << "err: " << mssg << "\n";
     return 1;
