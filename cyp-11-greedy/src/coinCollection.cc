@@ -63,6 +63,30 @@ CoinCollection::length() {
 }
 
 /**
+ * Calculate the most frequently coin
+ * @returns Coin Most frequently coin
+*/
+Coin
+CoinCollection::getMostFrequentCoin() {
+  std::sort(coinsVector_.begin(), coinsVector_.end());
+  unsigned counter = 1;
+  unsigned coinCounter = 1;
+  Coin result = coinsVector_[coinsVector_.size() - 1];
+  for (int i = coinsVector_.size() - 1; i >= 0; i--) {
+    if (i != 0 && coinsVector_[i - 1] == coinsVector_[i]) {
+      counter++;
+      if (counter > coinCounter) {
+        coinCounter = counter;
+        result = coinsVector_[i];
+      }
+    } else {
+      counter = 1;
+    }
+  }
+  return result;
+}
+
+/**
  * Write CoinCollection
  * @param os Output operator
 */

@@ -33,8 +33,9 @@ class CoinCollection {
     void setCoins(std::vector<Coin>);
 
     // Operations
-    void add (Coin coin);
+    void add(Coin coin);
     unsigned length();
+    Coin getMostFrequentCoin();
 
     // W/R
     void write(std::ostream&);

@@ -143,6 +143,7 @@ int main(int argc, char* argv[]) {
     if (result.length() != 0) {
       std::cout << "Solution: " << result << "\n";
       std::cout << "Number of coins used: " << result.length() << "\n";
+      std::cout << "Most frequently coin: " << result.getMostFrequentCoin().getName() << "\n";
     } else {
       std::cout << "Solution: " << "there is no solution.\n";
     }
