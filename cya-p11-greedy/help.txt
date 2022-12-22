@@ -1,0 +1,7 @@
+Usage: ./main [-b] [coins]
+
+The program get 1 parameter by entry:
+- [coins] Number of money to use with the algorithm.
+
+Optional options are:
+- [-b] Incluiding bills in the calculation
