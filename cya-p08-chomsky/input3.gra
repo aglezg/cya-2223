@@ -1,0 +1,17 @@
+2
+a
+b
+3
+S
+A
+B
+S
+8
+S -> bA
+S -> aB
+A -> bAA
+A -> aS
+A -> a
+B -> aBB
+B -> bS
+B -> b
